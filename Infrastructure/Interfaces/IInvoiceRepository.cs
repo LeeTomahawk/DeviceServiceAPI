@@ -5,13 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Interfaces
+namespace Infrastructure.Interfaces
 {
     public interface IInvoiceRepository
     {
-        IEnumerable<Invoice> GetInvoices();
-        Invoice GetInvoiceById(Guid id);
-        Invoice Add(Invoice invoice);
+        Task<IEnumerable<Invoice>> GetInvoices();
+        Task<Invoice> GetInvoiceById(Guid id);
+        Task<Invoice> Add(Invoice invoice);
         void Update(Invoice invoice);
         void Delete(Invoice invoice);
     }

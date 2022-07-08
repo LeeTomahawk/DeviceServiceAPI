@@ -5,13 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Interfaces
+namespace Infrastructure.Interfaces
 {
     public interface IAddressRepository
     {
-        IEnumerable<Address> GetAddresses();
-        Address GetAddressById(Guid id);
-        Address Add(Address address);
+        Task<IEnumerable<Address>> GetAddresses();
+        Task<Address> GetAddressById(Guid id);
+        Task<Address> Add(Address address);
         void Update(Address address);
         void Delete(Address address);
     }

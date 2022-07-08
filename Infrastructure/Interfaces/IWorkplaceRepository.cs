@@ -5,13 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Interfaces
+namespace Infrastructure.Interfaces
 {
     public interface IWorkplaceRepository
     {
-        IEnumerable<Workplace> GetWorkplaces();
-        Workplace GetWorkplaceById(Guid id);
-        Workplace Add(Workplace workplace);
+        Task<IEnumerable<Workplace>> GetWorkplaces();
+        Task<Workplace> GetWorkplaceById(Guid id);
+        Task<Workplace> Add(Workplace workplace);
         void Update(Workplace workplace);
         void Delete(Workplace workplace);
     }

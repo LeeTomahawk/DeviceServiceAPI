@@ -5,13 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Interfaces
+namespace Infrastructure.Interfaces
 {
     public interface IEmployeeRepository
     {
-        IEnumerable<Employee> GetEmployees();
-        Employee GetEmployeeById(Guid id);
-        Employee Add(Employee employee);
+        Task<IEnumerable<Employee>> GetEmployees();
+        Task<Employee> GetEmployeeById(Guid id);
+        Task<Employee> Add(Employee employee);
         void Update(Employee employee);
         void Delete(Employee employee);
     }

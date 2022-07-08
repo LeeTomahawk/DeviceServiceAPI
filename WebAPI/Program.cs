@@ -1,5 +1,5 @@
 
-using WebApi.Data;
+using Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddDbContext<ApiContext>(option => option.UseSqlServer(@"Server=localhost\SQLEXPRESS;Database=ServiceDbAPII;Trusted_Connection=True;"));
+builder.Services.AddDbContext<DSMDbContext>(option => option.UseSqlServer(@"Server=localhost\SQLEXPRESS;Database=ServiceDbAPII;Trusted_Connection=True;"));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

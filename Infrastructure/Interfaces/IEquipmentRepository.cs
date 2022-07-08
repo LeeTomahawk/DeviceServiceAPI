@@ -5,13 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Interfaces
+namespace Infrastructure.Interfaces
 {
     public interface IEquipmentRepository
     {
-        IEnumerable<Equipment> GetEquipments();
-        Equipment GetEquipmentById(Guid id);
-        Equipment Add(Equipment equipment);
+        Task<IEnumerable<Equipment>> GetEquipments();
+        Task<Equipment> GetEquipmentById(Guid id);
+        Task<Equipment> Add(Equipment equipment);
         void Update(Equipment equipment);
         void Delete(Equipment equipment);
     }

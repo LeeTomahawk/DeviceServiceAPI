@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 using Task = Domain.Entities.Task;
 
 
-namespace Domain.Interfaces
+namespace Infrastructure.Interfaces
 {
     public interface ITaskRepository
     {
-        IEnumerable<Task> GetTasks();
-        Task GetTaskById(Guid id);
-        Task Add(Task task);
+        Task<IEnumerable<Task>> GetTasks();
+        Task<Task> GetTaskById(Guid id);
+        Task<Task> Add(Task task);
         void Update(Task task);
         void Delete(Task task);
     }

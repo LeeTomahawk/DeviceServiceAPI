@@ -5,13 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Interfaces
+namespace Infrastructure.Interfaces
 {
     public interface IClientRepository
     {
-        IEnumerable<Client> GetClients();
-        Client GetClientById(Guid id);
-        Client Add(Client client);
+        Task<IEnumerable<Client>> GetClients();
+        Task<Client> GetClientById(Guid id);
+        Task<Client> Add(Client client);
         void Update(Client client);
         void Delete(Client client);
     }

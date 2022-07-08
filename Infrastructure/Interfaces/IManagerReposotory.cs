@@ -5,13 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Interfaces
+namespace Infrastructure.Interfaces
 {
     public interface IManagerReposotory
     {
-        IEnumerable<Manager> GetManagers();
-        Manager GetManagerById(Guid id);
-        Manager Add(Manager manager);
+        Task<IEnumerable<Manager>> GetManagers();
+        Task<Manager> GetManagerById(Guid id);
+        Task<Manager> Add(Manager manager);
         void Update(Manager manager);
         void Delete(Manager manager);
     }
