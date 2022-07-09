@@ -1,4 +1,5 @@
-﻿using Domain;
+﻿using AutoMapper;
+using Domain;
 using Domain.Entities;
 using Infrastructure.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -13,9 +14,11 @@ namespace Infrastructure.Repository
     public class UserRepository : IUserRepository
     {
         protected readonly DSMDbContext _dbcontext;
-        public UserRepository(DSMDbContext dSMDbContext)
+        protected readonly IMapper _mapper;
+        public UserRepository(DSMDbContext dSMDbContext, IMapper mapper)
         {
             _dbcontext = dSMDbContext;
+            _mapper = mapper;
         }
         public async Task<User> Add(User user)
         {
@@ -33,6 +36,10 @@ namespace Infrastructure.Repository
         public async Task<User> GetById(Guid id)
         {
             var user = await _dbcontext.Set<User>().FindAsync(id);
+            if (user == null)
+            {
+                throw new Exception("User does not Exist");
+            }
             return user;
         }
 
@@ -42,9 +49,15 @@ namespace Infrastructure.Repository
             return users;
         }
 
-        public void Update(User user)
+        public async void Update(User user)
         {
-            throw new NotImplementedException();
+            var exuser = await _dbcontext.Set<User>().FindAsync(user.Id);
+            if(exuser == null)
+            {
+                throw new Exception("User does not Exist");
+            }
+            _mapper.Map(user, exuser);
+            await _dbcontext.SaveChangesAsync(); 
         }
     }
 }

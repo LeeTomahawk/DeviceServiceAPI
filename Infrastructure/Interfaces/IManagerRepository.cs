@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Interfaces
 {
-    public interface IManagerReposotory
+    public interface IManagerRepository
     {
         Task<IEnumerable<Manager>> GetManagers();
         Task<Manager> GetManagerById(Guid id);

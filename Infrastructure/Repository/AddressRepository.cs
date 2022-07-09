@@ -1,4 +1,5 @@
-﻿using Domain;
+﻿using AutoMapper;
+using Domain;
 using Domain.Entities;
 using Infrastructure.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -13,9 +14,11 @@ namespace Infrastructure.Repository
     public class AddressRepository : IAddressRepository
     {
         protected readonly DSMDbContext _dbcontext;
-        public AddressRepository(DSMDbContext dSMDbContext)
+        protected readonly IMapper _mapper;
+        public AddressRepository(DSMDbContext dSMDbContext, IMapper mapper)
         {
             _dbcontext = dSMDbContext;
+            _mapper = mapper;
         }
         public async Task<Address> Add(Address address)
         {
@@ -33,6 +36,10 @@ namespace Infrastructure.Repository
         public async Task<Address> GetAddressById(Guid id)
         {
             var address = await _dbcontext.Set<Address>().FindAsync(id);
+            if (address == null)
+            {
+                throw new Exception("Addres does not exist!");
+            }
             return address;
         }
 
@@ -42,9 +49,15 @@ namespace Infrastructure.Repository
             return addresses;
         }
 
-        public void Update(Address address)
+        public async void Update(Address address)
         {
-            throw new NotImplementedException();
+            var exaddress = await _dbcontext.Set<Address>().FindAsync(address.Id);
+            if( exaddress == null)
+            {
+                throw new Exception("Addres does not exist!");
+            }
+            _mapper.Map(address, exaddress);
+            await _dbcontext.SaveChangesAsync();
         }
     }
 }

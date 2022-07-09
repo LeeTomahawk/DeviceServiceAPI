@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Interfaces
 {
-    public interface ICompletedTask
+    public interface ICompletedTaskRepository
     {
         Task<IEnumerable<CompletedTask>> GetCompletedTasks();
         Task<CompletedTask> Add(CompletedTask task);

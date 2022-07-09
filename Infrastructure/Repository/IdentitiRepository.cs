@@ -1,4 +1,5 @@
-﻿using Domain;
+﻿using AutoMapper;
+using Domain;
 using Domain.Entities;
 using Infrastructure.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -13,9 +14,11 @@ namespace Infrastructure.Repository
     public class IdentitiRepository : IIdentityRepository
     {
         protected readonly DSMDbContext _dbcontext;
-        public IdentitiRepository(DSMDbContext dSMDbContext)
+        protected readonly IMapper _mapper;
+        public IdentitiRepository(DSMDbContext dSMDbContext, IMapper mapper)
         {
             _dbcontext = dSMDbContext;
+            _mapper = mapper;
         }
         public async Task<Identiti> Add(Identiti identiti)
         {
@@ -33,6 +36,10 @@ namespace Infrastructure.Repository
         public async Task<Identiti> GetIdentitiById(Guid id)
         {
             var identiti = await _dbcontext.Set<Identiti>().FindAsync(id);
+            if (identiti == null)
+            {
+                throw new Exception("Identiti does not exist");
+            }
             return identiti;
         }
 
@@ -42,9 +49,15 @@ namespace Infrastructure.Repository
             return identities;
         }
 
-        public void Update(Identiti identiti)
+        public async void Update(Identiti identiti)
         {
-            throw new NotImplementedException();
+            var exidentiti = await _dbcontext.Set<Identiti>().FindAsync(identiti.Id);
+            if(exidentiti == null)
+            {
+                throw new Exception("Identiti does not exist");
+            }
+            _mapper.Map(identiti, exidentiti);
+            await _dbcontext.SaveChangesAsync();
         }
     }
 }
