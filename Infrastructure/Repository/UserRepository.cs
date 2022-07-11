@@ -57,7 +57,7 @@ namespace Infrastructure.Repository
                 throw new Exception("User does not Exist");
             }
             _mapper.Map(user, exuser);
-            await _dbcontext.SaveChangesAsync(); 
+            await _dbcontext.SaveChangesAsync();
         }
     }
 }

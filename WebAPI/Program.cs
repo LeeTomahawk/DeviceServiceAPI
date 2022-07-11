@@ -1,6 +1,9 @@
 
 using Domain;
+using Infrastructure.Interfaces;
+using Infrastructure.Repository;
 using Microsoft.EntityFrameworkCore;
+using WebAPI.Installer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 ConfigurationManager Configuration = builder.Configuration;
 builder.Services.AddDbContext<DSMDbContext>(option => option.UseSqlServer(Configuration.GetConnectionString("DbConnection")));
+builder.Services.AddInfasctructureServices();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
