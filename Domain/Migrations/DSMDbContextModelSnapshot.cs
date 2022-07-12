@@ -107,7 +107,7 @@ namespace Domain.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("EmployeeId")
+                    b.Property<Guid?>("EmployeeId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("LastModified")
@@ -121,8 +121,7 @@ namespace Domain.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EmployeeId")
-                        .IsUnique();
+                    b.HasIndex("EmployeeId");
 
                     b.HasIndex("TaskId")
                         .IsUnique();
@@ -533,19 +532,15 @@ namespace Domain.Migrations
 
             modelBuilder.Entity("Domain.Entities.CompletedTask", b =>
                 {
+                    b.HasOne("Domain.Entities.Employee", null)
+                        .WithMany("CompletedTasks")
+                        .HasForeignKey("EmployeeId");
+
                     b.HasOne("Domain.Entities.Task", "Task")
                         .WithOne("Employee")
-                        .HasForeignKey("Domain.Entities.CompletedTask", "EmployeeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.Employee", "Employee")
-                        .WithOne("Task")
                         .HasForeignKey("Domain.Entities.CompletedTask", "TaskId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Employee");
 
                     b.Navigation("Task");
                 });
@@ -667,8 +662,7 @@ namespace Domain.Migrations
 
             modelBuilder.Entity("Domain.Entities.Employee", b =>
                 {
-                    b.Navigation("Task")
-                        .IsRequired();
+                    b.Navigation("CompletedTasks");
 
                     b.Navigation("Tasks");
                 });
