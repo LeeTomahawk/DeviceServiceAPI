@@ -1,7 +1,5 @@
 
 using Domain;
-using Infrastructure.Interfaces;
-using Infrastructure.Repository;
 using Microsoft.EntityFrameworkCore;
 using WebAPI.Installer;
 

@@ -1,5 +1,5 @@
-﻿using Infrastructure.Interfaces;
-using Infrastructure.Repository;
+﻿using Repositories.Interfaces;
+using Repositories.Repository;
 
 namespace WebAPI.Installer
 {

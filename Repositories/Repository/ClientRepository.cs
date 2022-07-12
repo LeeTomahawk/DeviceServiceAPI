@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Domain;
 using Domain.Entities;
-using Infrastructure.Interfaces;
+using Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Repository
+namespace Repositories.Repository
 {
     public class ClientRepository : IClientRepository
     {
@@ -24,7 +24,7 @@ namespace Infrastructure.Repository
 
         public async Task<Client> Add(Client client)
         {
-            await _dbcontext.Set<Client>().AddAsync(client);
+            await _dbcontext.Clients.AddAsync(client);
             await _dbcontext.SaveChangesAsync();
             return client;
         }
@@ -37,7 +37,7 @@ namespace Infrastructure.Repository
 
         public async Task<Client> GetClientById(Guid id)
         {
-            var client = await _dbcontext.Set<Client>().FindAsync(id);
+            var client = await _dbcontext.Clients.FindAsync(id);
             if(client == null)
             {
                 throw new Exception("Client does not exist");
@@ -47,13 +47,13 @@ namespace Infrastructure.Repository
 
         public async Task<IEnumerable<Client>> GetClients()
         {
-            var clients = await _dbcontext.Set<Client>().ToListAsync();
+            var clients = await _dbcontext.Clients.ToListAsync();
             return clients;
         }
 
         public async void Update(Client client)
         {
-            var exclient = await _dbcontext.Set<Client>().FindAsync(client.Id);
+            var exclient = await _dbcontext.Clients.FindAsync(client.Id);
             if(exclient == null)
             {
                 throw new Exception("Client does not exist");

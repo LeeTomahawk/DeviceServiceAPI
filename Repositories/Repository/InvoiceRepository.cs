@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Domain;
 using Domain.Entities;
-using Infrastructure.Interfaces;
+using Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Repository
+namespace Repositories.Repository
 {
     public class InvoiceRepository : IInvoiceRepository
     {
@@ -24,7 +24,7 @@ namespace Infrastructure.Repository
 
         public async Task<Invoice> Add(Invoice invoice)
         {
-            await _dbcontext.Set<Invoice>().AddAsync(invoice);
+            await _dbcontext.Invoices.AddAsync(invoice);
             await _dbcontext.SaveChangesAsync();
             return invoice;
         }
@@ -37,7 +37,7 @@ namespace Infrastructure.Repository
 
         public async Task<Invoice> GetInvoiceById(Guid id)
         {
-            var invoice = await _dbcontext.Set<Invoice>().FindAsync(id);
+            var invoice = await _dbcontext.Invoices.FindAsync(id);
             if(invoice == null)
             {
                 throw new Exception("Invoice does not exist");
@@ -47,13 +47,13 @@ namespace Infrastructure.Repository
 
         public async Task<IEnumerable<Invoice>> GetInvoices()
         {
-            var invoices = await _dbcontext.Set<Invoice>().ToListAsync();
+            var invoices = await _dbcontext.Invoices.ToListAsync();
             return invoices;
         }
 
         public async void Update(Invoice invoice)
         {
-            var exinvoice = await _dbcontext.Set<Invoice>().FindAsync(invoice.Id);
+            var exinvoice = await _dbcontext.Invoices.FindAsync(invoice.Id);
             if(exinvoice == null)
             {
                 throw new Exception("Invoice does not exist");

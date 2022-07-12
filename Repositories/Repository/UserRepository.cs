@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Domain;
 using Domain.Entities;
-using Infrastructure.Interfaces;
+using Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Repository
+namespace Repositories.Repository
 {
     public class UserRepository : IUserRepository
     {
@@ -22,7 +22,7 @@ namespace Infrastructure.Repository
         }
         public async Task<User> Add(User user)
         {
-            await _dbcontext.Set<User>().AddAsync(user);
+            await _dbcontext.Users.AddAsync(user);
             await _dbcontext.SaveChangesAsync();
             return user;
         }
@@ -35,7 +35,7 @@ namespace Infrastructure.Repository
 
         public async Task<User> GetById(Guid id)
         {
-            var user = await _dbcontext.Set<User>().FindAsync(id);
+            var user = await _dbcontext.Users.FindAsync(id);
             if (user == null)
             {
                 throw new Exception("User does not Exist");
@@ -45,13 +45,13 @@ namespace Infrastructure.Repository
 
         public async Task<IEnumerable<User>> GetUsers()
         {
-            var users = await _dbcontext.Set<User>().ToListAsync();
+            var users = await _dbcontext.Users.ToListAsync();
             return users;
         }
 
         public async void Update(User user)
         {
-            var exuser = await _dbcontext.Set<User>().FindAsync(user.Id);
+            var exuser = await _dbcontext.Users.FindAsync(user.Id);
             if(exuser == null)
             {
                 throw new Exception("User does not Exist");

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Domain;
-using Infrastructure.Interfaces;
+using Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Repository
+namespace Repositories.Repository
 {
     public class TaskRepository : ITaskRepository
     {
@@ -22,7 +22,7 @@ namespace Infrastructure.Repository
 
         public async Task<Domain.Entities.Task> Add(Domain.Entities.Task task)
         {
-            await _dbcontext.Set<Domain.Entities.Task>().AddAsync(task);
+            await _dbcontext.Tasks.AddAsync(task);
             await _dbcontext.SaveChangesAsync();
             return task;
         }
@@ -35,7 +35,7 @@ namespace Infrastructure.Repository
 
         public async Task<Domain.Entities.Task> GetTaskById(Guid id)
         {
-            var task = await _dbcontext.Set<Domain.Entities.Task>().FindAsync(id);
+            var task = await _dbcontext.Tasks.FindAsync(id);
             if(task == null)
             {
                 throw new Exception("Task does not exist");
@@ -45,13 +45,13 @@ namespace Infrastructure.Repository
 
         public async Task<IEnumerable<Domain.Entities.Task>> GetTasks()
         {
-            var tasks = await _dbcontext.Set<Domain.Entities.Task>().ToListAsync();
+            var tasks = await _dbcontext.Tasks.ToListAsync();
             return tasks;
         }
 
         public async void Update(Domain.Entities.Task task)
         {
-            var extask = await _dbcontext.Set<Domain.Entities.Task>().FindAsync(task.Id);
+            var extask = await _dbcontext.Tasks.FindAsync(task.Id);
             if (extask == null)
             {
                 throw new Exception("Task does not exist");

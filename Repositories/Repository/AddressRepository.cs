@@ -1,15 +1,15 @@
 ﻿using AutoMapper;
 using Domain;
 using Domain.Entities;
-using Infrastructure.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Repository
+namespace Repositories.Repository
 {
     public class AddressRepository : IAddressRepository
     {
@@ -22,7 +22,7 @@ namespace Infrastructure.Repository
         }
         public async Task<Address> Add(Address address)
         {
-            await _dbcontext.Set<Address>().AddAsync(address);
+            await _dbcontext.Addresses.AddAsync(address);
             await _dbcontext.SaveChangesAsync();
             return address;
         }
@@ -35,7 +35,7 @@ namespace Infrastructure.Repository
 
         public async Task<Address> GetAddressById(Guid id)
         {
-            var address = await _dbcontext.Set<Address>().FindAsync(id);
+            var address = await _dbcontext.Addresses.FindAsync(id);
             if (address == null)
             {
                 throw new Exception("Addres does not exist!");
@@ -45,13 +45,13 @@ namespace Infrastructure.Repository
 
         public async Task<IEnumerable<Address>> GetAddresses()
         {
-            var addresses = await _dbcontext.Set<Address>().ToListAsync();
+            var addresses = await _dbcontext.Addresses.ToListAsync();
             return addresses;
         }
 
         public async void Update(Address address)
         {
-            var exaddress = await _dbcontext.Set<Address>().FindAsync(address.Id);
+            var exaddress = await _dbcontext.Addresses.FindAsync(address.Id);
             if( exaddress == null)
             {
                 throw new Exception("Addres does not exist!");

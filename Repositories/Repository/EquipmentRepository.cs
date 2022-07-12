@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Domain;
 using Domain.Entities;
-using Infrastructure.Interfaces;
+using Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,9 +9,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Repository
+namespace Repositories.Repository
 {
-    internal class EquipmentRepository : IEquipmentRepository
+    public class EquipmentRepository : IEquipmentRepository
     {
         protected readonly DSMDbContext _dbcontext;
         protected readonly IMapper _mapper;
@@ -24,7 +24,7 @@ namespace Infrastructure.Repository
 
         public async Task<Equipment> Add(Equipment equipment)
         {
-            await _dbcontext.Set<Equipment>().AddAsync(equipment);
+            await _dbcontext.Equipments.AddAsync(equipment);
             await _dbcontext.SaveChangesAsync();
             return equipment;
         }
@@ -37,7 +37,7 @@ namespace Infrastructure.Repository
 
         public async Task<Equipment> GetEquipmentById(Guid id)
         {
-            var equipment = await _dbcontext.Set<Equipment>().FindAsync(id);
+            var equipment = await _dbcontext.Equipments.FindAsync(id);
             if(equipment == null)
             {
                 throw new Exception("Equipment does not exist");
@@ -47,13 +47,13 @@ namespace Infrastructure.Repository
 
         public async Task<IEnumerable<Equipment>> GetEquipments()
         {
-            var equipments = await _dbcontext.Set<Equipment>().ToListAsync();
+            var equipments = await _dbcontext.Equipments.ToListAsync();
             return equipments;
         }
 
         public async void Update(Equipment equipment)
         {
-            var exequipment = await _dbcontext.Set<Equipment>().FindAsync(equipment.Id);
+            var exequipment = await _dbcontext.Equipments.FindAsync(equipment.Id);
             if (equipment == null)
             {
                 throw new Exception("Equipment does not exist");

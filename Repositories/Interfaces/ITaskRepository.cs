@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Task = Domain.Entities.Task;
 
 
-namespace Infrastructure.Interfaces
+namespace Repositories.Interfaces
 {
     public interface ITaskRepository
     {

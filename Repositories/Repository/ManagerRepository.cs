@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Domain;
 using Domain.Entities;
-using Infrastructure.Interfaces;
+using Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Repository
+namespace Repositories.Repository
 {
     public class ManagerRepository : IManagerRepository
     {
@@ -24,7 +24,7 @@ namespace Infrastructure.Repository
 
         public async Task<Manager> Add(Manager manager)
         {
-            await _dbcontext.Set<Manager>().AddAsync(manager);
+            await _dbcontext.Managers.AddAsync(manager);
             await _dbcontext.SaveChangesAsync();
             return manager;
         }
@@ -37,7 +37,7 @@ namespace Infrastructure.Repository
 
         public async Task<Manager> GetManagerById(Guid id)
         {
-            var manager = await _dbcontext.Set<Manager>().FindAsync(id);
+            var manager = await _dbcontext.Managers.FindAsync(id);
             if(manager == null)
             {
                 throw new Exception("Manager does not exist");
@@ -47,13 +47,13 @@ namespace Infrastructure.Repository
 
         public async Task<IEnumerable<Manager>> GetManagers()
         {
-            var managers = await _dbcontext.Set<Manager>().ToListAsync();
+            var managers = await _dbcontext.Managers.ToListAsync();
             return managers;
         }
 
         public async void Update(Manager manager)
         {
-            var exmanager = await _dbcontext.Set<Manager>().FindAsync(manager.Id);
+            var exmanager = await _dbcontext.Managers.FindAsync(manager.Id);
             if(exmanager == null)
             {
                 throw new Exception("Manager does not exist");

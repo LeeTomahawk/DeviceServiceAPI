@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Domain;
 using Domain.Entities;
-using Infrastructure.Interfaces;
+using Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Repository
+namespace Repositories.Repository
 {
     public class RoleRepository : IRoleRepository
     {
@@ -22,7 +22,7 @@ namespace Infrastructure.Repository
         }
         public async Task<Role> Add(Role role)
         {
-            await _dbcontext.Set<Role>().AddAsync(role);
+            await _dbcontext.Roles.AddAsync(role);
             await _dbcontext.SaveChangesAsync();
             return role;
         }
@@ -35,13 +35,13 @@ namespace Infrastructure.Repository
 
         public async Task<IEnumerable<Role>> GetAll()
         {
-            var roles = await _dbcontext.Set<Role>().ToListAsync();
+            var roles = await _dbcontext.Roles.ToListAsync();
             return roles;
         }
 
         public async Task<Role> GetRoleById(Guid id)
         {
-            var role = await _dbcontext.Set<Role>().FindAsync(id);
+            var role = await _dbcontext.Roles.FindAsync(id);
             if (role == null)
             {
                 throw new Exception("Role does not exist");
@@ -51,7 +51,7 @@ namespace Infrastructure.Repository
 
         public async void Update(Role role)
         {
-            var exrole = await _dbcontext.Set<Role>().FindAsync(role.Id);
+            var exrole = await _dbcontext.Roles.FindAsync(role.Id);
             if(exrole == null)
             {
                 throw new Exception("Role does not exist");

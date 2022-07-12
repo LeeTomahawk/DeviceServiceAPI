@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Domain;
 using Domain.Entities;
-using Infrastructure.Interfaces;
+using Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Repository
+namespace Repositories.Repository
 {
     public class EmployeeRepository : IEmployeeRepository
     {
@@ -22,7 +22,7 @@ namespace Infrastructure.Repository
         }
         public async Task<Employee> Add(Employee employee)
         {
-            await _dbcontext.Set<Employee>().AddAsync(employee);
+            await _dbcontext.Employees.AddAsync(employee);
             await _dbcontext.SaveChangesAsync();
             return employee;
         }
@@ -35,7 +35,7 @@ namespace Infrastructure.Repository
 
         public async Task<Employee> GetEmployeeById(Guid id)
         {
-            var employee = await _dbcontext.Set<Employee>().FindAsync(id);
+            var employee = await _dbcontext.Employees.FindAsync(id);
             if (employee == null)
             {
                 throw new Exception("Employee does not exist");
@@ -45,13 +45,13 @@ namespace Infrastructure.Repository
 
         public async Task<IEnumerable<Employee>> GetEmployees()
         {
-            var employees = await _dbcontext.Set<Employee>().ToListAsync();
+            var employees = await _dbcontext.Employees.ToListAsync();
             return employees;
         }
 
         public async void Update(Employee employee)
         {
-            var exemployee = await _dbcontext.Set<Employee>().FindAsync(employee.Id);
+            var exemployee = await _dbcontext.Employees.FindAsync(employee.Id);
             if( exemployee == null)
             {
                 throw new Exception("Employee does not exist");

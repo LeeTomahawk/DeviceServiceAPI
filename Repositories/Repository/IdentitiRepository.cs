@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Domain;
 using Domain.Entities;
-using Infrastructure.Interfaces;
+using Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Repository
+namespace Repositories.Repository
 {
     public class IdentitiRepository : IIdentityRepository
     {
@@ -22,7 +22,7 @@ namespace Infrastructure.Repository
         }
         public async Task<Identiti> Add(Identiti identiti)
         {
-            await _dbcontext.Set<Identiti>().AddAsync(identiti);
+            await _dbcontext.Identities.AddAsync(identiti);
             await _dbcontext.SaveChangesAsync();
             return identiti;
         }
@@ -35,7 +35,7 @@ namespace Infrastructure.Repository
 
         public async Task<Identiti> GetIdentitiById(Guid id)
         {
-            var identiti = await _dbcontext.Set<Identiti>().FindAsync(id);
+            var identiti = await _dbcontext.Identities.FindAsync(id);
             if (identiti == null)
             {
                 throw new Exception("Identiti does not exist");
@@ -45,13 +45,13 @@ namespace Infrastructure.Repository
 
         public async Task<IEnumerable<Identiti>> GetIdentitis()
         {
-            var identities = await _dbcontext.Set<Identiti>().ToListAsync();
+            var identities = await _dbcontext.Identities.ToListAsync();
             return identities;
         }
 
         public async void Update(Identiti identiti)
         {
-            var exidentiti = await _dbcontext.Set<Identiti>().FindAsync(identiti.Id);
+            var exidentiti = await _dbcontext.Identities.FindAsync(identiti.Id);
             if(exidentiti == null)
             {
                 throw new Exception("Identiti does not exist");

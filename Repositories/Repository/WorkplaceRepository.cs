@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Domain;
 using Domain.Entities;
-using Infrastructure.Interfaces;
+using Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Repository
+namespace Repositories.Repository
 {
     public class WorkplaceRepository : IWorkplaceRepository
     {
@@ -24,7 +24,7 @@ namespace Infrastructure.Repository
 
         public async Task<Workplace> Add(Workplace workplace)
         {
-            await _dbcontext.Set<Workplace>().AddAsync(workplace);
+            await _dbcontext.Workplaces.AddAsync(workplace);
             await _dbcontext.SaveChangesAsync();
             return workplace;
         }
@@ -37,7 +37,7 @@ namespace Infrastructure.Repository
 
         public async Task<Workplace> GetWorkplaceById(Guid id)
         {
-            var workplace = await _dbcontext.Set<Workplace>().FindAsync(id);
+            var workplace = await _dbcontext.Workplaces.FindAsync(id);
             if(workplace == null)
             {
                 throw new Exception("Workplace does not exist");
@@ -47,13 +47,13 @@ namespace Infrastructure.Repository
 
         public async Task<IEnumerable<Workplace>> GetWorkplaces()
         {
-            var workplaces = await _dbcontext.Set<Workplace>().ToListAsync();
+            var workplaces = await _dbcontext.Workplaces.ToListAsync();
             return workplaces;
         }
 
         public async void Update(Workplace workplace)
         {
-            var exworkplace = await _dbcontext.Set<Workplace>().FindAsync(workplace.Id);
+            var exworkplace = await _dbcontext.Workplaces.FindAsync(workplace.Id);
             if(exworkplace == null)
             {
                 throw new Exception("Workplace does not exist");
