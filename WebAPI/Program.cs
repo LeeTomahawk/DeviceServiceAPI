@@ -1,4 +1,6 @@
 
+using Aplication.Mappings;
+using AutoMapper;
 using Domain;
 using Microsoft.EntityFrameworkCore;
 using WebAPI.Installer;
