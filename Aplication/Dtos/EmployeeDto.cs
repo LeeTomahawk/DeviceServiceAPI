@@ -12,6 +12,7 @@ namespace Aplication.Dtos
         public Guid Id { get; set; }
         public DateTime EmploymentDate { get; set; }
         public IEnumerable<CompletedTaskDto> CompletedTasks { get; set; }
+        public Guid WorkplaceId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string PhoneNumber { get; set; }

@@ -1,4 +1,5 @@
 
+using Aplication.Mappings;
 using AutoMapper;
 using Domain;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,7 @@ builder.Services.AddControllers();
 ConfigurationManager Configuration = builder.Configuration;
 builder.Services.AddDbContext<DSMDbContext>(option => option.UseSqlServer(Configuration.GetConnectionString("DbConnection")));
 builder.Services.AddInfasctructureServices();
+builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
