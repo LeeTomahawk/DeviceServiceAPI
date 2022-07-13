@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace Aplication.Dtos
 {
-    public class WorkplaceDto
+    public class WorkplaceEquipmentDto
     {
         public Guid Id { get; set; }
-        public string Identifier { get; set; }
-        public IEnumerable<WorkplaceEquipmentDto> Equipments { get; set; }
+        public EquipmentDto Equipment { get; set; }
     }
 }

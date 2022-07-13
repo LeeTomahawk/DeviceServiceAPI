@@ -24,7 +24,8 @@ namespace Aplication.Mappings
                 .ForMember(r => r.Number, c => c.MapFrom(s => s.Identiti.Address.Number))
                 .ForMember(r => r.PostCode, c => c.MapFrom(s => s.Identiti.Address.PostCode));
             CreateMap<Workplace, WorkplaceDto>()
-                .ForMember(r => r.EquipmentsList,c => c.MapFrom(s => s.Equipments));
+                .ForMember(r => r.Equipments, c => c.MapFrom(s => s.Equipments));
+            CreateMap<WorkplaceEquipment, WorkplaceEquipmentDto>();
         }
     }
 }
