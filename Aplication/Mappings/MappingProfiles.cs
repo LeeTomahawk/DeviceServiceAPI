@@ -15,6 +15,16 @@ namespace Aplication.Mappings
         {
             CreateMap<Equipment, EquipmentDto>();
             CreateMap<EquipmentCreateDto, Equipment>();
+            CreateMap<Employee, EmployeeDto>()
+                .ForMember(r => r.FirstName, c => c.MapFrom(s => s.Identiti.FirstName))
+                .ForMember(r => r.LastName, c => c.MapFrom(s => s.Identiti.LastName))
+                .ForMember(r => r.PhoneNumber, c => c.MapFrom(s => s.Identiti.PhoneNumber))
+                .ForMember(r => r.City, c => c.MapFrom(s => s.Identiti.Address.City))
+                .ForMember(r => r.Street, c => c.MapFrom(s => s.Identiti.Address.Street))
+                .ForMember(r => r.Number, c => c.MapFrom(s => s.Identiti.Address.Number))
+                .ForMember(r => r.PostCode, c => c.MapFrom(s => s.Identiti.Address.PostCode));
+            CreateMap<Workplace, WorkplaceDto>()
+                .ForMember(r => r.EquipmentsList,c => c.MapFrom(s => s.Equipments));
         }
     }
 }

@@ -11,6 +11,8 @@ namespace WebAPI.Installer
         {
             services.AddTransient<IEquipmentRepository, EquipmentRepository>();
             services.AddTransient<IEquipmentService, EquipmentService>();
+            services.AddTransient<IWorkplaceRepository, WorkplaceRepository>();
+            services.AddTransient<IWorkplaceService, WorkplaceService>();
         }
     }
 }
