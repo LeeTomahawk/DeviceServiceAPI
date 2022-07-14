@@ -8,10 +8,10 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class WorplaceController : ControllerBase
+    public class WorkplaceController : ControllerBase
     {
         private readonly IWorkplaceService _service;
-        public WorplaceController(IWorkplaceService service)
+        public WorkplaceController(IWorkplaceService service)
         {
             _service = service;
         }

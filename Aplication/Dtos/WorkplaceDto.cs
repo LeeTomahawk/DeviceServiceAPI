@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,6 @@ namespace Aplication.Dtos
     {
         public Guid Id { get; set; }
         public string Identifier { get; set; }
-        public IEnumerable<WorkplaceEquipmentDto> WorkplaceEquipmentDtos { get; set; }
+        public IEnumerable<WorkplaceEquipmentDto> EquipmentsDto { get; set; }
     }
 }

@@ -47,7 +47,7 @@ namespace Repositories.Repository
 
         public async Task<IEnumerable<Workplace>> GetWorkplaces()
         {
-            var workplaces = await _dbcontext.Workplaces.ToListAsync();
+            var workplaces = await _dbcontext.Workplaces.Include(w => w.Equipments).ThenInclude(i => i.Equipment).ToListAsync();
             return workplaces;
         }
 
