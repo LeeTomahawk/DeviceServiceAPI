@@ -10,6 +10,6 @@ namespace Aplication.Dtos
     {
         public Guid Id { get; set; }
         public string Identifier { get; set; }
-        public IEnumerable<WorkplaceEquipmentDto> Equipments { get; set; }
+        public IEnumerable<WorkplaceEquipmentDto> WorkplaceEquipmentDtos { get; set; }
     }
 }

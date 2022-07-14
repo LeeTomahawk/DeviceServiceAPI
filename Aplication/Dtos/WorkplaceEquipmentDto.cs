@@ -8,7 +8,10 @@ namespace Aplication.Dtos
 {
     public class WorkplaceEquipmentDto
     {
-        public Guid Id { get; set; }
-        public EquipmentDto Equipment { get; set; }
+        public Guid WokrplaceEquipmentId { get; set; }
+        public Guid EquipmentId { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public int Amount { get; set; }
     }
 }
