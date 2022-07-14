@@ -32,6 +32,30 @@ namespace Aplication.Mappings
                 .ForMember(r => r.Description, c => c.MapFrom(s => s.Equipment.Description))
                 .ForMember(r => r.Amount, c => c.MapFrom(s => s.Equipment.Amount));
             CreateMap<WorkplaceCreateDto, Workplace>();
+            CreateMap<Domain.Entities.Task, TaskDto>();
+            CreateMap<TaskCreateDto, Domain.Entities.Task>();
+            CreateMap<Client, ClientDto>()
+                .ForMember(r => r.FirstName, c => c.MapFrom(s => s.Identiti.FirstName))
+                .ForMember(r => r.LastName, c => c.MapFrom(s => s.Identiti.LastName))
+                .ForMember(r => r.PhoneNumber, c => c.MapFrom(s => s.Identiti.PhoneNumber))
+                .ForMember(r => r.City, c => c.MapFrom(s => s.Identiti.Address.City))
+                .ForMember(r => r.Street, c => c.MapFrom(s => s.Identiti.Address.Street))
+                .ForMember(r => r.Number, c => c.MapFrom(s => s.Identiti.Address.Number))
+                .ForMember(r => r.PostCode, c => c.MapFrom(s => s.Identiti.Address.PostCode));
+            CreateMap<ClientCreateDto, Client>()
+                .AfterMap((src, dest) =>
+                {
+                    dest.Identiti = new Identiti();
+                    dest.Identiti.Address = new Address();
+
+                    dest.Identiti.FirstName = src.FirstName;
+                    dest.Identiti.LastName = src.LastName;
+                    dest.Identiti.PhoneNumber = src.PhoneNumber;
+                    dest.Identiti.Address.City = src.City;
+                    dest.Identiti.Address.Street = src.Street;
+                    dest.Identiti.Address.Number = src.Number;
+                    dest.Identiti.Address.PostCode = src.PostCode;
+                });
         }
     }
 }

@@ -13,6 +13,10 @@ namespace WebAPI.Installer
             services.AddTransient<IEquipmentService, EquipmentService>();
             services.AddTransient<IWorkplaceRepository, WorkplaceRepository>();
             services.AddTransient<IWorkplaceService, WorkplaceService>();
+            services.AddTransient<ITaskRepository, TaskRepository>();
+            services.AddTransient<ITaskService, TaskService>();
+            services.AddTransient<IClientRepository,ClientRepository>();
+            services.AddTransient<IClientService, ClientService>();
         }
     }
 }
