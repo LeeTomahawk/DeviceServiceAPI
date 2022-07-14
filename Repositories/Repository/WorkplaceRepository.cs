@@ -37,7 +37,7 @@ namespace Repositories.Repository
 
         public async Task<Workplace> GetWorkplaceById(Guid id)
         {
-            var workplace = await _dbcontext.Workplaces.FindAsync(id);
+            var workplace = await _dbcontext.Workplaces.Include(w => w.Equipments).ThenInclude(i => i.Equipment).FirstOrDefaultAsync(x => x.Id == id);
             if(workplace == null)
             {
                 throw new Exception("Workplace does not exist");

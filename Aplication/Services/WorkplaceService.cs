@@ -19,6 +19,14 @@ namespace Aplication.Services
             _repository = repository;
             _mapper = mapper;
         }
+
+        public async Task<WorkplaceDto> GetWorkPlaceById(Guid id)
+        {
+            var workplace = await _repository.GetWorkplaceById(id);
+            var workplacedto = _mapper.Map<WorkplaceDto>(workplace);
+            return workplacedto;
+        }
+
         public async Task<IEnumerable<WorkplaceDto>> GetWorkplaces()
         {
             var workplaces = await _repository.GetWorkplaces();

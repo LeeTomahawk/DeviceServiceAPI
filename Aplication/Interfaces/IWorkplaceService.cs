@@ -10,5 +10,6 @@ namespace Aplication.Interfaces
     public interface IWorkplaceService
     {
         Task<IEnumerable<WorkplaceDto>> GetWorkplaces();
+        Task<WorkplaceDto> GetWorkPlaceById(Guid id);
     }
 }

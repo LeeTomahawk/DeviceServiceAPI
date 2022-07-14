@@ -18,17 +18,18 @@ namespace WebAPI.Controllers
 
         // GET: api/<WorplaceController>
         [HttpGet]
-        public async Task<IEnumerable<WorkplaceDto>> Get()
+        public async Task<ActionResult<IEnumerable<WorkplaceDto>>> GetAll()
         {
             var workplaces = await _service.GetWorkplaces();
-            return workplaces;
+            return Ok(workplaces);
         }
 
         // GET api/<WorplaceController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<ActionResult<WorkplaceDto>> Get([FromRoute] Guid id)
         {
-            return "value";
+            var workplace = await _service.GetWorkPlaceById(id);
+            return Ok(workplace);
         }
 
         // POST api/<WorplaceController>
