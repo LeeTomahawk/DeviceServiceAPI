@@ -31,6 +31,7 @@ namespace Aplication.Mappings
                 .ForMember(r => r.Name, c => c.MapFrom(s => s.Equipment.Name))
                 .ForMember(r => r.Description, c => c.MapFrom(s => s.Equipment.Description))
                 .ForMember(r => r.Amount, c => c.MapFrom(s => s.Equipment.Amount));
+            CreateMap<WorkplaceCreateDto, Workplace>();
         }
     }
 }

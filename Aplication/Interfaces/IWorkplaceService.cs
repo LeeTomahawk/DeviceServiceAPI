@@ -11,5 +11,6 @@ namespace Aplication.Interfaces
     {
         Task<IEnumerable<WorkplaceDto>> GetWorkplaces();
         Task<WorkplaceDto> GetWorkPlaceById(Guid id);
+        Task<WorkplaceCreateDto> AddWorkplace(WorkplaceCreateDto workplaceDto);
     }
 }

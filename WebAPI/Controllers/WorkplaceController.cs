@@ -34,8 +34,10 @@ namespace WebAPI.Controllers
 
         // POST api/<WorplaceController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<ActionResult<WorkplaceCreateDto>> Add([FromBody] WorkplaceCreateDto workplace)
         {
+            var w = await _service.AddWorkplace(workplace);
+            return w;
         }
 
         // PUT api/<WorplaceController>/5

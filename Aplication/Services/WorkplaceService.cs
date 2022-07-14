@@ -1,6 +1,7 @@
 ﻿using Aplication.Dtos;
 using Aplication.Interfaces;
 using AutoMapper;
+using Domain.Entities;
 using Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,14 @@ namespace Aplication.Services
         {
             _repository = repository;
             _mapper = mapper;
+        }
+
+        public async Task<WorkplaceCreateDto> AddWorkplace(WorkplaceCreateDto workplaceDto)
+        {
+            var workplace = _mapper.Map<Workplace>(workplaceDto);
+            await _repository.Add(workplace);
+            return workplaceDto;
+
         }
 
         public async Task<WorkplaceDto> GetWorkPlaceById(Guid id)
