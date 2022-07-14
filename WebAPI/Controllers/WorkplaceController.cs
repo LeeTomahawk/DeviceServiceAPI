@@ -36,8 +36,8 @@ namespace WebAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<WorkplaceCreateDto>> Add([FromBody] WorkplaceCreateDto workplace)
         {
-            var w = await _service.AddWorkplace(workplace);
-            return w;
+            var cworkplace = await _service.AddWorkplace(workplace);
+            return cworkplace;
         }
 
         // PUT api/<WorplaceController>/5
@@ -48,8 +48,9 @@ namespace WebAPI.Controllers
 
         // DELETE api/<WorplaceController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async void Delete([FromRoute] Guid id)
         {
+
         }
     }
 }

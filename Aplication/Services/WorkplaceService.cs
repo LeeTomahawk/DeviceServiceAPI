@@ -29,6 +29,12 @@ namespace Aplication.Services
 
         }
 
+        public async void DeleteWorkplace(Guid id)
+        {
+            var workplace = await _repository.GetWorkplaceById(id);
+            _repository.Delete(workplace);
+        }
+
         public async Task<WorkplaceDto> GetWorkPlaceById(Guid id)
         {
             var workplace = await _repository.GetWorkplaceById(id);
@@ -41,6 +47,11 @@ namespace Aplication.Services
             var workplaces = await _repository.GetWorkplaces();
             var worokplacesdto = _mapper.Map<IEnumerable<WorkplaceDto>>(workplaces);
             return worokplacesdto;
+        }
+
+        public void UpdateWorkplace(WorkplaceDto workplaceDto)
+        {
+            throw new NotImplementedException();
         }
     }
 }
