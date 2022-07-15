@@ -52,9 +52,10 @@ namespace Aplication.Services
             await _repository.Delete(client);
         }
 
-        public System.Threading.Tasks.Task UpdateClient(ClientDto cleintdto)
+        public async System.Threading.Tasks.Task UpdateClient(ClientDto clientdto)
         {
-            throw new NotImplementedException();
+            var client = _mapper.Map<Client>(clientdto);
+            await _repository.Update(client);
         }
     }
 }

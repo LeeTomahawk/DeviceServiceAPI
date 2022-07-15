@@ -53,7 +53,7 @@ namespace Repositories.Repository
             return clients;
         }
 
-        public async void Update(Client client)
+        public async System.Threading.Tasks.Task Update(Client client)
         {
             var exclient = await _dbcontext.Clients.FindAsync(client.Id);
             if(exclient == null)

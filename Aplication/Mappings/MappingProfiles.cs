@@ -13,6 +13,8 @@ namespace Aplication.Mappings
     {
         public MappingProfiles()
         {
+            CreateMap<Client, Client>();
+            CreateMap<ClientDto, Client>();
             CreateMap<Client, ClientDto>()
                 .ForMember(r => r.FirstName, c => c.MapFrom(s => s.Identiti.FirstName))
                 .ForMember(r => r.LastName, c => c.MapFrom(s => s.Identiti.LastName))

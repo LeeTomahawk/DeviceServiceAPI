@@ -42,8 +42,10 @@ namespace WebAPI.Controllers
 
         // PUT api/<ClientController>/5
         [HttpPut]
-        public void Put(int id, [FromBody] string value)
+        public async Task<ActionResult> Put([FromBody] ClientDto clientDto)
         {
+            await _service.UpdateClient(clientDto);
+            return NoContent();
         }
 
         // DELETE api/<ClientController>/5

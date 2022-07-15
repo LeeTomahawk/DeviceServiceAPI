@@ -12,7 +12,7 @@ namespace Repositories.Interfaces
         Task<IEnumerable<Client>> GetClients();
         Task<Client> GetClientById(Guid id);
         Task<Client> Add(Client client);
-        void Update(Client client);
+        System.Threading.Tasks.Task Update(Client client);
         System.Threading.Tasks.Task Delete(Client client);
     }
 }
