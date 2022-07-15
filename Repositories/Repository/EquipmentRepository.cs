@@ -29,7 +29,7 @@ namespace Repositories.Repository
             return equipment;
         }
 
-        public async void Delete(Equipment equipment)
+        public async System.Threading.Tasks.Task Delete(Equipment equipment)
         {
             _dbcontext.Remove(equipment);
             await _dbcontext.SaveChangesAsync();
@@ -51,7 +51,7 @@ namespace Repositories.Repository
             return equipments;
         }
 
-        public async void Update(Equipment equipment)
+        public async System.Threading.Tasks.Task Update(Equipment equipment)
         {
             var exequipment = await _dbcontext.Equipments.FindAsync(equipment.Id);
             if (equipment == null)
@@ -61,5 +61,7 @@ namespace Repositories.Repository
             _mapper.Map(equipment, exequipment);
             await _dbcontext.SaveChangesAsync();
         }
+
+        
     }
 }

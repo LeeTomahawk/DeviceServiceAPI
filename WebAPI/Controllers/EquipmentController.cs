@@ -36,5 +36,18 @@ namespace WebAPI.Controllers
             var eq = await _service.AddEquipment(equipment);
             return Ok(eq);
         }
+        [HttpPut]
+        public async Task<ActionResult> Update([FromBody] EquipmentUpdateDto equipment)
+        {
+            await _service.UpdateEquipment(equipment);
+            return NoContent();
+        }
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete([FromRoute] Guid id)
+        {
+            await _service.DeleteEquipment(id);
+            return Ok();
+        }
+
     }
 }

@@ -28,6 +28,16 @@ namespace Aplication.Services
             return equipment;
         }
 
+        public async System.Threading.Tasks.Task DeleteEquipment(Guid id)
+        {
+            var equipment = await _repository.GetEquipmentById(id);
+            if(equipment == null)
+            {
+                throw new Exception("Not found");
+            }
+            await _repository.Delete(equipment);
+        }
+
         public async Task<EquipmentDto> GetEquipmentById(Guid id)
         {
             var equipment = await _repository.GetEquipmentById(id);
@@ -40,6 +50,13 @@ namespace Aplication.Services
             var equipments = await _repository.GetEquipments();
             var equipmentsDto = _mapper.Map<IEnumerable<EquipmentDto>>(equipments);
             return equipmentsDto;
+        }
+
+        public async System.Threading.Tasks.Task UpdateEquipment(EquipmentUpdateDto equipment)
+        {
+            var eq = _mapper.Map<Equipment>(equipment);
+            await _repository.Update(eq);
+            
         }
     }
 }

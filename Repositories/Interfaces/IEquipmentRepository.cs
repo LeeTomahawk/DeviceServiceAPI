@@ -12,7 +12,7 @@ namespace Repositories.Interfaces
         Task<IEnumerable<Equipment>> GetEquipments();
         Task<Equipment> GetEquipmentById(Guid id);
         Task<Equipment> Add(Equipment equipment);
-        void Update(Equipment equipment);
-        void Delete(Equipment equipment);
+        System.Threading.Tasks.Task Update(Equipment equipment);
+        System.Threading.Tasks.Task Delete(Equipment equipment);
     }
 }

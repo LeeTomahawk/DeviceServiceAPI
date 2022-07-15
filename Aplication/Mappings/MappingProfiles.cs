@@ -22,7 +22,9 @@ namespace Aplication.Mappings
                 .ForMember(r => r.Number, c => c.MapFrom(s => s.Identiti.Address.Number))
                 .ForMember(r => r.PostCode, c => c.MapFrom(s => s.Identiti.Address.PostCode));
             CreateMap<Equipment, EquipmentDto>();
+            CreateMap<EquipmentUpdateDto, Equipment>();
             CreateMap<EquipmentCreateDto, Equipment>();
+            CreateMap<Equipment, Equipment>();
             CreateMap<Employee, EmployeeDto>()
                 .ForMember(r => r.FirstName, c => c.MapFrom(s => s.Identiti.FirstName))
                 .ForMember(r => r.LastName, c => c.MapFrom(s => s.Identiti.LastName))
