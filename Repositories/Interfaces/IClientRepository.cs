@@ -13,6 +13,6 @@ namespace Repositories.Interfaces
         Task<Client> GetClientById(Guid id);
         Task<Client> Add(Client client);
         void Update(Client client);
-        void Delete(Client client);
+        System.Threading.Tasks.Task Delete(Guid id);
     }
 }

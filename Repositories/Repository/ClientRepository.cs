@@ -29,15 +29,20 @@ namespace Repositories.Repository
             return client;
         }
 
-        public async void Delete(Client client)
+        public async System.Threading.Tasks.Task Delete(Guid id)
         {
-            _dbcontext.Remove(client);
+            var client = await _dbcontext.Clients.Include(s => s.Identiti).ThenInclude(i => i.Address).FirstOrDefaultAsync(x => x.Id == id);
+            if (client == null)
+            {
+                throw new Exception("Client does not exist");
+            }
+            _dbcontext.Clients.Remove(client);
             await _dbcontext.SaveChangesAsync();
         }
 
         public async Task<Client> GetClientById(Guid id)
         {
-            var client = await _dbcontext.Clients.FindAsync(id);
+            var client = await _dbcontext.Clients.Include(s => s.Identiti).ThenInclude(i => i.Address).FirstOrDefaultAsync(x => x.Id == id);
             if(client == null)
             {
                 throw new Exception("Client does not exist");
@@ -47,7 +52,7 @@ namespace Repositories.Repository
 
         public async Task<IEnumerable<Client>> GetClients()
         {
-            var clients = await _dbcontext.Clients.ToListAsync();
+            var clients = await _dbcontext.Clients.Include(s => s.Identiti).ThenInclude(i => i.Address).ToListAsync();
             return clients;
         }
 

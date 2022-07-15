@@ -18,16 +18,18 @@ namespace WebAPI.Controllers
 
         // GET: api/<ClientController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<ActionResult<IEnumerable<ClientDto>>> Get()
         {
-            return new string[] { "value1", "value2" };
+            var clients = await _service.GetClients();
+            return Ok(clients);
         }
 
         // GET api/<ClientController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<ActionResult<ClientDto>> Get([FromRoute] Guid id)
         {
-            return "value";
+            var client = await _service.GetClient(id);
+            return Ok(client);
         }
 
         // POST api/<ClientController>
@@ -46,8 +48,9 @@ namespace WebAPI.Controllers
 
         // DELETE api/<ClientController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public void Delete([FromRoute] Guid id)
         {
+           _service.DeleteClient(id);
         }
     }
 }

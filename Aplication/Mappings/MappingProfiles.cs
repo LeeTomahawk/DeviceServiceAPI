@@ -13,6 +13,14 @@ namespace Aplication.Mappings
     {
         public MappingProfiles()
         {
+            CreateMap<Client, ClientDto>()
+                .ForMember(r => r.FirstName, c => c.MapFrom(s => s.Identiti.FirstName))
+                .ForMember(r => r.LastName, c => c.MapFrom(s => s.Identiti.LastName))
+                .ForMember(r => r.PhoneNumber, c => c.MapFrom(s => s.Identiti.PhoneNumber))
+                .ForMember(r => r.City, c => c.MapFrom(s => s.Identiti.Address.City))
+                .ForMember(r => r.Street, c => c.MapFrom(s => s.Identiti.Address.Street))
+                .ForMember(r => r.Number, c => c.MapFrom(s => s.Identiti.Address.Number))
+                .ForMember(r => r.PostCode, c => c.MapFrom(s => s.Identiti.Address.PostCode));
             CreateMap<Equipment, EquipmentDto>();
             CreateMap<EquipmentCreateDto, Equipment>();
             CreateMap<Employee, EmployeeDto>()
@@ -34,14 +42,7 @@ namespace Aplication.Mappings
             CreateMap<WorkplaceCreateDto, Workplace>();
             CreateMap<Domain.Entities.Task, TaskDto>();
             CreateMap<TaskCreateDto, Domain.Entities.Task>();
-            CreateMap<Client, ClientDto>()
-                .ForMember(r => r.FirstName, c => c.MapFrom(s => s.Identiti.FirstName))
-                .ForMember(r => r.LastName, c => c.MapFrom(s => s.Identiti.LastName))
-                .ForMember(r => r.PhoneNumber, c => c.MapFrom(s => s.Identiti.PhoneNumber))
-                .ForMember(r => r.City, c => c.MapFrom(s => s.Identiti.Address.City))
-                .ForMember(r => r.Street, c => c.MapFrom(s => s.Identiti.Address.Street))
-                .ForMember(r => r.Number, c => c.MapFrom(s => s.Identiti.Address.Number))
-                .ForMember(r => r.PostCode, c => c.MapFrom(s => s.Identiti.Address.PostCode));
+            
             CreateMap<ClientCreateDto, Client>()
                 .AfterMap((src, dest) =>
                 {

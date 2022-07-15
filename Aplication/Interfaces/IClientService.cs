@@ -10,5 +10,9 @@ namespace Aplication.Interfaces
     public interface IClientService
     {
         Task<ClientCreateDto> AddClient(ClientCreateDto clientdto);
+        Task<IEnumerable<ClientDto>> GetClients();
+        Task<ClientDto> GetClient(Guid id);
+        Task DeleteClient(Guid id);
+        Task UpdateClient(ClientDto cleintdto);
     }
 }
