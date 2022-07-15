@@ -41,16 +41,17 @@ namespace WebAPI.Controllers
         }
 
         // PUT api/<ClientController>/5
-        [HttpPut("{id}")]
+        [HttpPut]
         public void Put(int id, [FromBody] string value)
         {
         }
 
         // DELETE api/<ClientController>/5
         [HttpDelete("{id}")]
-        public void Delete([FromRoute] Guid id)
+        public async Task<ActionResult> Delete([FromRoute] Guid id)
         {
-           _service.DeleteClient(id);
+            await _service.DeleteClient(id);
+            return Ok();
         }
     }
 }

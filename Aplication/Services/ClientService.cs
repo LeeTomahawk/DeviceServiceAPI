@@ -44,7 +44,12 @@ namespace Aplication.Services
 
         public async System.Threading.Tasks.Task DeleteClient(Guid id)
         {
-            _repository.Delete(id);
+            var client = await _repository.GetClientById(id);
+            if (client == null)
+            {
+                throw new Exception("Not found");
+            }
+            await _repository.Delete(client);
         }
 
         public System.Threading.Tasks.Task UpdateClient(ClientDto cleintdto)

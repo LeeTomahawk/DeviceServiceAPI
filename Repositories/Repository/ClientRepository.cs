@@ -29,13 +29,10 @@ namespace Repositories.Repository
             return client;
         }
 
-        public async System.Threading.Tasks.Task Delete(Guid id)
+        public async System.Threading.Tasks.Task Delete(Client client)
         {
-            var client = await _dbcontext.Clients.Include(s => s.Identiti).ThenInclude(i => i.Address).FirstOrDefaultAsync(x => x.Id == id);
-            if (client == null)
-            {
-                throw new Exception("Client does not exist");
-            }
+            _dbcontext.Addresses.Remove(client.Identiti.Address);
+            _dbcontext.Identities.Remove(client.Identiti);
             _dbcontext.Clients.Remove(client);
             await _dbcontext.SaveChangesAsync();
         }
