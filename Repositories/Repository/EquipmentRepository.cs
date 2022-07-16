@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Repositories.Dtos;
 
 namespace Repositories.Repository
 {
@@ -51,14 +52,14 @@ namespace Repositories.Repository
             return equipments;
         }
 
-        public async System.Threading.Tasks.Task Update(Equipment equipment)
+        public async System.Threading.Tasks.Task Update(EquipmentUpdateDto equipment)
         {
             var exequipment = await _dbcontext.Equipments.FindAsync(equipment.Id);
             if (equipment == null)
             {
                 throw new Exception("Equipment does not exist");
             }
-            _mapper.Map(equipment, exequipment);
+            _mapper.Map<EquipmentUpdateDto, Equipment>(equipment, exequipment);
             await _dbcontext.SaveChangesAsync();
         }
 

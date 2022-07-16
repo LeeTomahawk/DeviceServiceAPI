@@ -4,14 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Aplication.Dtos
+namespace Repositories.Dtos
 {
-    public class TaskCreateDto
+    public class EquipmentCreateDto
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        public DateTime startDate { get; set; } 
-        public DateTime? endDate { get; set; } 
-        public float? amount { get; set; }
+        public int Amount { get; set; }
     }
 }

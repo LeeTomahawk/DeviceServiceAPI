@@ -1,4 +1,4 @@
-﻿using Aplication.Dtos;
+﻿using Repositories.Dtos;
 using Aplication.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -42,7 +42,7 @@ namespace WebAPI.Controllers
 
         // PUT api/<ClientController>/5
         [HttpPut]
-        public async Task<ActionResult> Put([FromBody] ClientDto clientDto)
+        public async Task<ActionResult> Put([FromBody] ClientUpdateDto clientDto)
         {
             await _service.UpdateClient(clientDto);
             return NoContent();

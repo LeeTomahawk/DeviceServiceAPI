@@ -1,4 +1,4 @@
-﻿namespace Aplication.Dtos
+﻿namespace Repositories.Dtos
 {
     public class EquipmentDto
     {

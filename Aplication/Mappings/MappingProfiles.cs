@@ -1,4 +1,4 @@
-﻿using Aplication.Dtos;
+﻿using Repositories.Dtos;
 using AutoMapper;
 using Domain.Entities;
 using System;
@@ -13,28 +13,18 @@ namespace Aplication.Mappings
     {
         public MappingProfiles()
         {
-            CreateMap<Client, Client>();
+            CreateMap<Address, AddressDto>();
+            CreateMap<Identiti, IdentitiDto>();
+            CreateMap<AddressDto, Address>();
+            CreateMap<IdentitiDto, Identiti>();
+            CreateMap<ClientUpdateDto, Client>();
             CreateMap<ClientDto, Client>();
-            CreateMap<Client, ClientDto>()
-                .ForMember(r => r.FirstName, c => c.MapFrom(s => s.Identiti.FirstName))
-                .ForMember(r => r.LastName, c => c.MapFrom(s => s.Identiti.LastName))
-                .ForMember(r => r.PhoneNumber, c => c.MapFrom(s => s.Identiti.PhoneNumber))
-                .ForMember(r => r.City, c => c.MapFrom(s => s.Identiti.Address.City))
-                .ForMember(r => r.Street, c => c.MapFrom(s => s.Identiti.Address.Street))
-                .ForMember(r => r.Number, c => c.MapFrom(s => s.Identiti.Address.Number))
-                .ForMember(r => r.PostCode, c => c.MapFrom(s => s.Identiti.Address.PostCode));
+            CreateMap<Client, ClientDto>();
             CreateMap<Equipment, EquipmentDto>();
             CreateMap<EquipmentUpdateDto, Equipment>();
             CreateMap<EquipmentCreateDto, Equipment>();
-            CreateMap<Equipment, Equipment>();
-            CreateMap<Employee, EmployeeDto>()
-                .ForMember(r => r.FirstName, c => c.MapFrom(s => s.Identiti.FirstName))
-                .ForMember(r => r.LastName, c => c.MapFrom(s => s.Identiti.LastName))
-                .ForMember(r => r.PhoneNumber, c => c.MapFrom(s => s.Identiti.PhoneNumber))
-                .ForMember(r => r.City, c => c.MapFrom(s => s.Identiti.Address.City))
-                .ForMember(r => r.Street, c => c.MapFrom(s => s.Identiti.Address.Street))
-                .ForMember(r => r.Number, c => c.MapFrom(s => s.Identiti.Address.Number))
-                .ForMember(r => r.PostCode, c => c.MapFrom(s => s.Identiti.Address.PostCode));
+            CreateMap<Employee, EmployeeDto>();
+            CreateMap<WorkplaceUpdateDto, Workplace>();
             CreateMap<Workplace, WorkplaceDto>()
                 .ForMember(r => r.EquipmentsDto, c => c.MapFrom(s => s.Equipments));
             CreateMap<WorkplaceEquipment, WorkplaceEquipmentDto>()
@@ -44,9 +34,6 @@ namespace Aplication.Mappings
                 .ForMember(r => r.Description, c => c.MapFrom(s => s.Equipment.Description))
                 .ForMember(r => r.Amount, c => c.MapFrom(s => s.Equipment.Amount));
             CreateMap<WorkplaceCreateDto, Workplace>();
-            CreateMap<Domain.Entities.Task, TaskDto>();
-            CreateMap<TaskCreateDto, Domain.Entities.Task>();
-            
             CreateMap<ClientCreateDto, Client>()
                 .AfterMap((src, dest) =>
                 {

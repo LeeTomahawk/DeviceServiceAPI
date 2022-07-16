@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Repositories.Dtos;
 
 namespace Repositories.Repository
 {
@@ -29,7 +30,7 @@ namespace Repositories.Repository
             return workplace;
         }
 
-        public async void Delete(Workplace workplace)
+        public async System.Threading.Tasks.Task Delete(Workplace workplace)
         {
             _dbcontext.Remove(workplace);
             await _dbcontext.SaveChangesAsync();
@@ -51,7 +52,7 @@ namespace Repositories.Repository
             return workplaces;
         }
 
-        public async void Update(Workplace workplace)
+        public async System.Threading.Tasks.Task Update(WorkplaceUpdateDto workplace)
         {
             var exworkplace = await _dbcontext.Workplaces.FindAsync(workplace.Id);
             if(exworkplace == null)

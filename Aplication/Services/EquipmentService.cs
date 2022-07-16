@@ -1,4 +1,4 @@
-﻿using Aplication.Dtos;
+﻿using Repositories.Dtos;
 using Aplication.Interfaces;
 using AutoMapper;
 using Domain.Entities;
@@ -54,9 +54,7 @@ namespace Aplication.Services
 
         public async System.Threading.Tasks.Task UpdateEquipment(EquipmentUpdateDto equipment)
         {
-            var eq = _mapper.Map<Equipment>(equipment);
-            await _repository.Update(eq);
-            
+            await _repository.Update(equipment);
         }
     }
 }

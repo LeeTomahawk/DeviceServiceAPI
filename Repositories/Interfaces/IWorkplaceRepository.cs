@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Repositories.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace Repositories.Interfaces
         Task<IEnumerable<Workplace>> GetWorkplaces();
         Task<Workplace> GetWorkplaceById(Guid id);
         Task<Workplace> Add(Workplace workplace);
-        void Update(Workplace workplace);
-        void Delete(Workplace workplace);
+        System.Threading.Tasks.Task Update(WorkplaceUpdateDto workplace);
+        System.Threading.Tasks.Task Delete(Workplace workplace);
     }
 }

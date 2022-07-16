@@ -1,4 +1,4 @@
-﻿using Aplication.Dtos;
+﻿using Repositories.Dtos;
 using Aplication.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 

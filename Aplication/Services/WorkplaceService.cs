@@ -1,4 +1,4 @@
-﻿using Aplication.Dtos;
+﻿using Repositories.Dtos;
 using Aplication.Interfaces;
 using AutoMapper;
 using Domain.Entities;
@@ -29,10 +29,14 @@ namespace Aplication.Services
 
         }
 
-        public async void DeleteWorkplace(Guid id)
+        public async System.Threading.Tasks.Task DeleteWorkplace(Guid id)
         {
             var workplace = await _repository.GetWorkplaceById(id);
-            _repository.Delete(workplace);
+            if(workplace == null)
+            {
+                throw new Exception("Workplace does not exist");
+            }
+            await _repository.Delete(workplace);
         }
 
         public async Task<WorkplaceDto> GetWorkPlaceById(Guid id)
@@ -49,9 +53,9 @@ namespace Aplication.Services
             return worokplacesdto;
         }
 
-        public void UpdateWorkplace(WorkplaceDto workplaceDto)
+        public async System.Threading.Tasks.Task UpdateWorkplace(WorkplaceUpdateDto workplaceDto)
         {
-            throw new NotImplementedException();
+            await _repository.Update(workplaceDto);
         }
     }
 }

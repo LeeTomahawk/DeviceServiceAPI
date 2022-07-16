@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Aplication.Dtos
+namespace Repositories.Dtos
 {
-    public class EquipmentCreateDto
+    public class EquipmentUpdateDto
     {
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public int Amount { get; set; }

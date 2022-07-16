@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Repositories.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace Repositories.Interfaces
         Task<IEnumerable<Client>> GetClients();
         Task<Client> GetClientById(Guid id);
         Task<Client> Add(Client client);
-        System.Threading.Tasks.Task Update(Client client);
+        System.Threading.Tasks.Task Update(ClientUpdateDto client);
         System.Threading.Tasks.Task Delete(Client client);
     }
 }

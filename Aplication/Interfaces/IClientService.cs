@@ -1,4 +1,4 @@
-﻿using Aplication.Dtos;
+﻿using Repositories.Dtos;
 using Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -14,6 +14,6 @@ namespace Aplication.Interfaces
         Task<IEnumerable<ClientDto>> GetClients();
         Task<ClientDto> GetClient(Guid id);
         System.Threading.Tasks.Task DeleteClient(Guid id);
-        System.Threading.Tasks.Task UpdateClient(ClientDto cleintdto);
+        System.Threading.Tasks.Task UpdateClient(ClientUpdateDto cleintdto);
     }
 }

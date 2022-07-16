@@ -1,4 +1,4 @@
-﻿using Aplication.Dtos;
+﻿using Repositories.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +12,7 @@ namespace Aplication.Interfaces
         Task<IEnumerable<WorkplaceDto>> GetWorkplaces();
         Task<WorkplaceDto> GetWorkPlaceById(Guid id);
         Task<WorkplaceCreateDto> AddWorkplace(WorkplaceCreateDto workplaceDto);
-        void DeleteWorkplace(Guid id);
-        void UpdateWorkplace(WorkplaceDto workplaceDto);
+        Task DeleteWorkplace(Guid id);
+        Task UpdateWorkplace(WorkplaceUpdateDto workplaceDto);
     }
 }

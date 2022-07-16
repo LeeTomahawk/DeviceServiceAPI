@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Repositories.Dtos;
 
 namespace Repositories.Repository
 {
@@ -53,14 +54,16 @@ namespace Repositories.Repository
             return clients;
         }
 
-        public async System.Threading.Tasks.Task Update(Client client)
+        public async System.Threading.Tasks.Task Update(ClientUpdateDto client)
         {
             var exclient = await _dbcontext.Clients.FindAsync(client.Id);
             if(exclient == null)
             {
                 throw new Exception("Client does not exist");
             }
-            _mapper.Map(client, exclient);
+            _mapper.Map<ClientUpdateDto, Client>(client, exclient);
+            _mapper.Map<IdentitiDto, Identiti>(client.Identiti, exclient.Identiti);
+            _mapper.Map<AddressDto, Address>(client.Identiti.Address, exclient.Identiti.Address);
             await _dbcontext.SaveChangesAsync();
         }
     }

@@ -1,4 +1,4 @@
-﻿using Aplication.Dtos;
+﻿using Repositories.Dtos;
 using Aplication.Interfaces;
 using AutoMapper;
 using Domain.Entities;
@@ -52,10 +52,9 @@ namespace Aplication.Services
             await _repository.Delete(client);
         }
 
-        public async System.Threading.Tasks.Task UpdateClient(ClientDto clientdto)
+        public async System.Threading.Tasks.Task UpdateClient(ClientUpdateDto clientdto)
         {
-            var client = _mapper.Map<Client>(clientdto);
-            await _repository.Update(client);
+            await _repository.Update(clientdto);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Aplication.Dtos;
+﻿using Repositories.Dtos;
 using Aplication.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -41,16 +41,19 @@ namespace WebAPI.Controllers
         }
 
         // PUT api/<WorplaceController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut]
+        public async Task<ActionResult<WorkplaceCreateDto>> Put([FromBody] WorkplaceUpdateDto workplace)
         {
+            await _service.UpdateWorkplace(workplace);
+            return NoContent();
         }
 
         // DELETE api/<WorplaceController>/5
         [HttpDelete("{id}")]
-        public async void Delete([FromRoute] Guid id)
+        public async Task<ActionResult> Delete([FromRoute] Guid id)
         {
-
+            await _service.DeleteWorkplace(id);
+            return Ok();
         }
     }
 }
