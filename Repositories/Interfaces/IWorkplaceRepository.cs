@@ -15,5 +15,6 @@ namespace Repositories.Interfaces
         Task<Workplace> Add(Workplace workplace);
         System.Threading.Tasks.Task Update(WorkplaceUpdateDto workplace);
         System.Threading.Tasks.Task Delete(Workplace workplace);
+        System.Threading.Tasks.Task AddEquipment(Workplace workplace, Equipment equipment);
     }
 }

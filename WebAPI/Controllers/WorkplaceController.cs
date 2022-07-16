@@ -37,7 +37,7 @@ namespace WebAPI.Controllers
         public async Task<ActionResult<WorkplaceCreateDto>> Add([FromBody] WorkplaceCreateDto workplace)
         {
             var cworkplace = await _service.AddWorkplace(workplace);
-            return cworkplace;
+            return Ok(cworkplace);
         }
 
         // PUT api/<WorplaceController>/5
@@ -54,6 +54,13 @@ namespace WebAPI.Controllers
         {
             await _service.DeleteWorkplace(id);
             return Ok();
+        }
+
+        [HttpPost("~/api/Worplace/AddEquipment")]
+        public async Task<ActionResult> AddEquipment([FromBody] WorkplaceEquipmentCreateDto workplaceEquipment)
+        {
+            await _service.AddWorkplaceEquipment(workplaceEquipment);
+            return Ok(workplaceEquipment);
         }
     }
 }

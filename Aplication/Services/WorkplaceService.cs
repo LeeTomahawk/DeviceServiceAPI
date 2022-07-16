@@ -14,11 +14,13 @@ namespace Aplication.Services
     public class WorkplaceService : IWorkplaceService
     {
         private readonly IWorkplaceRepository _repository;
+        private readonly IEquipmentRepository _equipmentRepository;
         private readonly IMapper _mapper;
-        public WorkplaceService(IWorkplaceRepository repository, IMapper mapper)
+        public WorkplaceService(IWorkplaceRepository repository, IMapper mapper, IEquipmentRepository equipmentRepository)
         {
             _repository = repository;
             _mapper = mapper;
+            _equipmentRepository = equipmentRepository;
         }
 
         public async Task<WorkplaceCreateDto> AddWorkplace(WorkplaceCreateDto workplaceDto)
@@ -27,6 +29,17 @@ namespace Aplication.Services
             await _repository.Add(workplace);
             return workplaceDto;
 
+        }
+
+        public async System.Threading.Tasks.Task AddWorkplaceEquipment(WorkplaceEquipmentCreateDto workplaceEquipmentCreateDto)
+        {
+            var workplace = await _repository.GetWorkplaceById(workplaceEquipmentCreateDto.WokrplaceId);
+            var equipment = await _equipmentRepository.GetEquipmentById(workplaceEquipmentCreateDto.EquipmentId);
+            if(workplace == null || equipment == null)
+            {
+                throw new Exception("Workplace or equipment does not exist");
+            }
+            await _repository.AddEquipment(workplace, equipment);
         }
 
         public async System.Threading.Tasks.Task DeleteWorkplace(Guid id)

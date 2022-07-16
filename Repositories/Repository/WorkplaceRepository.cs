@@ -30,6 +30,17 @@ namespace Repositories.Repository
             return workplace;
         }
 
+        public async System.Threading.Tasks.Task AddEquipment(Workplace workplace, Equipment equipment)
+        {
+            var wq = new WorkplaceEquipment
+            {
+                WorkplaceId = workplace.Id,
+                EquipmentId = equipment.Id
+            };
+            await _dbcontext.WorkplaceEquipments.AddAsync(wq);
+            await _dbcontext.SaveChangesAsync();
+        }
+
         public async System.Threading.Tasks.Task Delete(Workplace workplace)
         {
             _dbcontext.Remove(workplace);

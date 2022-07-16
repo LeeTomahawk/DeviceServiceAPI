@@ -14,4 +14,9 @@ namespace Repositories.Dtos
         public string Description { get; set; }
         public int Amount { get; set; }
     }
+    public class WorkplaceEquipmentCreateDto
+    {
+        public Guid WokrplaceId { get; set; }
+        public Guid EquipmentId { get; set; }
+    }
 }
