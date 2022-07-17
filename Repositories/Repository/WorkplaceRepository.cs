@@ -47,6 +47,17 @@ namespace Repositories.Repository
             await _dbcontext.SaveChangesAsync();
         }
 
+        public async System.Threading.Tasks.Task DeleteEquipment(Guid id)
+        {
+            var eq = await _dbcontext.WorkplaceEquipments.FindAsync(id);
+            if(eq == null)
+            {
+                throw new Exception("WorkpalceEquipment does not found");
+            }
+            _dbcontext.Remove(eq);
+            await _dbcontext.SaveChangesAsync();
+        }
+
         public async Task<Workplace> GetWorkplaceById(Guid id)
         {
             var workplace = await _dbcontext.Workplaces.Include(w => w.Equipments).ThenInclude(i => i.Equipment).FirstOrDefaultAsync(x => x.Id == id);

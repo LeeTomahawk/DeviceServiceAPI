@@ -52,6 +52,11 @@ namespace Aplication.Services
             await _repository.Delete(workplace);
         }
 
+        public async System.Threading.Tasks.Task DeleteWorkplaceEquipment(Guid id)
+        {
+            await _repository.DeleteEquipment(id);
+        }
+
         public async Task<WorkplaceDto> GetWorkPlaceById(Guid id)
         {
             var workplace = await _repository.GetWorkplaceById(id);

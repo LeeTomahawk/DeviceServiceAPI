@@ -62,5 +62,12 @@ namespace WebAPI.Controllers
             await _service.AddWorkplaceEquipment(workplaceEquipment);
             return Ok(workplaceEquipment);
         }
+
+        [HttpDelete("~/api/Worplace/DeleteEquipment/{id}")]
+        public async Task<ActionResult> DeleteEquipment([FromRoute] Guid id)
+        {
+            await _service.DeleteWorkplaceEquipment(id);
+            return Ok();
+        }
     }
 }

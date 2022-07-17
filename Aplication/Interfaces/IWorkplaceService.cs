@@ -15,5 +15,6 @@ namespace Aplication.Interfaces
         Task DeleteWorkplace(Guid id);
         Task UpdateWorkplace(WorkplaceUpdateDto workplaceDto);
         Task AddWorkplaceEquipment(WorkplaceEquipmentCreateDto workplaceEquipmentCreateDto);
+        Task DeleteWorkplaceEquipment(Guid id);
     }
 }
