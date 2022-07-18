@@ -21,6 +21,8 @@ namespace Aplication.Mappings
             CreateMap<ClientDto, Client>();
             CreateMap<Client, ClientDto>();
             CreateMap<TaskCreateDto, Domain.Entities.Task>();
+            CreateMap<TaskDto, Domain.Entities.Task>();
+            CreateMap<Domain.Entities.Task, TaskDto>();
             CreateMap<Equipment, EquipmentDto>();
             CreateMap<EquipmentUpdateDto, Equipment>();
             CreateMap<EquipmentCreateDto, Equipment>();

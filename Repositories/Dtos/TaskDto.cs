@@ -14,5 +14,6 @@ namespace Repositories.Dtos
         public DateTime? endDate { get; set; }
         public float? amount { get; set; }
         public TaskStatus TaskStatus { get; set; }
+        public ClientDto Client { get; set; }
     }
 }

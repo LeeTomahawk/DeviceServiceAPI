@@ -10,6 +10,7 @@ namespace Repositories.Dtos
     {
         public string Name { get; set; }
         public string Description { get; set; }
+        public Guid ClientId { get; set; }
         public DateTime startDate { get; set; }
         public TaskStatus TaskStatus { get; set; }
     }

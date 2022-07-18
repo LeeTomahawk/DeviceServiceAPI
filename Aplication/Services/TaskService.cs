@@ -31,9 +31,11 @@ namespace Aplication.Services
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<TaskDto>> GetAllTasks()
+        public async Task<IEnumerable<TaskDto>> GetAllTasks()
         {
-            throw new NotImplementedException();
+            var tasks = await _repository.GetTasks();
+            var tasksdto = _mapper.Map<IEnumerable<TaskDto>>(tasks);
+            return tasksdto;
         }
 
         public Task<TaskDto> GetTaskById(Guid id)

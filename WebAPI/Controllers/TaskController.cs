@@ -18,10 +18,11 @@ namespace WebAPI.Controllers
 
         // GET: api/<TaskController>
         [HttpGet]
-        //public Task<IEnumerable<TaskCreateDto>> Get()
-        //{
-        //    return new string[] { "value1", "value2" };
-        //}
+        public async Task<ActionResult<IEnumerable<TaskDto>>> Get()
+        {
+            var tasks = await _service.GetAllTasks();
+            return Ok(tasks);
+        }
 
         // GET api/<TaskController>/5
         [HttpGet("{id}")]

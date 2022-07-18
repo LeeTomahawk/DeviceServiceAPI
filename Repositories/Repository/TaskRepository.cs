@@ -45,7 +45,7 @@ namespace Repositories.Repository
 
         public async Task<IEnumerable<Domain.Entities.Task>> GetTasks()
         {
-            var tasks = await _dbcontext.Tasks.ToListAsync();
+            var tasks = await _dbcontext.Tasks.Include(x => x.Client.Identiti.Address).ToListAsync();
             return tasks;
         }
 
