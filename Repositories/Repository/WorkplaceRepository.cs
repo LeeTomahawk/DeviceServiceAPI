@@ -37,6 +37,11 @@ namespace Repositories.Repository
                 WorkplaceId = workplace.Id,
                 EquipmentId = equipment.Id
             };
+            if(equipment.Amount == 0)
+            {
+                throw new Exception("Amount of this item is 0");
+            }
+            equipment.Amount -= 1;
             await _dbcontext.WorkplaceEquipments.AddAsync(wq);
             await _dbcontext.SaveChangesAsync();
         }
@@ -50,11 +55,13 @@ namespace Repositories.Repository
         public async System.Threading.Tasks.Task DeleteEquipment(Guid id)
         {
             var eq = await _dbcontext.WorkplaceEquipments.FindAsync(id);
-            if(eq == null)
+            if (eq == null)
             {
                 throw new Exception("WorkpalceEquipment does not found");
             }
+            var equipment = await _dbcontext.Equipments.FindAsync(eq.EquipmentId);
             _dbcontext.Remove(eq);
+            equipment.Amount += 1;
             await _dbcontext.SaveChangesAsync();
         }
 
