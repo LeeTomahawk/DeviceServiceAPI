@@ -34,7 +34,7 @@ namespace WebAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<TaskCreateDto>> Post([FromBody] TaskCreateDto taskdto)
         {
-            var task = _service.AddTask(taskdto);
+            var task = await _service.AddTask(taskdto);
             return Ok(task);
         }
 
