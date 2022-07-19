@@ -13,6 +13,6 @@ namespace Aplication.Interfaces
         Task<TaskDto> GetTaskById(Guid id);
         Task<TaskCreateDto> AddTask(TaskCreateDto task);
         Task DeleteTask(Guid id);
-        Task UpdateTask(TaskDto task);
+        Task UpdateTask(TaskUpdateDto task);
     }
 }

@@ -26,9 +26,10 @@ namespace Aplication.Services
             return taskdto;
         }
 
-        public Task DeleteTask(Guid id)
+        public async Task DeleteTask(Guid id)
         {
-            throw new NotImplementedException();
+            var task = await _repository.GetTaskById(id);
+            await _repository.Delete(task);
         }
 
         public async Task<IEnumerable<TaskDto>> GetAllTasks()
@@ -38,14 +39,16 @@ namespace Aplication.Services
             return tasksdto;
         }
 
-        public Task<TaskDto> GetTaskById(Guid id)
+        public async Task<TaskDto> GetTaskById(Guid id)
         {
-            throw new NotImplementedException();
+            var task = await _repository.GetTaskById(id);
+            var taskdto = _mapper.Map<TaskDto>(task);
+            return taskdto;
         }
 
-        public Task UpdateTask(TaskDto task)
+        public async Task UpdateTask(TaskUpdateDto task)
         {
-            throw new NotImplementedException();
+            await _repository.Update(task);
         }
     }
 }

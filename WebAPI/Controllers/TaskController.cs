@@ -26,9 +26,10 @@ namespace WebAPI.Controllers
 
         // GET api/<TaskController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<ActionResult<TaskDto>> Get([FromRoute] Guid id)
         {
-            return "value";
+            var task = await _service.GetTaskById(id);
+            return Ok(task);
         }
 
         // POST api/<TaskController>
@@ -40,15 +41,19 @@ namespace WebAPI.Controllers
         }
 
         // PUT api/<TaskController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut]
+        public async Task<ActionResult> Put([FromBody] TaskUpdateDto task)
         {
+            await _service.UpdateTask(task);
+            return NoContent();
         }
 
         // DELETE api/<TaskController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<ActionResult> Delete([FromRoute] Guid id)
         {
+            await _service.DeleteTask(id);
+            return Ok();
         }
     }
 }

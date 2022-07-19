@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Repositories.Dtos;
 
 namespace Repositories.Repository
 {
@@ -27,7 +28,7 @@ namespace Repositories.Repository
             return task;
         }
 
-        public async void Delete(Domain.Entities.Task task)
+        public async Task Delete(Domain.Entities.Task task)
         {
             _dbcontext.Remove(task);
             await _dbcontext.SaveChangesAsync();
@@ -35,7 +36,7 @@ namespace Repositories.Repository
 
         public async Task<Domain.Entities.Task> GetTaskById(Guid id)
         {
-            var task = await _dbcontext.Tasks.FindAsync(id);
+            var task = await _dbcontext.Tasks.Include(x => x.Client.Identiti.Address).FirstOrDefaultAsync(x => x.Id == id);
             if(task == null)
             {
                 throw new Exception("Task does not exist");
@@ -49,7 +50,7 @@ namespace Repositories.Repository
             return tasks;
         }
 
-        public async void Update(Domain.Entities.Task task)
+        public async Task Update(TaskUpdateDto task)
         {
             var extask = await _dbcontext.Tasks.FindAsync(task.Id);
             if (extask == null)
@@ -59,5 +60,6 @@ namespace Repositories.Repository
             _mapper.Map(task, extask);
             await _dbcontext.SaveChangesAsync();
         }
+
     }
 }
