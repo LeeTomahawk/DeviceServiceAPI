@@ -14,11 +14,13 @@ namespace Aplication.Services
     public class EquipmentService : IEquipmentService
     {
         private readonly IEquipmentRepository _repository;
+        private readonly IWorkplaceRepository _workplaceRepository;
         private readonly IMapper _mapper;
-        public EquipmentService(IEquipmentRepository repository, IMapper mapper)
+        public EquipmentService(IEquipmentRepository repository, IMapper mapper, IWorkplaceRepository workplaceRepository)
         {
             _repository = repository;
             _mapper = mapper;
+            _workplaceRepository = workplaceRepository;
         }
 
         public async Task<EquipmentCreateDto> AddEquipment(EquipmentCreateDto equipment)
@@ -50,6 +52,29 @@ namespace Aplication.Services
             var equipments = await _repository.GetEquipments();
             var equipmentsDto = _mapper.Map<IEnumerable<EquipmentDto>>(equipments);
             return equipmentsDto;
+        }
+
+        public async Task<IEnumerable<EquipmentDto>> GetEquipmentToWorkplace(Guid workplaceId)
+        {
+            var workplace = await _workplaceRepository.GetWorkplaceById(workplaceId);
+            var equipments = await _repository.GetEquipments();
+            var availableEquipment = new List<EquipmentDto>();
+            if(workplace.Equipments.Count() == 0)
+            {
+                return _mapper.Map<IEnumerable<EquipmentDto>>(equipments);
+            }
+            foreach (var weq in workplace.Equipments)
+            {
+                foreach(var eq in equipments)
+                {
+                    if(weq.EquipmentId != eq.Id)
+                    {
+                        var mapedEq = _mapper.Map<EquipmentDto>(eq);
+                        availableEquipment.Add(mapedEq);
+                    }
+                }
+            }
+            return availableEquipment;
         }
 
         public async System.Threading.Tasks.Task UpdateEquipment(EquipmentUpdateDto equipment)

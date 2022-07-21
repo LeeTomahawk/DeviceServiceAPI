@@ -30,6 +30,12 @@ namespace WebAPI.Controllers
             }
             return Ok(eq);
         }
+        [HttpGet("~/api/Equipment/GetAvailableEquipment/{id}")]
+        public async Task<ActionResult<EquipmentDto>> GetAvailableEquipment([FromRoute] Guid id)
+        {
+            var eq = await _service.GetEquipmentToWorkplace(id);
+            return Ok(eq);
+        }
         [HttpPost]
         public async Task<ActionResult> Add([FromBody] EquipmentCreateDto equipment)
         {
