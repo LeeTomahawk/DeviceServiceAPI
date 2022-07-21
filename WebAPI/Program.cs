@@ -10,10 +10,10 @@ using WebAPI.Installer;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+ConfigurationManager Configuration = builder.Configuration;
 
 builder.Services.AddControllers();
 builder.Services.AddControllersWithViews().AddJsonOptions(o => { var enums = new JsonStringEnumConverter(); o.JsonSerializerOptions.Converters.Add(enums); });
-ConfigurationManager Configuration = builder.Configuration;
 builder.Services.AddDbContext<DSMDbContext>(option => option.UseSqlServer(Configuration.GetConnectionString("DbConnection")));
 builder.Services.AddInfasctructureServices();
 builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);

@@ -35,6 +35,7 @@ namespace Domain
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(TaskEmployeeConfiguration).Assembly);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(CompletedTaskConfiguration).Assembly);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(WorkplaceEquipmentConfiguration).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(IdentitiConfiguration).Assembly);
         }
     }
 }
