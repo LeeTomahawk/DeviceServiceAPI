@@ -63,7 +63,7 @@ namespace WebAPI.Controllers
             return Ok(tasks);
         }
         [HttpGet("~/api/Task/GetTasksBetweenDate")]
-        public async Task<ActionResult<IEnumerable<TaskDto>>> GetTasksBetweenDate(string startDate, string endDate)
+        public async Task<ActionResult<IEnumerable<TaskDto>>> GetTasksBetweenDate(DateTime startDate, DateTime endDate)
         {
             var tasks = await _service.GetAllTasks($"SELECT * FROM Tasks Where startDate BETWEEN '{startDate}' AND '{endDate}'");
             return Ok(tasks);

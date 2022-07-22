@@ -52,7 +52,11 @@ namespace Repositories.Repository
 
         public async Task<IEnumerable<Domain.Entities.Task>> GetTasksQuery(string query)
         {
-            var tasks = await _dbcontext.Tasks.FromSqlRaw(query).Include(x => x.Client.Identiti.Address).ToListAsync();
+           // var tasks = await _dbcontext.Tasks.FromSqlRaw(query).Include(x => x.Client.Identiti.Address).ToListAsync();
+            DateTime d1 = DateTime.Now;
+            DateTime d2 = DateTime.Now;
+            var tasks = await _dbcontext.Tasks.Include(x => x.Client.Identiti.Address).Where(x => x.startDate >= d1 && x.startDate <= d2).ToListAsync();
+            
             return tasks;
         }
 
