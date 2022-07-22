@@ -10,6 +10,8 @@ namespace Aplication.Interfaces
     public interface ITaskService
     {
         Task<IEnumerable<TaskDto>> GetAllTasks();
+        Task<IEnumerable<TaskDto>> GetAllTasks(string query);
+
         Task<TaskDto> GetTaskById(Guid id);
         Task<TaskCreateDto> AddTask(TaskCreateDto task);
         Task DeleteTask(Guid id);

@@ -15,5 +15,6 @@ namespace Repositories.Interfaces
         Task<Domain.Entities.Task> Add(Domain.Entities.Task task);
         Task Update(TaskUpdateDto task);
         Task Delete(Domain.Entities.Task task);
+        Task<IEnumerable<Domain.Entities.Task>> GetTasksQuery(string query);
     }
 }

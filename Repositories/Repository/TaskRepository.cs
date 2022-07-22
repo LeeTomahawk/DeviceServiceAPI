@@ -50,6 +50,12 @@ namespace Repositories.Repository
             return tasks;
         }
 
+        public async Task<IEnumerable<Domain.Entities.Task>> GetTasksQuery(string query)
+        {
+            var tasks = await _dbcontext.Tasks.FromSqlRaw(query).Include(x => x.Client.Identiti.Address).ToListAsync();
+            return tasks;
+        }
+
         public async Task Update(TaskUpdateDto task)
         {
             var extask = await _dbcontext.Tasks.FindAsync(task.Id);

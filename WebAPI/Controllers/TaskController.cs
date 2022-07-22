@@ -55,5 +55,13 @@ namespace WebAPI.Controllers
             await _service.DeleteTask(id);
             return Ok();
         }
+
+        [HttpGet("~/api/Task/GetAvailableTasks")]
+        public async Task<ActionResult<IEnumerable<TaskDto>>> GetAvailableTasks()
+        {
+            var tasks = await _service.GetAllTasks("SELECT * FROM Tasks Where taskStatus=0 OR taskStatus=3");
+            return Ok(tasks);
+        }
+
     }
 }

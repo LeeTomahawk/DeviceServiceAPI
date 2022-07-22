@@ -39,6 +39,13 @@ namespace Aplication.Services
             return tasksdto;
         }
 
+        public async Task<IEnumerable<TaskDto>> GetAllTasks(string query)
+        {
+            var tasks = await _repository.GetTasksQuery(query);
+            var tasksdto = _mapper.Map<IEnumerable<TaskDto>>(tasks);
+            return tasksdto;
+        }
+
         public async Task<TaskDto> GetTaskById(Guid id)
         {
             var task = await _repository.GetTaskById(id);
