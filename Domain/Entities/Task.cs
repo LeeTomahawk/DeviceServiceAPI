@@ -9,6 +9,7 @@
         public Guid? InvoiceId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public string? Activities { get; set; }
         public DateTime startDate { get; set; }
         public DateTime? endDate { get; set; }
         public float? amount { get; set; }

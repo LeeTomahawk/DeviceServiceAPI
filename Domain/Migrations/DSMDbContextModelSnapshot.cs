@@ -335,6 +335,9 @@ namespace Domain.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Activities")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid?>("ClientId")
                         .HasColumnType("uniqueidentifier");
 

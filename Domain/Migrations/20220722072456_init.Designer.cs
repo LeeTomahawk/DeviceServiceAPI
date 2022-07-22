@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Domain.Migrations
 {
     [DbContext(typeof(DSMDbContext))]
-    [Migration("20220721084956_init")]
+    [Migration("20220722072456_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -336,6 +336,9 @@ namespace Domain.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Activities")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("ClientId")
                         .HasColumnType("uniqueidentifier");

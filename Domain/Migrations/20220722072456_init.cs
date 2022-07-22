@@ -264,6 +264,7 @@ namespace Domain.Migrations
                     InvoiceId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Activities = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     startDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     endDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     amount = table.Column<float>(type: "real", nullable: true),
