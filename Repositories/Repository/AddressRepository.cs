@@ -38,7 +38,7 @@ namespace Repositories.Repository
             var address = await _dbcontext.Addresses.FindAsync(id);
             if (address == null)
             {
-                throw new Exception("Addres does not exist!");
+                throw new DirectoryNotFoundException("Address not found");
             }
             return address;
         }
@@ -54,7 +54,7 @@ namespace Repositories.Repository
             var exaddress = await _dbcontext.Addresses.FindAsync(address.Id);
             if( exaddress == null)
             {
-                throw new Exception("Addres does not exist!");
+                throw new DirectoryNotFoundException("Address not found");
             }
             _mapper.Map(address, exaddress);
             await _dbcontext.SaveChangesAsync();

@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Repositories.Dtos;
+using Repositories.Exceptions;
 
 namespace Repositories.Repository
 {
@@ -43,7 +44,7 @@ namespace Repositories.Repository
             var client = await _dbcontext.Clients.Include(s => s.Identiti).ThenInclude(i => i.Address).FirstOrDefaultAsync(x => x.Id == id);
             if(client == null)
             {
-                throw new Exception("Client does not exist");
+                throw new NotFoundException("Client not found");
             }
             return client;
         }
@@ -59,7 +60,7 @@ namespace Repositories.Repository
             var exclient = await _dbcontext.Clients.FindAsync(client.Id);
             if(exclient == null)
             {
-                throw new Exception("Client does not exist");
+                throw new NotFoundException("Cleint not found");
             }
             _mapper.Map<ClientUpdateDto, Client>(client, exclient);
             _mapper.Map<IdentitiDto, Identiti>(client.Identiti, exclient.Identiti);

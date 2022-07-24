@@ -35,20 +35,12 @@ namespace Aplication.Services
         {
             var workplace = await _repository.GetWorkplaceById(workplaceEquipmentCreateDto.WokrplaceId);
             var equipment = await _equipmentRepository.GetEquipmentById(workplaceEquipmentCreateDto.EquipmentId);
-            if(workplace == null || equipment == null)
-            {
-                throw new Exception("Workplace or equipment does not exist");
-            }
             await _repository.AddEquipment(workplace, equipment);
         }
 
         public async System.Threading.Tasks.Task DeleteWorkplace(Guid id)
         {
             var workplace = await _repository.GetWorkplaceById(id);
-            if(workplace == null)
-            {
-                throw new Exception("Workplace does not exist");
-            }
             await _repository.Delete(workplace);
         }
 

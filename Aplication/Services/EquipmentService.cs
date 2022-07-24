@@ -33,10 +33,6 @@ namespace Aplication.Services
         public async System.Threading.Tasks.Task DeleteEquipment(Guid id)
         {
             var equipment = await _repository.GetEquipmentById(id);
-            if(equipment == null)
-            {
-                throw new Exception("Not found");
-            }
             await _repository.Delete(equipment);
         }
 

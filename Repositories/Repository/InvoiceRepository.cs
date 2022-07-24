@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Repositories.Exceptions;
 
 namespace Repositories.Repository
 {
@@ -40,7 +41,7 @@ namespace Repositories.Repository
             var invoice = await _dbcontext.Invoices.FindAsync(id);
             if(invoice == null)
             {
-                throw new Exception("Invoice does not exist");
+                throw new NotFoundException("Invoice does not exist");
             }
             return invoice;
         }
@@ -56,7 +57,7 @@ namespace Repositories.Repository
             var exinvoice = await _dbcontext.Invoices.FindAsync(invoice.Id);
             if(exinvoice == null)
             {
-                throw new Exception("Invoice does not exist");
+                throw new NotFoundException("Invoice does not exist");
             }
             _mapper.Map(invoice, exinvoice);
             await _dbcontext.SaveChangesAsync();

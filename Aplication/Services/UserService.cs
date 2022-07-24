@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Repositories.Dtos;
+using Repositories.Exceptions;
 using Repositories.Interfaces;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -62,13 +63,13 @@ namespace Aplication.Services
             var user = await _userRepository.GetByEmail(logindto.Email);
             if(user == null)
             {
-                throw new Exception("rozjebalo sie cos 1");
+                throw new BadRequestException("Invalid user email or password!");
             }
 
             var result = _passwordHasher.VerifyHashedPassword(user, user.Password,logindto.Password); 
             if(result == PasswordVerificationResult.Failed)
             {
-                throw new Exception("rozjebalo sie cos 2");
+                throw new BadRequestException("Invalid user email or password!");
             }
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("Authentication:JwtKey").Get<string>()));

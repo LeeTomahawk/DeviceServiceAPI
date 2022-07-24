@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Repositories.Dtos;
+using Repositories.Exceptions;
 
 namespace Repositories.Repository
 {
@@ -39,7 +40,7 @@ namespace Repositories.Repository
             };
             if(equipment.Amount == 0)
             {
-                throw new Exception("Amount of this item is 0");
+                throw new BadRequestException("Amount of this item is 0");
             }
             equipment.Amount -= 1;
             await _dbcontext.WorkplaceEquipments.AddAsync(wq);
@@ -57,7 +58,7 @@ namespace Repositories.Repository
             var eq = await _dbcontext.WorkplaceEquipments.FindAsync(id);
             if (eq == null)
             {
-                throw new Exception("WorkpalceEquipment does not found");
+                throw new NotFoundException("WorkpalceEquipment does not found");
             }
             var equipment = await _dbcontext.Equipments.FindAsync(eq.EquipmentId);
             _dbcontext.Remove(eq);
@@ -70,7 +71,7 @@ namespace Repositories.Repository
             var workplace = await _dbcontext.Workplaces.Include(w => w.Equipments).ThenInclude(i => i.Equipment).FirstOrDefaultAsync(x => x.Id == id);
             if(workplace == null)
             {
-                throw new Exception("Workplace does not exist");
+                throw new NotFoundException("Workplace does not exist");
             }
             return workplace;
         }
@@ -86,7 +87,7 @@ namespace Repositories.Repository
             var exworkplace = await _dbcontext.Workplaces.FindAsync(workplace.Id);
             if(exworkplace == null)
             {
-                throw new Exception("Workplace does not exist");
+                throw new NotFoundException("Workplace does not exist");
             }
             _mapper.Map(workplace, exworkplace);
             await _dbcontext.SaveChangesAsync();

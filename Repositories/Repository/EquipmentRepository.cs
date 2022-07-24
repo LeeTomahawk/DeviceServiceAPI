@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Repositories.Dtos;
+using Repositories.Exceptions;
 
 namespace Repositories.Repository
 {
@@ -41,7 +42,7 @@ namespace Repositories.Repository
             var equipment = await _dbcontext.Equipments.FindAsync(id);
             if(equipment == null)
             {
-                throw new Exception("Equipment does not exist");
+                throw new NotFoundException("Equipment does not exist");
             }
             return equipment;
         }
@@ -57,7 +58,7 @@ namespace Repositories.Repository
             var exequipment = await _dbcontext.Equipments.FindAsync(equipment.Id);
             if (equipment == null)
             {
-                throw new Exception("Equipment does not exist");
+                throw new NotFoundException("Equipment does not exist");
             }
             _mapper.Map<EquipmentUpdateDto, Equipment>(equipment, exequipment);
             await _dbcontext.SaveChangesAsync();

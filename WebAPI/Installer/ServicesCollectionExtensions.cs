@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Repositories.Dtos;
 using Repositories.Interfaces;
+using Repositories.Middleware;
 using Repositories.Repository;
 using Repositories.Validators;
 using System.Text;
@@ -46,7 +47,9 @@ namespace WebAPI.Installer
             services.AddTransient<IManagerRepository, ManagerRepository>();
         }
         public static void AddInfasctructureValidators(this IServiceCollection services) 
-        { 
+        {
+            services.AddScoped<ErrorHandlingMiddleware>();
+
             services.AddTransient<IValidator<RegisterUserDto>, RegisterUserDtoValidator>();
             services.AddTransient<IValidator<LoginDto>, LoginDtoValidator>();
         }

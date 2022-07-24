@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Repositories.Exceptions;
 
 namespace Repositories.Repository
 {
@@ -44,7 +45,7 @@ namespace Repositories.Repository
             var user = await _dbcontext.Users.FindAsync(id);
             if (user == null)
             {
-                throw new Exception("User does not Exist");
+                throw new NotFoundException("User does not Exist");
             }
             return user;
         }
@@ -60,7 +61,7 @@ namespace Repositories.Repository
             var exuser = await _dbcontext.Users.FindAsync(user.Id);
             if(exuser == null)
             {
-                throw new Exception("User does not Exist");
+                throw new NotFoundException("User does not Exist");
             }
             _mapper.Map(user, exuser);
             await _dbcontext.SaveChangesAsync();

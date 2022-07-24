@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Repositories.Exceptions;
 
 namespace Repositories.Repository
 {
@@ -40,7 +41,7 @@ namespace Repositories.Repository
             var manager = await _dbcontext.Managers.FindAsync(id);
             if(manager == null)
             {
-                throw new Exception("Manager does not exist");
+                throw new NotFoundException("Manager does not exist");
             }
             return manager;
         }
@@ -56,7 +57,7 @@ namespace Repositories.Repository
             var exmanager = await _dbcontext.Managers.FindAsync(manager.Id);
             if(exmanager == null)
             {
-                throw new Exception("Manager does not exist");
+                throw new NotFoundException("Manager does not exist");
             }
             _mapper.Map(manager, exmanager);
             await _dbcontext.SaveChangesAsync();

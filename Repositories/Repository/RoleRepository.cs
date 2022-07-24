@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Repositories.Exceptions;
 
 namespace Repositories.Repository
 {
@@ -44,7 +45,7 @@ namespace Repositories.Repository
             var role = await _dbcontext.Roles.FindAsync(id);
             if (role == null)
             {
-                throw new Exception("Role does not exist");
+                throw new NotFoundException("Role does not exist");
             }
             return role;
         }
@@ -54,7 +55,7 @@ namespace Repositories.Repository
             var exrole = await _dbcontext.Roles.FindAsync(role.Id);
             if(exrole == null)
             {
-                throw new Exception("Role does not exist");
+                throw new NotFoundException("Role does not exist");
             }
             _mapper.Map(role, exrole);
             await _dbcontext.SaveChangesAsync();

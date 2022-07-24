@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Repositories.Exceptions;
 
 namespace Repositories.Repository
 {
@@ -40,7 +41,7 @@ namespace Repositories.Repository
             var completedtask = await _dbcontext.CompletedTasks.FindAsync(id);
             if(completedtask == null)
             {
-                throw new Exception("CompltetedTask does not exist");
+                throw new NotFoundException("CompltetedTask does not exist");
             }
             return completedtask;
 
@@ -57,7 +58,7 @@ namespace Repositories.Repository
             var excompletedtask = await _dbcontext.CompletedTasks.FindAsync(completedTask.Id);
             if (excompletedtask == null)
             {
-                throw new Exception("CompltetedTask does not exist");
+                throw new NotFoundException("CompltetedTask does not exist");
             }
             _mapper.Map(completedTask, excompletedtask);
             await _dbcontext.SaveChangesAsync();

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Repositories.Dtos;
+using Repositories.Exceptions;
 
 namespace Repositories.Repository
 {
@@ -39,7 +40,7 @@ namespace Repositories.Repository
             var task = await _dbcontext.Tasks.Include(x => x.Client.Identiti.Address).FirstOrDefaultAsync(x => x.Id == id);
             if(task == null)
             {
-                throw new Exception("Task does not exist");
+                throw new NotFoundException("Task does not exist");
             }
             return task;
         }
@@ -65,7 +66,7 @@ namespace Repositories.Repository
             var extask = await _dbcontext.Tasks.FindAsync(task.Id);
             if (extask == null)
             {
-                throw new Exception("Task does not exist");
+                throw new NotFoundException("Task does not exist");
             }
             _mapper.Map(task, extask);
             await _dbcontext.SaveChangesAsync();
