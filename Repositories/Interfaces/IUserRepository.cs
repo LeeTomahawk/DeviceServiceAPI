@@ -14,5 +14,6 @@ namespace Repositories.Interfaces
         public Task<User> Add(User user);
         public void Update(User user);
         public void Delete(User user);
+        public Task<User> GetByEmail(string email);
     }
 }

@@ -14,11 +14,17 @@ namespace WebAPI.Controllers
         {
             _service = service;
         }
-        [HttpPost]
+        [HttpPost("register")]
         public async Task<ActionResult<RegisterUserDto>> Register([FromBody] RegisterUserDto user)
         {
             await _service.Adduser(user);
             return Ok();
+        }
+        [HttpPost("login")]
+        public async Task<ActionResult> Login([FromBody] LoginDto logindto)
+        {
+            var token = await _service.GenerateJwt(logindto);
+            return Ok(token);
         }
     }
 }

@@ -10,5 +10,6 @@ namespace Aplication.Interfaces
     public interface IUserService
     {
         Task<RegisterUserDto> Adduser(RegisterUserDto userdto);
+        Task<string> GenerateJwt(LoginDto logindto);
     }
 }

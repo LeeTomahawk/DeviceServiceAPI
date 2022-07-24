@@ -33,6 +33,12 @@ namespace Repositories.Repository
             await _dbcontext.SaveChangesAsync();
         }
 
+        public async Task<User> GetByEmail(string email)
+        {
+            var user = await _dbcontext.Users.Include(x => x.Identiti).FirstOrDefaultAsync(x => x.Email == email);
+            return user;
+        }
+
         public async Task<User> GetById(Guid id)
         {
             var user = await _dbcontext.Users.FindAsync(id);

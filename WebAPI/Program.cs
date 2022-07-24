@@ -9,26 +9,25 @@ using WebAPI.Installer;
 using Microsoft.AspNetCore.Http.Json;
 using System.ComponentModel;
 using FluentValidation.AspNetCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 ConfigurationManager Configuration = builder.Configuration;
-
-builder.Services.AddControllers().AddFluentValidation();
-builder.Services.AddControllersWithViews().AddJsonOptions(o => 
-{ 
-    var enums = new JsonStringEnumConverter(); o.JsonSerializerOptions.Converters.Add(enums);
-});
-builder.Services.AddDbContext<DSMDbContext>(option => option.UseSqlServer(Configuration.GetConnectionString("DbConnection")));
+builder.Services.AddDbContextSettings(Configuration);
+builder.Services.AddAuthenticationSettings(Configuration);
+builder.Services.AddJsonSettings();
 builder.Services.AddInfasctructureServices();
+builder.Services.AddInfasctructureRepositories();
+builder.Services.AddInfasctructureValidators();
 builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);
+builder.Services.AddControllers().AddFluentValidation();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -36,6 +35,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
