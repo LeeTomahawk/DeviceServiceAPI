@@ -8,13 +8,14 @@ using System.Text.Json.Serialization;
 using WebAPI.Installer;
 using Microsoft.AspNetCore.Http.Json;
 using System.ComponentModel;
+using FluentValidation.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 ConfigurationManager Configuration = builder.Configuration;
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddFluentValidation();
 builder.Services.AddControllersWithViews().AddJsonOptions(o => 
 { 
     var enums = new JsonStringEnumConverter(); o.JsonSerializerOptions.Converters.Add(enums);

@@ -3,11 +3,10 @@
     public class User : AuditableEntity
     {
         public Guid Id { get;set; }
-        public virtual Role Role  { get;set; }
-        public Guid RoleId { get;set; }
+        public RoleType RoleType { get;set; }
         public virtual Identiti Identiti { get;set; }
         public Guid IdentitiId { get;set; }
-        string Email { get;set; }
-        string Password { get;set; }
+        public string Email { get;set; }
+        public string Password { get;set; }
     }
 }

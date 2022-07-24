@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Domain.Migrations
 {
     [DbContext(typeof(DSMDbContext))]
-    [Migration("20220722072456_init")]
+    [Migration("20220724064528_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -152,7 +152,7 @@ namespace Domain.Migrations
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("WorkplaceId")
+                    b.Property<Guid?>("WorkplaceId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -441,14 +441,12 @@ namespace Domain.Migrations
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("RoleId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("RoleType")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("IdentitiId");
-
-                    b.HasIndex("RoleId");
 
                     b.ToTable("Users");
                 });
@@ -549,9 +547,7 @@ namespace Domain.Migrations
 
                     b.HasOne("Domain.Entities.Workplace", "Workplace")
                         .WithMany()
-                        .HasForeignKey("WorkplaceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("WorkplaceId");
 
                     b.Navigation("Identiti");
 
@@ -622,15 +618,7 @@ namespace Domain.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.Role", "Role")
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Identiti");
-
-                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("Domain.Entities.WorkplaceEquipment", b =>

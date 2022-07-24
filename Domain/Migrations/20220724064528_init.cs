@@ -179,7 +179,7 @@ namespace Domain.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     IdentitiId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    WorkplaceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    WorkplaceId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     EmploymentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -199,8 +199,7 @@ namespace Domain.Migrations
                         name: "FK_Employees_Workplaces_WorkplaceId",
                         column: x => x.WorkplaceId,
                         principalTable: "Workplaces",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -231,7 +230,7 @@ namespace Domain.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RoleType = table.Column<int>(type: "int", nullable: false),
                     IdentitiId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -245,12 +244,6 @@ namespace Domain.Migrations
                         name: "FK_Users_Identities_IdentitiId",
                         column: x => x.IdentitiId,
                         principalTable: "Identities",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Users_Roles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "Roles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -414,11 +407,6 @@ namespace Domain.Migrations
                 column: "IdentitiId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_RoleId",
-                table: "Users",
-                column: "RoleId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_WorkplaceEquipments_EquipmentId",
                 table: "WorkplaceEquipments",
                 column: "EquipmentId");
@@ -438,6 +426,9 @@ namespace Domain.Migrations
                 name: "Managers");
 
             migrationBuilder.DropTable(
+                name: "Roles");
+
+            migrationBuilder.DropTable(
                 name: "TaskEmployees");
 
             migrationBuilder.DropTable(
@@ -451,9 +442,6 @@ namespace Domain.Migrations
 
             migrationBuilder.DropTable(
                 name: "Tasks");
-
-            migrationBuilder.DropTable(
-                name: "Roles");
 
             migrationBuilder.DropTable(
                 name: "Equipments");
