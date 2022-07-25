@@ -36,11 +36,9 @@ namespace Repositories.Repository
 
         public async Task<Employee> GetEmployeeById(Guid id)
         {
-            var employee = await _dbcontext.Employees.FindAsync(id);
+            var employee = await _dbcontext.Employees.Include(i => i.Tasks).Include(x => x.Identiti.Address).FirstOrDefaultAsync(x => x.Id == id);
             if (employee == null)
-            {
                 throw new NotFoundException("Employee does not exist");
-            }
             return employee;
         }
 
@@ -63,9 +61,7 @@ namespace Repositories.Repository
         {
             var exemployee = await _dbcontext.Employees.FindAsync(employee.Id);
             if( exemployee == null)
-            {
                 throw new NotFoundException("Employee does not exist");
-            }
             _mapper.Map(employee, exemployee);
             await _dbcontext.SaveChangesAsync();
         }

@@ -1,6 +1,7 @@
 ﻿using Aplication.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Repositories.Dtos;
 
 namespace WebAPI.Controllers
 {
@@ -13,6 +14,11 @@ namespace WebAPI.Controllers
         {
             _employeeService = employeeService;
         }
-
+        [HttpGet("{id}")]
+        public async Task<ActionResult<EmployeeDto>> GetEmployee([FromRoute] Guid id)
+        {
+            var employee = await _employeeService.GetEmployee(id);
+            return Ok(employee);
+        }
     }
 }

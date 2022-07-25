@@ -40,9 +40,16 @@ namespace Repositories.Repository
         {
             var manager = await _dbcontext.Managers.FindAsync(id);
             if(manager == null)
-            {
                 throw new NotFoundException("Manager does not exist");
-            }
+            return manager;
+        }
+
+        public async Task<Manager> GetManagerByUserId(Guid userId)
+        {
+            var user = await _dbcontext.Users.FindAsync(userId);
+            var manager = await _dbcontext.Managers.Include(x => x.Identiti).FirstOrDefaultAsync(x => x.IdentitiId == user.IdentitiId);
+            if(user == null || manager == null)
+                throw new NotFoundException("Manager does not exist");
             return manager;
         }
 
@@ -56,9 +63,7 @@ namespace Repositories.Repository
         {
             var exmanager = await _dbcontext.Managers.FindAsync(manager.Id);
             if(exmanager == null)
-            {
                 throw new NotFoundException("Manager does not exist");
-            }
             _mapper.Map(manager, exmanager);
             await _dbcontext.SaveChangesAsync();
         }

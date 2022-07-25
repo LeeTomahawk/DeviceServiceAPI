@@ -11,6 +11,7 @@ namespace Repositories.Interfaces
     {
         Task<IEnumerable<Manager>> GetManagers();
         Task<Manager> GetManagerById(Guid id);
+        Task<Manager> GetManagerByUserId(Guid userId);
         Task<Manager> Add(Manager manager);
         void Update(Manager manager);
         void Delete(Manager manager);

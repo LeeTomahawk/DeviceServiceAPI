@@ -1,4 +1,6 @@
 ﻿using Aplication.Interfaces;
+using AutoMapper;
+using Repositories.Dtos;
 using Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -12,11 +14,20 @@ namespace Aplication.Services
     {
         private readonly IEmployeeRepository _employeeRepository;
         private readonly ITaskRepository _taskRepository;
+        private readonly IMapper _mapper;
 
-        public EmployeeService(IEmployeeRepository employeeRepository, ITaskRepository taskRepository)
+        public EmployeeService(IEmployeeRepository employeeRepository, ITaskRepository taskRepository, IMapper mapper)
         {
             _employeeRepository = employeeRepository;
             _taskRepository = taskRepository;
+            _mapper = mapper;
+        }
+
+        public async Task<EmployeeDto> GetEmployee(Guid id)
+        {
+            var employee = await _employeeRepository.GetEmployeeById(id);
+            var employeedto = _mapper.Map<EmployeeDto>(employee);
+            return employeedto;
         }
 
         public async Task TakeTask(Guid taskId, Guid userId)
