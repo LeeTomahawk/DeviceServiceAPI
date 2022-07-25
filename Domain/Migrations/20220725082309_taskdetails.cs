@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Domain.Migrations
 {
-    public partial class init : Migration
+    public partial class taskdetails : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -235,6 +235,28 @@ namespace Domain.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TaskDetails",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    EmployeeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TaskDetails", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TaskDetails_Employees_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "Employees",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Tasks",
                 columns: table => new
                 {
@@ -248,6 +270,7 @@ namespace Domain.Migrations
                     endDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     amount = table.Column<float>(type: "real", nullable: true),
                     TaskStatus = table.Column<int>(type: "int", nullable: false),
+                    EmployeeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -266,32 +289,10 @@ namespace Domain.Migrations
                         column: x => x.InvoiceId,
                         principalTable: "Invoices",
                         principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CompletedTasks",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    TaskId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    EmployeeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Created = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CompletedTasks", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CompletedTasks_Employees_EmployeeId",
+                        name: "FK_Tasks_TaskDetails_EmployeeId",
                         column: x => x.EmployeeId,
-                        principalTable: "Employees",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_CompletedTasks_Tasks_TaskId",
-                        column: x => x.TaskId,
-                        principalTable: "Tasks",
+                        principalTable: "TaskDetails",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -331,17 +332,6 @@ namespace Domain.Migrations
                 column: "IdentitiId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CompletedTasks_EmployeeId",
-                table: "CompletedTasks",
-                column: "EmployeeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CompletedTasks_TaskId",
-                table: "CompletedTasks",
-                column: "TaskId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Employees_IdentitiId",
                 table: "Employees",
                 column: "IdentitiId");
@@ -368,6 +358,11 @@ namespace Domain.Migrations
                 column: "IdentitiId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_TaskDetails_EmployeeId",
+                table: "TaskDetails",
+                column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TaskEmployees_EmployeeId",
                 table: "TaskEmployees",
                 column: "EmployeeId");
@@ -381,6 +376,11 @@ namespace Domain.Migrations
                 name: "IX_Tasks_ClientId",
                 table: "Tasks",
                 column: "ClientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tasks_EmployeeId",
+                table: "Tasks",
+                column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tasks_InvoiceId",
@@ -406,9 +406,6 @@ namespace Domain.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "CompletedTasks");
-
-            migrationBuilder.DropTable(
                 name: "Managers");
 
             migrationBuilder.DropTable(
@@ -421,16 +418,10 @@ namespace Domain.Migrations
                 name: "WorkplaceEquipments");
 
             migrationBuilder.DropTable(
-                name: "Employees");
-
-            migrationBuilder.DropTable(
                 name: "Tasks");
 
             migrationBuilder.DropTable(
                 name: "Equipments");
-
-            migrationBuilder.DropTable(
-                name: "Workplaces");
 
             migrationBuilder.DropTable(
                 name: "Clients");
@@ -439,7 +430,16 @@ namespace Domain.Migrations
                 name: "Invoices");
 
             migrationBuilder.DropTable(
+                name: "TaskDetails");
+
+            migrationBuilder.DropTable(
+                name: "Employees");
+
+            migrationBuilder.DropTable(
                 name: "Identities");
+
+            migrationBuilder.DropTable(
+                name: "Workplaces");
 
             migrationBuilder.DropTable(
                 name: "Addresses");

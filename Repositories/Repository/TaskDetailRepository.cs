@@ -12,50 +12,50 @@ using Repositories.Exceptions;
 
 namespace Repositories.Repository
 {
-    public class CompletedTaskRepository : ICompletedTaskRepository
+    public class TaskDetailRepository : ITaskDetailRepository
     {
         protected readonly DSMDbContext _dbcontext;
         protected readonly IMapper _mapper;
 
-        public CompletedTaskRepository(DSMDbContext dbcontext, IMapper mapper)
+        public TaskDetailRepository(DSMDbContext dbcontext, IMapper mapper)
         {
             _dbcontext = dbcontext;
             _mapper = mapper;
         }
 
-        public async Task<CompletedTask> Add(CompletedTask task)
+        public async Task<TaskDetails> Add(TaskDetails task)
         {
-            await _dbcontext.CompletedTasks.AddAsync(task);
+            await _dbcontext.TaskDetails.AddAsync(task);
             await _dbcontext.SaveChangesAsync();
             return task;
         }
 
-        public async void Delete(CompletedTask completedTask)
+        public async void Delete(TaskDetails completedTask)
         {
             _dbcontext.Remove(completedTask);
             await _dbcontext.SaveChangesAsync();
         }
 
-        public async Task<CompletedTask> GetCompletedTaskById(Guid id)
+        public async Task<TaskDetails> GetCompletedTaskById(Guid id)
         {
-            var completedtask = await _dbcontext.CompletedTasks.FindAsync(id);
+            var completedtask = await _dbcontext.TaskDetails.FindAsync(id);
             if(completedtask == null)
             {
-                throw new NotFoundException("CompltetedTask does not exist");
+                throw new NotFoundException("TaskDetails does not exist");
             }
             return completedtask;
 
         }
 
-        public async Task<IEnumerable<CompletedTask>> GetCompletedTasks()
+        public async Task<IEnumerable<TaskDetails>> GetCompletedTasks()
         {
-            var completedtasks = await _dbcontext.CompletedTasks.ToListAsync();
+            var completedtasks = await _dbcontext.TaskDetails.ToListAsync();
             return completedtasks;
         }
 
-        public async void Update(CompletedTask completedTask)
+        public async void Update(TaskDetails completedTask)
         {
-            var excompletedtask = await _dbcontext.CompletedTasks.FindAsync(completedTask.Id);
+            var excompletedtask = await _dbcontext.TaskDetails.FindAsync(completedTask.Id);
             if (excompletedtask == null)
             {
                 throw new NotFoundException("CompltetedTask does not exist");

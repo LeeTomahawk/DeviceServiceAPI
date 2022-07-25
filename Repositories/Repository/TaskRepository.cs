@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Repositories.Dtos;
 using Repositories.Exceptions;
+using Domain.Entities;
 
 namespace Repositories.Repository
 {
@@ -29,7 +30,7 @@ namespace Repositories.Repository
             return task;
         }
 
-        public async Task Delete(Domain.Entities.Task task)
+        public async System.Threading.Tasks.Task Delete(Domain.Entities.Task task)
         {
             _dbcontext.Remove(task);
             await _dbcontext.SaveChangesAsync();
@@ -57,7 +58,17 @@ namespace Repositories.Repository
             return tasks;
         }
 
-        public async Task Update(TaskUpdateDto task)
+        public async System.Threading.Tasks.Task UpdateTaskEmployee(Domain.Entities.Task task, Employee employee)
+        {
+            var te = new TaskEmployee
+            {
+                EmployeeId = employee.Id,
+                TaskId = task.Id
+            };
+            await _dbcontext.TaskEmployees.AddAsync(te);
+            await _dbcontext.SaveChangesAsync();
+        }
+        public async System.Threading.Tasks.Task Update(TaskUpdateDto task)
         {
             var extask = await _dbcontext.Tasks.FindAsync(task.Id);
             if (extask == null)

@@ -1,4 +1,5 @@
-﻿using Repositories.Dtos;
+﻿using Domain.Entities;
+using Repositories.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,8 +14,9 @@ namespace Repositories.Interfaces
         Task<IEnumerable<Domain.Entities.Task>> GetTasks();
         Task<Domain.Entities.Task> GetTaskById(Guid id);
         Task<Domain.Entities.Task> Add(Domain.Entities.Task task);
-        Task Update(TaskUpdateDto task);
-        Task Delete(Domain.Entities.Task task);
+        System.Threading.Tasks.Task Update(TaskUpdateDto task);
+        System.Threading.Tasks.Task Delete(Domain.Entities.Task task);
         Task<IEnumerable<Domain.Entities.Task>> GetTasksQuery(string query);
+        System.Threading.Tasks.Task UpdateTaskEmployee(Domain.Entities.Task task, Employee employee);
     }
 }

@@ -23,7 +23,7 @@ namespace Domain
         public DbSet<Workplace> Workplaces { get; set; }
         public DbSet<TaskEmployee> TaskEmployees { get; set; }
         public DbSet<WorkplaceEquipment> WorkplaceEquipments { get; set; }
-        public DbSet<CompletedTask> CompletedTasks { get; set; }
+        public DbSet<TaskDetails> TaskDetails { get; set; }
 
         public DSMDbContext(DbContextOptions options) : base(options)
         {

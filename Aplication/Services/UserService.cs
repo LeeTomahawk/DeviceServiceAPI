@@ -88,5 +88,12 @@ namespace Aplication.Services
             return tokenHandler.WriteToken(token);
             
         }
+
+        public async Task<UserDto> GetUserById(Guid id)
+        {
+            var user = await _userRepository.GetById(id);
+            var userdto = _mapper.Map<UserDto>(user);
+            return userdto;
+        }
     }
 }

@@ -13,3 +13,9 @@ public enum RoleType
     MANAGER,
     EMPLOYEE,
 }
+
+public enum TaskDetailStatus
+{
+    DONE,
+    NOT_DONE
+}

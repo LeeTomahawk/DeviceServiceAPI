@@ -42,7 +42,7 @@ namespace Repositories.Repository
 
         public async Task<User> GetById(Guid id)
         {
-            var user = await _dbcontext.Users.FindAsync(id);
+            var user = await _dbcontext.Users.Include(x => x.Identiti.Address).FirstOrDefaultAsync(x => x.Id == id);
             if (user == null)
             {
                 throw new NotFoundException("User does not Exist");

@@ -11,5 +11,6 @@ namespace Aplication.Interfaces
     {
         Task<RegisterUserDto> Adduser(RegisterUserDto userdto);
         Task<string> GenerateJwt(LoginDto logindto);
+        Task<UserDto> GetUserById(Guid id);
     }
 }

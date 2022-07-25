@@ -15,6 +15,5 @@
         public float? amount { get; set; }
         public TaskStatus TaskStatus { get; set; }
         public virtual IEnumerable<TaskEmployee> Employees { get; set; }
-        public virtual CompletedTask Employee { get; set; }
     }
 }

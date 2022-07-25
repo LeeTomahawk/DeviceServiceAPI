@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Domain.Migrations
 {
     [DbContext(typeof(DSMDbContext))]
-    [Migration("20220725065107_init")]
-    partial class init
+    [Migration("20220725090042_taskdetailsssss")]
+    partial class taskdetailsssss
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -92,40 +92,6 @@ namespace Domain.Migrations
                     b.HasIndex("IdentitiId");
 
                     b.ToTable("Clients");
-                });
-
-            modelBuilder.Entity("Domain.Entities.CompletedTask", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("Created")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("EmployeeId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("LastModified")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("TaskId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EmployeeId");
-
-                    b.HasIndex("TaskId")
-                        .IsUnique();
-
-                    b.ToTable("CompletedTasks");
                 });
 
             modelBuilder.Entity("Domain.Entities.Employee", b =>
@@ -343,6 +309,9 @@ namespace Domain.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid?>("TaskDetailsId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int>("TaskStatus")
                         .HasColumnType("int");
 
@@ -361,7 +330,40 @@ namespace Domain.Migrations
 
                     b.HasIndex("InvoiceId");
 
+                    b.HasIndex("TaskDetailsId");
+
                     b.ToTable("Tasks");
+                });
+
+            modelBuilder.Entity("Domain.Entities.TaskDetails", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("EmployeeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TaskDetailStatus")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("TaskDetails");
                 });
 
             modelBuilder.Entity("Domain.Entities.TaskEmployee", b =>
@@ -507,21 +509,6 @@ namespace Domain.Migrations
                     b.Navigation("Identiti");
                 });
 
-            modelBuilder.Entity("Domain.Entities.CompletedTask", b =>
-                {
-                    b.HasOne("Domain.Entities.Employee", null)
-                        .WithMany("CompletedTasks")
-                        .HasForeignKey("EmployeeId");
-
-                    b.HasOne("Domain.Entities.Task", "Task")
-                        .WithOne("Employee")
-                        .HasForeignKey("Domain.Entities.CompletedTask", "TaskId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Task");
-                });
-
             modelBuilder.Entity("Domain.Entities.Employee", b =>
                 {
                     b.HasOne("Domain.Entities.Identiti", "Identiti")
@@ -571,9 +558,22 @@ namespace Domain.Migrations
                         .WithMany()
                         .HasForeignKey("InvoiceId");
 
+                    b.HasOne("Domain.Entities.TaskDetails", null)
+                        .WithMany("Tasks")
+                        .HasForeignKey("TaskDetailsId");
+
                     b.Navigation("Client");
 
                     b.Navigation("Invoice");
+                });
+
+            modelBuilder.Entity("Domain.Entities.TaskDetails", b =>
+                {
+                    b.HasOne("Domain.Entities.Employee", "Employee")
+                        .WithMany("CompletedTasks")
+                        .HasForeignKey("EmployeeId");
+
+                    b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("Domain.Entities.TaskEmployee", b =>
@@ -639,10 +639,12 @@ namespace Domain.Migrations
 
             modelBuilder.Entity("Domain.Entities.Task", b =>
                 {
-                    b.Navigation("Employee")
-                        .IsRequired();
-
                     b.Navigation("Employees");
+                });
+
+            modelBuilder.Entity("Domain.Entities.TaskDetails", b =>
+                {
+                    b.Navigation("Tasks");
                 });
 
             modelBuilder.Entity("Domain.Entities.Workplace", b =>

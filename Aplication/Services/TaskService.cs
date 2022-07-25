@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Entities;
 
 namespace Aplication.Services
 {
@@ -14,10 +15,15 @@ namespace Aplication.Services
     {
         private readonly ITaskRepository _repository;
         private readonly IMapper _mapper;
-        public TaskService(ITaskRepository repository, IMapper mapper)
+        private readonly ITaskDetailRepository _taskDetailRepository;
+        private readonly IEmployeeRepository _employeeRepository;
+
+        public TaskService(ITaskRepository repository, IMapper mapper, ITaskDetailRepository taskDetailRepository, IEmployeeRepository employeeRepository)
         {
             _repository = repository;
             _mapper = mapper;
+            _taskDetailRepository = taskDetailRepository;
+            _employeeRepository = employeeRepository;
         }
         public async Task<TaskCreateDto> AddTask(TaskCreateDto taskdto)
         {
@@ -26,7 +32,21 @@ namespace Aplication.Services
             return taskdto;
         }
 
-        public async Task DeleteTask(Guid id)
+        public async Task<TaskCreateDetailDto> AddTaskDetails(TaskCreateDetailDto taskDetailDto)
+        {
+            var taskdetail = _mapper.Map<TaskDetails>(taskDetailDto);
+            await _taskDetailRepository.Add(taskdetail);
+            return taskDetailDto;
+        }
+
+        public async System.Threading.Tasks.Task PickTask(Guid taskId, Guid employeeId)
+        {
+            var task = await _repository.GetTaskById(taskId);
+            var employee = await _employeeRepository.GetEmployeeById(employeeId);
+            await _repository.UpdateTaskEmployee(task, employee);
+        }
+
+        public async System.Threading.Tasks.Task DeleteTask(Guid id)
         {
             var task = await _repository.GetTaskById(id);
             await _repository.Delete(task);
@@ -61,7 +81,7 @@ namespace Aplication.Services
             return taskdto;
         }
 
-        public async Task UpdateTask(TaskUpdateDto task)
+        public async System.Threading.Tasks.Task UpdateTask(TaskUpdateDto task)
         {
             await _repository.Update(task);
         }

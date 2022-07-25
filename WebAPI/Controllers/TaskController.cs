@@ -68,6 +68,17 @@ namespace WebAPI.Controllers
             var tasks = await _service.GetAllTasksBetweenDates(startDate, endDate);
             return Ok(tasks);
         }
-
+        [HttpPost("AddTaskDetails")]
+        public async Task<ActionResult<TaskCreateDetailDto>> AddTaskDetails([FromBody] TaskCreateDetailDto taskdetail)
+        {
+            var td = await _service.AddTaskDetails(taskdetail);
+            return Ok(taskdetail);
+        }
+        [HttpPost("TakeTask")]
+        public async Task<ActionResult> TakeTask([FromQuery] Guid taskId, [FromQuery] Guid employeeId)
+        {
+            await _service.PickTask(taskId, employeeId);
+            return Ok();
+        }
     }
 }

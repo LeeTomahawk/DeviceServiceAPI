@@ -1,5 +1,4 @@
 ﻿using Aplication.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Repositories.Dtos;
 
@@ -25,6 +24,12 @@ namespace WebAPI.Controllers
         {
             var token = await _service.GenerateJwt(logindto);
             return Ok(token);
+        }
+        [HttpGet("{id}")]
+        public async Task<ActionResult> GetUser([FromRoute] Guid id)
+        {
+            var user = await _service.GetUserById(id);
+            return Ok(user);
         }
     }
 }

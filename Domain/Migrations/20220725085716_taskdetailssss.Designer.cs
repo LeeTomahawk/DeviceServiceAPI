@@ -4,6 +4,7 @@ using Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Domain.Migrations
 {
     [DbContext(typeof(DSMDbContext))]
-    partial class DSMDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220725085716_taskdetailssss")]
+    partial class taskdetailssss
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -307,7 +309,7 @@ namespace Domain.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("TaskDetailsId")
+                    b.Property<Guid>("TaskDetailsId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("TaskStatus")
@@ -556,13 +558,17 @@ namespace Domain.Migrations
                         .WithMany()
                         .HasForeignKey("InvoiceId");
 
-                    b.HasOne("Domain.Entities.TaskDetails", null)
+                    b.HasOne("Domain.Entities.TaskDetails", "TaskDetails")
                         .WithMany("Tasks")
-                        .HasForeignKey("TaskDetailsId");
+                        .HasForeignKey("TaskDetailsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Client");
 
                     b.Navigation("Invoice");
+
+                    b.Navigation("TaskDetails");
                 });
 
             modelBuilder.Entity("Domain.Entities.TaskDetails", b =>

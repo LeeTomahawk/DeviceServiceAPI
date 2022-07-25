@@ -12,9 +12,11 @@ namespace Aplication.Interfaces
         Task<IEnumerable<TaskDto>> GetAllTasks();
         Task<IEnumerable<TaskDto>> GetAvailableTasks();
         Task<IEnumerable<TaskDto>> GetAllTasksBetweenDates(DateTime startDate, DateTime endDate);
+        Task<TaskCreateDetailDto> AddTaskDetails(TaskCreateDetailDto taskDetailDto);
         Task<TaskDto> GetTaskById(Guid id);
         Task<TaskCreateDto> AddTask(TaskCreateDto task);
         Task DeleteTask(Guid id);
         Task UpdateTask(TaskUpdateDto task);
+        Task PickTask(Guid taskId, Guid employeeId);
     }
 }

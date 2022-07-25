@@ -13,6 +13,8 @@ namespace Aplication.Mappings
     {
         public MappingProfiles()
         {
+            CreateMap<TaskCreateDetailDto, TaskDetails>();
+            CreateMap<User, UserDto>();
             CreateMap<Address, AddressDto>();
             CreateMap<Identiti, IdentitiDto>();
             CreateMap<AddressDto, Address>();

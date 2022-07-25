@@ -45,6 +45,8 @@ namespace WebAPI.Installer
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IEmployeeRepository, EmployeeRepository>();
             services.AddTransient<IManagerRepository, ManagerRepository>();
+            services.AddTransient<ITaskDetailRepository, TaskDetailRepository>();
+
         }
         public static void AddInfasctructureValidators(this IServiceCollection services) 
         {

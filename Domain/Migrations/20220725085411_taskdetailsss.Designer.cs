@@ -4,6 +4,7 @@ using Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Domain.Migrations
 {
     [DbContext(typeof(DSMDbContext))]
-    partial class DSMDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220725085411_taskdetailsss")]
+    partial class taskdetailsss
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -294,6 +296,9 @@ namespace Domain.Migrations
                         .HasMaxLength(350)
                         .HasColumnType("nvarchar(350)");
 
+                    b.Property<Guid>("EmployeeId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid?>("InvoiceId")
                         .HasColumnType("uniqueidentifier");
 
@@ -306,9 +311,6 @@ namespace Domain.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("TaskDetailsId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("TaskStatus")
                         .HasColumnType("int");
@@ -326,9 +328,9 @@ namespace Domain.Migrations
 
                     b.HasIndex("ClientId");
 
-                    b.HasIndex("InvoiceId");
+                    b.HasIndex("EmployeeId");
 
-                    b.HasIndex("TaskDetailsId");
+                    b.HasIndex("InvoiceId");
 
                     b.ToTable("Tasks");
                 });
@@ -552,15 +554,19 @@ namespace Domain.Migrations
                         .WithMany()
                         .HasForeignKey("ClientId");
 
+                    b.HasOne("Domain.Entities.TaskDetails", "Employee")
+                        .WithMany("Tasks")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Domain.Entities.Invoice", "Invoice")
                         .WithMany()
                         .HasForeignKey("InvoiceId");
 
-                    b.HasOne("Domain.Entities.TaskDetails", null)
-                        .WithMany("Tasks")
-                        .HasForeignKey("TaskDetailsId");
-
                     b.Navigation("Client");
+
+                    b.Navigation("Employee");
 
                     b.Navigation("Invoice");
                 });

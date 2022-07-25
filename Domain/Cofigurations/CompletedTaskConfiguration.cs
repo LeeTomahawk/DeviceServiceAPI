@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Domain.Cofigurations
 {
-    public class CompletedTaskConfiguration : IEntityTypeConfiguration<CompletedTask>
+    public class CompletedTaskConfiguration : IEntityTypeConfiguration<TaskDetails>
     {
-        public void Configure(EntityTypeBuilder<CompletedTask> builder)
+        public void Configure(EntityTypeBuilder<TaskDetails> builder)
         {
             builder.HasKey(e => e.Id);
             //builder
