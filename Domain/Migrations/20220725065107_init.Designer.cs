@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Domain.Migrations
 {
     [DbContext(typeof(DSMDbContext))]
-    [Migration("20220724064528_init")]
+    [Migration("20220725065107_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -229,7 +229,8 @@ namespace Domain.Migrations
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(9)
+                        .HasColumnType("nvarchar(9)");
 
                     b.HasKey("Id");
 
@@ -305,32 +306,6 @@ namespace Domain.Migrations
                     b.ToTable("Managers");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Role", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("Created")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("LastModified")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("RoleType")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Roles");
-                });
-
             modelBuilder.Entity("Domain.Entities.Task", b =>
                 {
                     b.Property<Guid>("Id")
@@ -338,7 +313,8 @@ namespace Domain.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Activities")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<Guid?>("ClientId")
                         .HasColumnType("uniqueidentifier");
@@ -351,7 +327,8 @@ namespace Domain.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(350)
+                        .HasColumnType("nvarchar(350)");
 
                     b.Property<Guid?>("InvoiceId")
                         .HasColumnType("uniqueidentifier");
@@ -432,6 +409,10 @@ namespace Domain.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid>("IdentitiId")
                         .HasColumnType("uniqueidentifier");
 
@@ -439,6 +420,10 @@ namespace Domain.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("RoleType")

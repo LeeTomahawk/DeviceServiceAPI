@@ -14,6 +14,7 @@ namespace Domain.Cofigurations
         public void Configure(EntityTypeBuilder<Identiti> builder)
         {
             builder.HasIndex(x => x.PhoneNumber).IsUnique();
+            builder.Property(x => x.PhoneNumber).HasMaxLength(9);
         }
     }
 }

@@ -19,7 +19,6 @@ namespace Domain
         public DbSet<Entities.Task> Tasks { get; set; }
         public DbSet<Equipment> Equipments { get; set; }
         public DbSet<Manager> Managers { get; set; }
-        public DbSet<Role> Roles { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Workplace> Workplaces { get; set; }
         public DbSet<TaskEmployee> TaskEmployees { get; set; }

@@ -56,16 +56,16 @@ namespace WebAPI.Controllers
             return Ok();
         }
 
-        [HttpGet("~/api/Task/GetAvailableTasks")]
+        [HttpGet("GetAvailableTasks")]
         public async Task<ActionResult<IEnumerable<TaskDto>>> GetAvailableTasks()
         {
-            var tasks = await _service.GetAllTasks("SELECT * FROM Tasks Where taskStatus=0 OR taskStatus=3");
+            var tasks = await _service.GetAvailableTasks();
             return Ok(tasks);
         }
-        [HttpGet("~/api/Task/GetTasksBetweenDate")]
+        [HttpGet("GetTasksBetweenDates")]
         public async Task<ActionResult<IEnumerable<TaskDto>>> GetTasksBetweenDate(DateTime startDate, DateTime endDate)
         {
-            var tasks = await _service.GetAllTasks($"SELECT * FROM Tasks Where startDate BETWEEN '{startDate}' AND '{endDate}'");
+            var tasks = await _service.GetAllTasksBetweenDates(startDate, endDate);
             return Ok(tasks);
         }
 

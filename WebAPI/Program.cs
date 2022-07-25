@@ -1,16 +1,7 @@
 
 using Aplication.Mappings;
-using AutoMapper;
-using Domain;
-using Microsoft.EntityFrameworkCore;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using WebAPI.Installer;
-using Microsoft.AspNetCore.Http.Json;
-using System.ComponentModel;
 using FluentValidation.AspNetCore;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using Repositories.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);

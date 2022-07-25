@@ -52,6 +52,8 @@ namespace WebAPI.Installer
 
             services.AddTransient<IValidator<RegisterUserDto>, RegisterUserDtoValidator>();
             services.AddTransient<IValidator<LoginDto>, LoginDtoValidator>();
+            services.AddTransient<IValidator<TaskCreateDto>, TaskCreateDtoValidator>();
+            services.AddTransient<IValidator<TaskUpdateDto>, TaskUpdateDtoValidator>();
         }
         public static void AddAuthenticationSettings(this IServiceCollection services, IConfiguration configuration)
         {

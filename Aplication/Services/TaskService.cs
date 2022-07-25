@@ -39,9 +39,17 @@ namespace Aplication.Services
             return tasksdto;
         }
 
-        public async Task<IEnumerable<TaskDto>> GetAllTasks(string query)
+
+        public async Task<IEnumerable<TaskDto>> GetAllTasksBetweenDates(DateTime startDate, DateTime endDate)
         {
-            var tasks = await _repository.GetTasksQuery(query);
+            var tasks = await _repository.GetTasksQuery($"SELECT * FROM Tasks Where startDate BETWEEN '{startDate.ToString("yyyy-MM-dd hh:mm:ss")}' AND '{endDate.ToString("yyyy-MM-dd hh:mm:ss")}'");
+            var taskdto = _mapper.Map<IEnumerable<TaskDto>>(tasks);
+            return taskdto;
+        }
+
+        public async Task<IEnumerable<TaskDto>> GetAvailableTasks()
+        {
+            var tasks = await _repository.GetTasksQuery("SELECT * FROM Tasks Where taskStatus=0 OR taskStatus=3");
             var tasksdto = _mapper.Map<IEnumerable<TaskDto>>(tasks);
             return tasksdto;
         }
