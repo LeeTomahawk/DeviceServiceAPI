@@ -16,7 +16,7 @@ using System.Text.Json.Serialization;
 
 namespace WebAPI.Installer
 {
-    public static class ServicesCollectionExtensions
+    public static class CollectionExtensions
     {
         public static void AddDbContextSettings(this IServiceCollection services, IConfiguration configuration)
         {
@@ -36,6 +36,7 @@ namespace WebAPI.Installer
             services.AddTransient<IClientService, ClientService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IEmployeeService, EmployeeService>();
+            services.AddTransient<IManagerService, ManagerService>();
         }
         public static void AddInfasctructureRepositories(this IServiceCollection services) 
         {
@@ -47,7 +48,7 @@ namespace WebAPI.Installer
             services.AddTransient<IEmployeeRepository, EmployeeRepository>();
             services.AddTransient<IManagerRepository, ManagerRepository>();
             services.AddTransient<ITaskDetailRepository, TaskDetailRepository>();
-
+            services.AddTransient<IManagerRepository, ManagerRepository>();
         }
         public static void AddInfasctructureValidators(this IServiceCollection services) 
         {

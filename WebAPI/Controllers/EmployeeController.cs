@@ -13,11 +13,6 @@ namespace WebAPI.Controllers
         {
             _employeeService = employeeService;
         }
-        [HttpPost("TakeTask")]
-        public async Task<ActionResult> TakeTask([FromQuery] Guid taskId, [FromQuery] Guid userId)
-        {
-            await _employeeService.TakeTask(taskId, userId);
-            return Ok();
-        }
+
     }
 }
