@@ -39,12 +39,6 @@ namespace Aplication.Services
             return taskDetailDto;
         }
 
-        public async System.Threading.Tasks.Task PickTask(Guid taskId, Guid employeeId)
-        {
-            var task = await _repository.GetTaskById(taskId);
-            var employee = await _employeeRepository.GetEmployeeById(employeeId);
-            await _repository.UpdateTaskEmployee(task, employee);
-        }
 
         public async System.Threading.Tasks.Task DeleteTask(Guid id)
         {

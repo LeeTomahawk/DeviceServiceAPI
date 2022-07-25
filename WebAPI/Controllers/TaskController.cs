@@ -74,11 +74,5 @@ namespace WebAPI.Controllers
             var td = await _service.AddTaskDetails(taskdetail);
             return Ok(taskdetail);
         }
-        [HttpPost("TakeTask")]
-        public async Task<ActionResult> TakeTask([FromQuery] Guid taskId, [FromQuery] Guid employeeId)
-        {
-            await _service.PickTask(taskId, employeeId);
-            return Ok();
-        }
     }
 }

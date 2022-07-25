@@ -44,6 +44,15 @@ namespace Repositories.Repository
             return employee;
         }
 
+        public async Task<Employee> GetEmployeeByUserId(Guid userId)
+        {
+            var user = await _dbcontext.Users.Include(x => x.Identiti).FirstOrDefaultAsync(x => x.Id == userId);
+            var employee = await _dbcontext.Employees.FirstOrDefaultAsync(x => x.IdentitiId == user.IdentitiId);
+            if(user == null || employee == null)
+                throw new NotFoundException("Employee not found");
+            return employee;
+        }
+
         public async Task<IEnumerable<Employee>> GetEmployees()
         {
             var employees = await _dbcontext.Employees.ToListAsync();

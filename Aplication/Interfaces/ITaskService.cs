@@ -17,6 +17,5 @@ namespace Aplication.Interfaces
         Task<TaskCreateDto> AddTask(TaskCreateDto task);
         Task DeleteTask(Guid id);
         Task UpdateTask(TaskUpdateDto task);
-        Task PickTask(Guid taskId, Guid employeeId);
     }
 }

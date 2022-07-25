@@ -11,6 +11,7 @@ namespace Repositories.Interfaces
     {
         Task<IEnumerable<Employee>> GetEmployees();
         Task<Employee> GetEmployeeById(Guid id);
+        Task<Employee> GetEmployeeByUserId(Guid userId);
         Task<Employee> Add(Employee employee);
         void Update(Employee employee);
         void Delete(Employee employee);

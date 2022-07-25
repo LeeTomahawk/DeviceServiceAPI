@@ -35,6 +35,7 @@ namespace WebAPI.Installer
             services.AddTransient<ITaskService, TaskService>();
             services.AddTransient<IClientService, ClientService>();
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IEmployeeService, EmployeeService>();
         }
         public static void AddInfasctructureRepositories(this IServiceCollection services) 
         {

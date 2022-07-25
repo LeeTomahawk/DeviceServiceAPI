@@ -65,6 +65,7 @@ namespace Repositories.Repository
                 EmployeeId = employee.Id,
                 TaskId = task.Id
             };
+            task.TaskStatus = TaskStatus.IN_REPAIR;
             await _dbcontext.TaskEmployees.AddAsync(te);
             await _dbcontext.SaveChangesAsync();
         }
