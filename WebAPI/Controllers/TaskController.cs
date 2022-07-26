@@ -74,5 +74,11 @@ namespace WebAPI.Controllers
             var td = await _service.AddTaskDetails(taskdetail);
             return Ok(taskdetail);
         }
+        [HttpGet("client/{clientId}")]
+        public async Task<ActionResult<TaskDto>> GetClientTasks([FromRoute] Guid clientId)
+        {
+            var tasks = await _service.GetAllClientTasks(clientId);
+            return Ok(tasks);
+        }
     }
 }

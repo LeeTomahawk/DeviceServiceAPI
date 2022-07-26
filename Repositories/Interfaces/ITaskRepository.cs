@@ -12,6 +12,7 @@ namespace Repositories.Interfaces
     public interface ITaskRepository
     {
         Task<IEnumerable<Domain.Entities.Task>> GetTasks();
+        Task<IEnumerable<Domain.Entities.Task>> GetAllClientTasks(Guid id);
         Task<Domain.Entities.Task> GetTaskById(Guid id);
         Task<Domain.Entities.Task> Add(Domain.Entities.Task task);
         System.Threading.Tasks.Task Update(TaskUpdateDto task);

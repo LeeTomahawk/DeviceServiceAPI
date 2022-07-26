@@ -46,6 +46,13 @@ namespace Aplication.Services
             await _repository.Delete(task);
         }
 
+        public async Task<IEnumerable<TaskDto>> GetAllClientTasks(Guid id)
+        {
+            var tasks = await _repository.GetAllClientTasks(id);
+            var taskdto = _mapper.Map<IEnumerable<TaskDto>>(tasks);
+            return taskdto;
+        }
+
         public async Task<IEnumerable<TaskDto>> GetAllTasks()
         {
             var tasks = await _repository.GetTasks();

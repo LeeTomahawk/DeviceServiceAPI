@@ -80,5 +80,10 @@ namespace Repositories.Repository
             await _dbcontext.SaveChangesAsync();
         }
 
+        public async Task<IEnumerable<Domain.Entities.Task>> GetAllClientTasks(Guid id)
+        {
+            var tasks = await _dbcontext.Tasks.Where(w => w.ClientId == id).ToListAsync();
+            return tasks;
+        }
     }
 }

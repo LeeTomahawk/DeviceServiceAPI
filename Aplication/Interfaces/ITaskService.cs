@@ -10,6 +10,7 @@ namespace Aplication.Interfaces
     public interface ITaskService
     {
         Task<IEnumerable<TaskDto>> GetAllTasks();
+        Task<IEnumerable<TaskDto>> GetAllClientTasks(Guid id);
         Task<IEnumerable<TaskDto>> GetAvailableTasks();
         Task<IEnumerable<TaskDto>> GetAllTasksBetweenDates(DateTime startDate, DateTime endDate);
         Task<TaskCreateDetailDto> AddTaskDetails(TaskCreateDetailDto taskDetailDto);

@@ -53,7 +53,7 @@ namespace Repositories.Repository
 
         public async Task<IEnumerable<Employee>> GetEmployees()
         {
-            var employees = await _dbcontext.Employees.ToListAsync();
+            var employees = await _dbcontext.Employees.Include(i => i.Tasks).Include(x => x.Identiti.Address).ToListAsync();
             return employees;
         }
 

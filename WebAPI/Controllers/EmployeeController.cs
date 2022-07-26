@@ -20,5 +20,11 @@ namespace WebAPI.Controllers
             var employee = await _employeeService.GetEmployee(id);
             return Ok(employee);
         }
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<EmployeeDto>>> GetAllEmployee()
+        {
+            var employees = await _employeeService.GetAllEmployees();
+            return Ok(employees);
+        }
     }
 }

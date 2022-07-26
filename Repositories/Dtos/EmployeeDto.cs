@@ -13,6 +13,7 @@ namespace Repositories.Dtos
         public DateTime EmploymentDate { get; set; }
 
         public IdentitiDto Identiti { get; set; }
+        public int TaskCount { get; set; }
         public IEnumerable<TaskEmployeeDto> Tasks { get; set; }
     }
 }

@@ -2,11 +2,6 @@
 using AutoMapper;
 using Repositories.Dtos;
 using Repositories.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Aplication.Services
 {
@@ -23,10 +18,18 @@ namespace Aplication.Services
             _mapper = mapper;
         }
 
+        public async Task<IEnumerable<EmployeeDto>> GetAllEmployees()
+        {
+            var employees = await _employeeRepository.GetEmployees();
+            var employeesdto = _mapper.Map<IEnumerable<EmployeeDto>>(employees);
+            return employeesdto;
+        }
+
         public async Task<EmployeeDto> GetEmployee(Guid id)
         {
             var employee = await _employeeRepository.GetEmployeeById(id);
             var employeedto = _mapper.Map<EmployeeDto>(employee);
+            employeedto.TaskCount = employeedto.Tasks.Count();
             return employeedto;
         }
 
