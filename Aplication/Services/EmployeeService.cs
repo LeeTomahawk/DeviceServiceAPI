@@ -22,6 +22,10 @@ namespace Aplication.Services
         {
             var employees = await _employeeRepository.GetEmployees();
             var employeesdto = _mapper.Map<IEnumerable<EmployeeDto>>(employees);
+            foreach(var em in employeesdto)
+            {
+                em.TaskCount = em.Tasks.Count();
+            }
             return employeesdto;
         }
 
