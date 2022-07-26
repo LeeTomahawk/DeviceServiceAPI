@@ -18,6 +18,14 @@ namespace WebAPI.Installer
 {
     public static class CollectionExtensions
     {
+        public static void AddCustomCors(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddCors(opt => opt.AddPolicy("AllowedHosts", builder =>
+            {
+                var allowedHosts = configuration.GetSection("CorsConfiguration:AllowedHosts").Get<string[]>();
+                builder.WithOrigins("*").AllowAnyHeader().AllowAnyMethod();
+            }));
+        }
         public static void AddDbContextSettings(this IServiceCollection services, IConfiguration configuration)
         {
             var dbcontextoptions = new DbContextOptions();

@@ -10,6 +10,7 @@ ConfigurationManager Configuration = builder.Configuration;
 builder.Services.AddDbContextSettings(Configuration);
 builder.Services.AddAuthenticationSettings(Configuration);
 builder.Services.AddJsonSettings();
+builder.Services.AddCustomCors(Configuration);
 builder.Services.AddInfasctructureServices();
 builder.Services.AddInfasctructureRepositories();
 builder.Services.AddInfasctructureValidators();
@@ -26,6 +27,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 app.UseMiddleware<ErrorHandlingMiddleware>();
+
+app.UseCors("AllowedHosts");
 
 app.UseHttpsRedirection();
 
