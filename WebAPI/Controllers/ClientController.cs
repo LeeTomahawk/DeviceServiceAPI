@@ -32,6 +32,13 @@ namespace WebAPI.Controllers
             return Ok(client);
         }
 
+        [HttpGet("GetByPhoneNumber")]
+        public async Task<ActionResult<IEnumerable<ClientDto>>> GetByPhoneNumber([FromQuery] string phonenumber)
+        {
+            var client = await _service.GetClientByPhoneNumber(phonenumber);
+            return Ok(client);
+        }
+
         // POST api/<ClientController>
         [HttpPost]
         public async Task<ActionResult<ClientCreateDto>> Post([FromBody] ClientCreateDto client)

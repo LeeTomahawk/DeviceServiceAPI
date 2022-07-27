@@ -43,9 +43,15 @@ namespace Repositories.Repository
         {
             var client = await _dbcontext.Clients.Include(s => s.Identiti).ThenInclude(i => i.Address).FirstOrDefaultAsync(x => x.Id == id);
             if(client == null)
-            {
                 throw new NotFoundException("Client not found");
-            }
+            return client;
+        }
+
+        public async Task<IEnumerable<Client>> GetClientByPhoneNumber(string phonenumber)
+        {
+            var client = await _dbcontext.Clients.Include(c => c.Identiti.Address).Where(x => x.Identiti.PhoneNumber.Contains(phonenumber)).ToListAsync();
+            if (client == null)
+                throw new NotFoundException("Client not found");
             return client;
         }
 

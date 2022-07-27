@@ -52,5 +52,12 @@ namespace Aplication.Services
         {
             await _repository.Update(clientdto);
         }
+
+        public async Task<IEnumerable<ClientDto>> GetClientByPhoneNumber(string phonenumber)
+        {
+            var client = await _repository.GetClientByPhoneNumber(phonenumber);
+            var clientdto = _mapper.Map<IEnumerable<ClientDto>>(client);
+            return clientdto;
+        }
     }
 }

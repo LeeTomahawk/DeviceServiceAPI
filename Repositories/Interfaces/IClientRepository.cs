@@ -12,6 +12,7 @@ namespace Repositories.Interfaces
     {
         Task<IEnumerable<Client>> GetClients();
         Task<Client> GetClientById(Guid id);
+        Task<IEnumerable<Client>> GetClientByPhoneNumber(string phonenumber);
         Task<Client> Add(Client client);
         System.Threading.Tasks.Task Update(ClientUpdateDto client);
         System.Threading.Tasks.Task Delete(Client client);
