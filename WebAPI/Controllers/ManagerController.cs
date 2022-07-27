@@ -27,5 +27,11 @@ namespace WebAPI.Controllers
             var manager = await _managerService.GetManager(userId);
             return Ok(manager);
         }
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<ManagerDto>>> GetAllMenagers()
+        {
+            var managers = await _managerService.GetAllManager();
+            return Ok(managers);
+        }
     }
 }

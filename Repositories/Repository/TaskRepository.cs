@@ -40,9 +40,7 @@ namespace Repositories.Repository
         {
             var task = await _dbcontext.Tasks.Include(x => x.Client.Identiti.Address).FirstOrDefaultAsync(x => x.Id == id);
             if(task == null)
-            {
                 throw new NotFoundException("Task does not exist");
-            }
             return task;
         }
 
@@ -85,5 +83,7 @@ namespace Repositories.Repository
             var tasks = await _dbcontext.Tasks.Where(w => w.ClientId == id).ToListAsync();
             return tasks;
         }
+
+        
     }
 }

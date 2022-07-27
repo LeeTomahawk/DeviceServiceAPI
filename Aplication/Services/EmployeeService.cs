@@ -29,6 +29,14 @@ namespace Aplication.Services
             return employeesdto;
         }
 
+        public async Task<EmployeeDto> GetAllEmployeesTasks(Guid userId)
+        {
+            var employee = await _employeeRepository.GetEmployeeByUserId(userId);
+            var employeeTask = await _employeeRepository.GetAllEmployeeTasks(employee.Id);
+            var tasksdto = _mapper.Map<EmployeeDto>(employeeTask);
+            return tasksdto;
+        }
+
         public async Task<EmployeeDto> GetEmployee(Guid id)
         {
             var employee = await _employeeRepository.GetEmployeeById(id);

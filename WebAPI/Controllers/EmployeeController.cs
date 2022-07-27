@@ -26,5 +26,11 @@ namespace WebAPI.Controllers
             var employees = await _employeeService.GetAllEmployees();
             return Ok(employees);
         }
+        [HttpGet("EmployeeTasks/{userid}")]
+        public async Task<ActionResult<EmployeeDto>> GetAllEmployeeTasks([FromRoute] Guid userid)
+        {
+            var tasks = await _employeeService.GetAllEmployeesTasks(userid);
+            return Ok(tasks);
+        }
     }
 }

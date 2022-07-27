@@ -32,6 +32,13 @@ namespace Aplication.Services
             await _taskRepository.UpdateTaskEmployee(task, employee);
         }
 
+        public async Task<IEnumerable<ManagerDto>> GetAllManager()
+        {
+            var managers = await _managerRepository.GetManagers();
+            var managersdto = _mapper.Map<IEnumerable<ManagerDto>>(managers);
+            return managersdto;
+        }
+
         public async Task<ManagerDto> GetManager(Guid userId)
         {
             var manager = await _managerRepository.GetManagerByUserId(userId);

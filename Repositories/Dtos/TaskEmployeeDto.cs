@@ -9,6 +9,6 @@ namespace Repositories.Dtos
     public class TaskEmployeeDto
     {
         public Guid TaskEmployeeId { get; set; }
-        public Guid TaskId { get; set; }
+        public TaskDto Task { get; set; }
     }
 }

@@ -55,7 +55,7 @@ namespace Repositories.Repository
 
         public async Task<IEnumerable<Manager>> GetManagers()
         {
-            var managers = await _dbcontext.Managers.ToListAsync();
+            var managers = await _dbcontext.Managers.Include(x => x.Identiti.Address).ToListAsync();
             return managers;
         }
 

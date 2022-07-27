@@ -11,5 +11,6 @@ namespace Aplication.Interfaces
     {
         Task AddTaskToEmployee(Guid taskId, Guid employeeId);
         Task<ManagerDto> GetManager(Guid userId);
+        Task<IEnumerable<ManagerDto>> GetAllManager();
     }
 }

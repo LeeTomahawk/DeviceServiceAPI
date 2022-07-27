@@ -65,6 +65,12 @@ namespace Repositories.Repository
             _mapper.Map(employee, exemployee);
             await _dbcontext.SaveChangesAsync();
         }
-
+        public async Task<Domain.Entities.Employee> GetAllEmployeeTasks(Guid id)
+        {
+            var employee = await _dbcontext.Employees.Include(i => i.Identiti.Address).Include(w => w.Tasks).ThenInclude(w => w.Task).FirstOrDefaultAsync(x => x.Id == id);
+            if(employee == null)
+                throw new NotFoundException("Employee does not exist");
+            return employee;
+        }
     }
 }
