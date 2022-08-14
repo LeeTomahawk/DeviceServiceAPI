@@ -15,14 +15,12 @@ namespace Aplication.Services
     {
         private readonly ITaskRepository _repository;
         private readonly IMapper _mapper;
-        private readonly ITaskDetailsRepository _taskDetailRepository;
         private readonly IEmployeeRepository _employeeRepository;
 
-        public TaskService(ITaskRepository repository, IMapper mapper, ITaskDetailsRepository taskDetailRepository, IEmployeeRepository employeeRepository)
+        public TaskService(ITaskRepository repository, IMapper mapper, IEmployeeRepository employeeRepository)
         {
             _repository = repository;
             _mapper = mapper;
-            _taskDetailRepository = taskDetailRepository;
             _employeeRepository = employeeRepository;
         }
         public async Task<TaskCreateDto> AddTask(TaskCreateDto taskdto)
@@ -31,14 +29,6 @@ namespace Aplication.Services
             await _repository.Add(task);
             return taskdto;
         }
-
-        public async Task<TaskCreateDetailDto> AddTaskDetails(TaskCreateDetailDto taskDetailDto)
-        {
-            var taskdetail = _mapper.Map<TaskDetails>(taskDetailDto);
-            var extask = await _taskDetailRepository.Add(taskdetail);
-            return taskDetailDto;
-        }
-
 
         public async System.Threading.Tasks.Task DeleteTask(Guid id)
         {
@@ -66,6 +56,13 @@ namespace Aplication.Services
             var tasks = await _repository.GetTasksQuery($"SELECT * FROM Tasks Where startDate BETWEEN '{startDate.ToString("yyyy-MM-dd hh:mm:ss")}' AND '{endDate.ToString("yyyy-MM-dd hh:mm:ss")}'");
             var taskdto = _mapper.Map<IEnumerable<TaskDto>>(tasks);
             return taskdto;
+        }
+
+        public async Task<IEnumerable<TaskEmployeeDto>> GetToAproveTasks()
+        {
+            var tasks = await _repository.GetTaskEmployees();
+            var tasksdto = _mapper.Map<IEnumerable<TaskEmployeeDto>>(tasks);
+            return tasksdto;
         }
 
         public async Task<IEnumerable<TaskDto>> GetAvailableTasks()

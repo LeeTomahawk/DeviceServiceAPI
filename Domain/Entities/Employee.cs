@@ -9,6 +9,5 @@
         public Guid? WorkplaceId { get; set; }
         public DateTime EmploymentDate { get; set; }
         public virtual IEnumerable<TaskEmployee> Tasks { get; set; }
-        public virtual IEnumerable<TaskDetails> CompletedTasks { get; set; }
     }
 }

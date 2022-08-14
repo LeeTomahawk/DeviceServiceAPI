@@ -45,5 +45,10 @@ namespace Aplication.Services
             var managerdto = _mapper.Map<ManagerDto>(manager);
             return managerdto;
         }
+
+        public async Task TaskAprove(Guid taskId)
+        {
+            await _taskRepository.UpdateTaskEmployee(taskId);
+        }
     }
 }

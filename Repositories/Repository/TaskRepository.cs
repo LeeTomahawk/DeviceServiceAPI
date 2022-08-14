@@ -61,7 +61,9 @@ namespace Repositories.Repository
             var te = new TaskEmployee
             {
                 EmployeeId = employee.Id,
-                TaskId = task.Id
+                TaskId = task.Id,
+                TaskDetailStatus = TaskDetailStatus.DURING,
+                TakeTaskDate = DateTime.Now,
             };
             task.TaskStatus = TaskStatus.IN_REPAIR;
             await _dbcontext.TaskEmployees.AddAsync(te);
@@ -71,9 +73,7 @@ namespace Repositories.Repository
         {
             var extask = await _dbcontext.Tasks.FindAsync(task.Id);
             if (extask == null)
-            {
                 throw new NotFoundException("Task does not exist");
-            }
             _mapper.Map(task, extask);
             await _dbcontext.SaveChangesAsync();
         }
@@ -84,6 +84,25 @@ namespace Repositories.Repository
             return tasks;
         }
 
-        
+        public async System.Threading.Tasks.Task UpdateTaskEmployee(Guid taskId)
+        {
+            var employeeTask = await _dbcontext.TaskEmployees.FindAsync(taskId);
+            var task = await _dbcontext.Tasks.FindAsync(employeeTask.TaskId);
+            if (employeeTask == null || task == null)
+                throw new NotFoundException("Task does not exist");
+            employeeTask.TaskDetailStatus = TaskDetailStatus.DONE;
+            employeeTask.DoneTaskDate = DateTime.Now;
+            task.endDate = DateTime.Now;
+            task.TaskStatus = TaskStatus.WAITING_FOR_CLIENT;
+            await _dbcontext.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<TaskEmployee>> GetTaskEmployees()
+        {
+            var tasks = await _dbcontext.TaskEmployees.Include(w => w.Task.Client.Identiti.Address).Where(x => x.Task.TaskStatus == TaskStatus.REPAIRED).ToListAsync();
+            if (tasks == null)
+                throw new NotFoundException("Tasks not found");
+            return tasks;
+        }
     }
 }

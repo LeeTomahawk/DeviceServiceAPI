@@ -34,6 +34,7 @@ namespace Aplication.Services
             var employee = await _employeeRepository.GetEmployeeByUserId(userId);
             var employeeTask = await _employeeRepository.GetAllEmployeeTasks(employee.Id);
             var tasksdto = _mapper.Map<EmployeeDto>(employeeTask);
+            tasksdto.TaskCount = employeeTask.Tasks.Count();
             return tasksdto;
         }
 
@@ -43,13 +44,6 @@ namespace Aplication.Services
             var employeedto = _mapper.Map<EmployeeDto>(employee);
             employeedto.TaskCount = employeedto.Tasks.Count();
             return employeedto;
-        }
-
-        public async Task TakeTask(Guid taskId, Guid userId)
-        {
-            var employee = await _employeeRepository.GetEmployeeByUserId(userId);
-            var task = await _taskRepository.GetTaskById(taskId);
-            await _taskRepository.UpdateTaskEmployee(task, employee);
         }
     }
 }

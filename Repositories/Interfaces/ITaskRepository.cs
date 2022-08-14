@@ -18,6 +18,8 @@ namespace Repositories.Interfaces
         System.Threading.Tasks.Task Update(TaskUpdateDto task);
         System.Threading.Tasks.Task Delete(Domain.Entities.Task task);
         Task<IEnumerable<Domain.Entities.Task>> GetTasksQuery(string query);
+        Task<IEnumerable<Domain.Entities.TaskEmployee>> GetTaskEmployees();
         System.Threading.Tasks.Task UpdateTaskEmployee(Domain.Entities.Task task, Employee employee);
+        System.Threading.Tasks.Task UpdateTaskEmployee(Guid taskId);
     }
 }

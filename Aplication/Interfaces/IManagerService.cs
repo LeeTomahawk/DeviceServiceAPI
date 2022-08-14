@@ -10,6 +10,7 @@ namespace Aplication.Interfaces
     public interface IManagerService
     {
         Task AddTaskToEmployee(Guid taskId, Guid employeeId);
+        Task TaskAprove(Guid taskId);
         Task<ManagerDto> GetManager(Guid userId);
         Task<IEnumerable<ManagerDto>> GetAllManager();
     }

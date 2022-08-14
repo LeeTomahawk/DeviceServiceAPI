@@ -9,7 +9,6 @@ namespace Aplication.Interfaces
 {
     public interface IEmployeeService
     {
-        Task TakeTask(Guid taskId, Guid userId);
         Task<EmployeeDto> GetEmployee(Guid id);
         Task<IEnumerable<EmployeeDto>> GetAllEmployees();
         Task<EmployeeDto> GetAllEmployeesTasks(Guid userId);

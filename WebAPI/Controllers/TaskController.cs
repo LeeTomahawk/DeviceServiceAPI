@@ -55,7 +55,12 @@ namespace WebAPI.Controllers
             await _service.DeleteTask(id);
             return Ok();
         }
-
+        [HttpGet("GetToAproveTasks")]
+        public async Task<ActionResult<IEnumerable<TaskEmployeeDto>>> GetToAproveTasks()
+        {
+            var tasks = await _service.GetToAproveTasks();
+            return Ok(tasks);
+        }
         [HttpGet("GetAvailableTasks")]
         public async Task<ActionResult<IEnumerable<TaskDto>>> GetAvailableTasks()
         {
@@ -67,12 +72,6 @@ namespace WebAPI.Controllers
         {
             var tasks = await _service.GetAllTasksBetweenDates(startDate, endDate);
             return Ok(tasks);
-        }
-        [HttpPost("AddTaskDetails")]
-        public async Task<ActionResult<TaskCreateDetailDto>> AddTaskDetails([FromBody] TaskCreateDetailDto taskdetail)
-        {
-            var td = await _service.AddTaskDetails(taskdetail);
-            return Ok(taskdetail);
         }
         [HttpGet("client/{clientId}")]
         public async Task<ActionResult<TaskDto>> GetClientTasks([FromRoute] Guid clientId)

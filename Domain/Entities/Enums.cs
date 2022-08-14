@@ -16,6 +16,7 @@ public enum RoleType
 
 public enum TaskDetailStatus
 {
+    DURING,
     DONE,
     NOT_DONE
 }

@@ -17,7 +17,6 @@ namespace Aplication.Mappings
             CreateMap<TaskEmployee, TaskEmployeeDto>()
                 .ForMember(r => r.TaskEmployeeId, c => c.MapFrom(s => s.Id));
             CreateMap<Manager, ManagerDto>();
-            CreateMap<TaskCreateDetailDto, TaskDetails>();
             CreateMap<User, UserDto>();
             CreateMap<Address, AddressDto>();
             CreateMap<Identiti, IdentitiDto>();

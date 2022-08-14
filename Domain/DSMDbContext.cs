@@ -23,8 +23,6 @@ namespace Domain
         public DbSet<Workplace> Workplaces { get; set; }
         public DbSet<TaskEmployee> TaskEmployees { get; set; }
         public DbSet<WorkplaceEquipment> WorkplaceEquipments { get; set; }
-        public DbSet<TaskDetails> TaskDetails { get; set; }
-
         public DSMDbContext(DbContextOptions options) : base(options)
         {
 
@@ -32,9 +30,13 @@ namespace Domain
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(TaskEmployeeConfiguration).Assembly);
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(CompletedTaskConfiguration).Assembly);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(WorkplaceEquipmentConfiguration).Assembly);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(IdentitiConfiguration).Assembly);
+        }
+
+        public System.Threading.Tasks.Task FindAsync(Guid taskId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

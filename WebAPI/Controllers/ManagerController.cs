@@ -15,6 +15,12 @@ namespace WebAPI.Controllers
         {
             _managerService = managerService;
         }
+        [HttpPost("TaskAprove")]
+        public async Task<ActionResult> TaskAprove([FromQuery] Guid taskId)
+        {
+            await _managerService.TaskAprove(taskId);
+            return Ok();
+        }
         [HttpPost("AddTaskToEmployee")]
         public async Task<ActionResult> AddTaskToEmployee([FromQuery] Guid taskId, [FromQuery] Guid employeeId)
         {
