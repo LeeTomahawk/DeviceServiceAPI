@@ -1,6 +1,7 @@
 ﻿using Aplication.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Repositories.Dtos;
+using System.Net;
 
 namespace WebAPI.Controllers
 {
@@ -20,10 +21,12 @@ namespace WebAPI.Controllers
             return Ok();
         }
         [HttpPost("login")]
-        public async Task<ActionResult> Login([FromBody] LoginDto logindto)
+        public async Task<ActionResult<LoginResponse>> Login([FromBody] LoginDto logindto)
         {
             var token = await _service.GenerateJwt(logindto);
-            return Ok(token);
+            var res = new LoginResponse();
+            res.Token = token;
+            return Ok(res);
         }
         [HttpGet("{id}")]
         public async Task<ActionResult> GetUser([FromRoute] Guid id)

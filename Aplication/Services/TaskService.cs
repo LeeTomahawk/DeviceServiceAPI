@@ -15,10 +15,10 @@ namespace Aplication.Services
     {
         private readonly ITaskRepository _repository;
         private readonly IMapper _mapper;
-        private readonly ITaskDetailRepository _taskDetailRepository;
+        private readonly ITaskDetailsRepository _taskDetailRepository;
         private readonly IEmployeeRepository _employeeRepository;
 
-        public TaskService(ITaskRepository repository, IMapper mapper, ITaskDetailRepository taskDetailRepository, IEmployeeRepository employeeRepository)
+        public TaskService(ITaskRepository repository, IMapper mapper, ITaskDetailsRepository taskDetailRepository, IEmployeeRepository employeeRepository)
         {
             _repository = repository;
             _mapper = mapper;
@@ -35,7 +35,7 @@ namespace Aplication.Services
         public async Task<TaskCreateDetailDto> AddTaskDetails(TaskCreateDetailDto taskDetailDto)
         {
             var taskdetail = _mapper.Map<TaskDetails>(taskDetailDto);
-            await _taskDetailRepository.Add(taskdetail);
+            var extask = await _taskDetailRepository.Add(taskdetail);
             return taskDetailDto;
         }
 

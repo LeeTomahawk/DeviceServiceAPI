@@ -50,28 +50,7 @@ namespace Aplication.Services
             return equipmentsDto;
         }
 
-        public async Task<IEnumerable<EquipmentDto>> GetEquipmentToWorkplace(Guid workplaceId)
-        {
-            var workplace = await _workplaceRepository.GetWorkplaceById(workplaceId);
-            var equipments = await _repository.GetEquipments();
-            var availableEquipment = new List<EquipmentDto>();
-            if(workplace.Equipments.Count() == 0)
-            {
-                return _mapper.Map<IEnumerable<EquipmentDto>>(equipments);
-            }
-            foreach (var weq in workplace.Equipments)
-            {
-                foreach(var eq in equipments)
-                {
-                    if(weq.EquipmentId != eq.Id)
-                    {
-                        var mapedEq = _mapper.Map<EquipmentDto>(eq);
-                        availableEquipment.Add(mapedEq);
-                    }
-                }
-            }
-            return availableEquipment;
-        }
+        
 
         public async System.Threading.Tasks.Task UpdateEquipment(EquipmentUpdateDto equipment)
         {

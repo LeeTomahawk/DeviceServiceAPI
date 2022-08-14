@@ -33,6 +33,11 @@ namespace Repositories.Repository
 
         public async System.Threading.Tasks.Task AddEquipment(Workplace workplace, Equipment equipment)
         {
+            foreach(var weq in workplace.Equipments)
+            {
+                if (weq.Equipment.Id == equipment.Id)
+                    throw new BadRequestException("This item is not awailable for this workplace!");
+            }
             var wq = new WorkplaceEquipment
             {
                 WorkplaceId = workplace.Id,

@@ -37,6 +37,8 @@ namespace Repositories.Repository
             await _dbcontext.SaveChangesAsync();
         }
 
+
+
         public async Task<Equipment> GetEquipmentById(Guid id)
         {
             var equipment = await _dbcontext.Equipments.FindAsync(id);

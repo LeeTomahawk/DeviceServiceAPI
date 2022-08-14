@@ -63,11 +63,9 @@ namespace Repositories.Repository
 
         public async System.Threading.Tasks.Task Update(ClientUpdateDto client)
         {
-            var exclient = await _dbcontext.Clients.FindAsync(client.Id);
+            var exclient = await _dbcontext.Clients.Include(s => s.Identiti).ThenInclude(w => w.Address).FirstOrDefaultAsync(x => x.Id == client.Id);
             if(exclient == null)
-            {
-                throw new NotFoundException("Cleint not found");
-            }
+                throw new NotFoundException("Client not found");
             _mapper.Map<ClientUpdateDto, Client>(client, exclient);
             _mapper.Map<IdentitiDto, Identiti>(client.Identiti, exclient.Identiti);
             _mapper.Map<AddressDto, Address>(client.Identiti.Address, exclient.Identiti.Address);

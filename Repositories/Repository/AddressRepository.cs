@@ -2,6 +2,7 @@
 using Domain;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Repositories.Exceptions;
 using Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -37,9 +38,7 @@ namespace Repositories.Repository
         {
             var address = await _dbcontext.Addresses.FindAsync(id);
             if (address == null)
-            {
-                throw new DirectoryNotFoundException("Address not found");
-            }
+                throw new NotFoundException("Address not found");
             return address;
         }
 
@@ -53,9 +52,7 @@ namespace Repositories.Repository
         {
             var exaddress = await _dbcontext.Addresses.FindAsync(address.Id);
             if( exaddress == null)
-            {
-                throw new DirectoryNotFoundException("Address not found");
-            }
+                throw new NotFoundException("Address not found");
             _mapper.Map(address, exaddress);
             await _dbcontext.SaveChangesAsync();
         }

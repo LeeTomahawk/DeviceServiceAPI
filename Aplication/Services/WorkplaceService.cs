@@ -31,10 +31,10 @@ namespace Aplication.Services
 
         }
 
-        public async System.Threading.Tasks.Task AddWorkplaceEquipment(WorkplaceEquipmentCreateDto workplaceEquipmentCreateDto)
+        public async System.Threading.Tasks.Task AddWorkplaceEquipment(Guid workplaceId, Guid equipmentId)
         {
-            var workplace = await _repository.GetWorkplaceById(workplaceEquipmentCreateDto.WokrplaceId);
-            var equipment = await _equipmentRepository.GetEquipmentById(workplaceEquipmentCreateDto.EquipmentId);
+            var workplace = await _repository.GetWorkplaceById(workplaceId);
+            var equipment = await _equipmentRepository.GetEquipmentById(equipmentId);
             await _repository.AddEquipment(workplace, equipment);
         }
 

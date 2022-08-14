@@ -56,14 +56,14 @@ namespace WebAPI.Controllers
             return Ok();
         }
 
-        [HttpPost("~/api/Worplace/AddEquipment")]
-        public async Task<ActionResult> AddEquipment([FromBody] WorkplaceEquipmentCreateDto workplaceEquipment)
+        [HttpPost("~/api/Workplace/AddEquipment")]
+        public async Task<ActionResult> AddEquipment([FromQuery] Guid workplaceId, [FromQuery] Guid equipmentId)
         {
-            await _service.AddWorkplaceEquipment(workplaceEquipment);
-            return Ok(workplaceEquipment);
+            await _service.AddWorkplaceEquipment(workplaceId, equipmentId);
+            return Ok();
         }
 
-        [HttpDelete("~/api/Worplace/DeleteEquipment/{id}")]
+        [HttpDelete("~/api/Workplace/DeleteEquipment/{id}")]
         public async Task<ActionResult> DeleteEquipment([FromRoute] Guid id)
         {
             await _service.DeleteWorkplaceEquipment(id);
