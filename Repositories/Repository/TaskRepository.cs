@@ -26,6 +26,8 @@ namespace Repositories.Repository
         public async Task<Domain.Entities.Task> Add(Domain.Entities.Task task)
         {
             await _dbcontext.Tasks.AddAsync(task);
+            var client = await _dbcontext.Clients.FindAsync(task.ClientId);
+            client.LastVisit = DateTime.Now;
             await _dbcontext.SaveChangesAsync();
             return task;
         }
@@ -80,7 +82,7 @@ namespace Repositories.Repository
 
         public async Task<IEnumerable<Domain.Entities.Task>> GetAllClientTasks(Guid id)
         {
-            var tasks = await _dbcontext.Tasks.Where(w => w.ClientId == id).ToListAsync();
+            var tasks = await _dbcontext.Tasks.Where(w => w.ClientId == id).OrderByDescending(w => w.startDate).ToListAsync();
             return tasks;
         }
 
@@ -99,10 +101,19 @@ namespace Repositories.Repository
 
         public async Task<IEnumerable<TaskEmployee>> GetTaskEmployees()
         {
-            var tasks = await _dbcontext.TaskEmployees.Include(w => w.Task.Client.Identiti.Address).Where(x => x.Task.TaskStatus == TaskStatus.REPAIRED).ToListAsync();
+            var tasks = await _dbcontext.TaskEmployees.Include(w => w.Task.Client.Identiti.Address).Where(x => x.Task.TaskStatus == TaskStatus.REPAIRED).OrderByDescending(w => w.Task.startDate).ToListAsync();
             if (tasks == null)
                 throw new NotFoundException("Tasks not found");
             return tasks;
+        }
+
+        public async System.Threading.Tasks.Task EndTask(Guid taskId)
+        {
+            var task = await _dbcontext.Tasks.FindAsync(taskId);
+            if (task == null)
+                throw new NotFoundException("Tasks not found");
+            task.TaskStatus = TaskStatus.COLLECTED;
+            await _dbcontext.SaveChangesAsync();
         }
     }
 }

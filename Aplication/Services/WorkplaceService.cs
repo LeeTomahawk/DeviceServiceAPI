@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Repositories.Exceptions;
 
 namespace Aplication.Services
 {
@@ -15,12 +16,22 @@ namespace Aplication.Services
     {
         private readonly IWorkplaceRepository _repository;
         private readonly IEquipmentRepository _equipmentRepository;
+        private readonly IEmployeeRepository _employeeRepository;
         private readonly IMapper _mapper;
-        public WorkplaceService(IWorkplaceRepository repository, IMapper mapper, IEquipmentRepository equipmentRepository)
+        public WorkplaceService(IWorkplaceRepository repository, IMapper mapper, IEquipmentRepository equipmentRepository, IEmployeeRepository employeeRepository)
         {
             _repository = repository;
             _mapper = mapper;
             _equipmentRepository = equipmentRepository;
+            _employeeRepository = employeeRepository;
+        }
+
+        public async System.Threading.Tasks.Task AddEmployee(Guid workplaceId, Guid employeeId)
+        {
+            var workplace = await _repository.GetWorkplaceById(workplaceId);
+            if (workplace == null)
+                throw new NotFoundException("Workplace not found!");
+            await _repository.AddEmployee(workplaceId, employeeId);
         }
 
         public async Task<WorkplaceCreateDto> AddWorkplace(WorkplaceCreateDto workplaceDto)

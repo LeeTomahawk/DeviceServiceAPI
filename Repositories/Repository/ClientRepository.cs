@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Repositories.Dtos;
 using Repositories.Exceptions;
+using System.Linq.Expressions;
 
 namespace Repositories.Repository
 {
@@ -55,10 +56,40 @@ namespace Repositories.Repository
             return client;
         }
 
-        public async Task<IEnumerable<Client>> GetClients()
+        public async Task<PageResult<ClientDto>> GetClients(PageableModel query)
         {
-            var clients = await _dbcontext.Clients.Include(s => s.Identiti).ThenInclude(i => i.Address).ToListAsync();
-            return clients;
+            var baseQuery = _dbcontext
+                .Clients
+                .Include(s => s.Identiti.Address)
+                .Where(r => query.SearchPharse == null || (r.Identiti.FirstName.ToLower().Contains(query.SearchPharse)
+                                                     || r.Identiti.LastName.ToLower().Contains(query.SearchPharse)
+                                                     || r.Identiti.PhoneNumber.ToLower().Contains(query.SearchPharse)));
+            if (!string.IsNullOrEmpty(query.SortBy))
+            {
+                var columnsSelectors = new Dictionary<string, Expression<Func<Client, object>>>
+                {
+                    {nameof(Client.Identiti.FirstName), r => r.Identiti.FirstName },
+                    {nameof(Client.Identiti.LastName), r => r.Identiti.LastName },
+                    {nameof(Client.Identiti.PhoneNumber), r => r.Identiti.PhoneNumber },
+                };
+
+                var selectedColumn = columnsSelectors[query.SortBy];
+
+                baseQuery = query.SortDirection == SortDirection.ASC ? 
+                    baseQuery.OrderBy(selectedColumn)
+                    : baseQuery.OrderByDescending(selectedColumn);
+            }
+
+            var clients = await baseQuery
+                .Skip(query.PageSize * (query.PageNumber - 1))
+                .Take(query.PageSize)
+                .ToListAsync();
+
+            var clientsDto = _mapper.Map<IEnumerable<ClientDto>>(clients);
+
+            var result = new PageResult<ClientDto>(clientsDto, baseQuery.Count());
+
+            return result;
         }
 
         public async System.Threading.Tasks.Task Update(ClientUpdateDto client)
@@ -67,8 +98,6 @@ namespace Repositories.Repository
             if(exclient == null)
                 throw new NotFoundException("Client not found");
             _mapper.Map<ClientUpdateDto, Client>(client, exclient);
-            _mapper.Map<IdentitiDto, Identiti>(client.Identiti, exclient.Identiti);
-            _mapper.Map<AddressDto, Address>(client.Identiti.Address, exclient.Identiti.Address);
             await _dbcontext.SaveChangesAsync();
         }
     }

@@ -10,6 +10,12 @@ namespace Repositories.Dtos
     public class ClientUpdateDto
     {
         public Guid Id { get; set; }
-        public IdentitiDto Identiti { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string PhoneNumber { get; set; }
+        public string City { get; set; }
+        public string Street { get; set; }
+        public string Number { get; set; }
+        public string PostCode { get; set; }
     }
 }

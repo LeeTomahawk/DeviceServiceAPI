@@ -10,7 +10,7 @@ namespace Repositories.Interfaces
 {
     public interface IClientRepository
     {
-        Task<IEnumerable<Client>> GetClients();
+        Task<PageResult<ClientDto>> GetClients(PageableModel query);
         Task<Client> GetClientById(Guid id);
         Task<IEnumerable<Client>> GetClientByPhoneNumber(string phonenumber);
         Task<Client> Add(Client client);

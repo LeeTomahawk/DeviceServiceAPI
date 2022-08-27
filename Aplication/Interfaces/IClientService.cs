@@ -11,7 +11,7 @@ namespace Aplication.Interfaces
     public interface IClientService
     {
         Task<ClientCreateDto> AddClient(ClientCreateDto clientdto);
-        Task<IEnumerable<ClientDto>> GetClients();
+        Task<PageResult<ClientDto>> GetClients(PageableModel query);
         Task<ClientDto> GetClient(Guid id);
         Task<IEnumerable<ClientDto>> GetClientByPhoneNumber(string phonenumber);
         System.Threading.Tasks.Task DeleteClient(Guid id);

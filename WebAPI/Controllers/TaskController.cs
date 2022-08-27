@@ -79,5 +79,11 @@ namespace WebAPI.Controllers
             var tasks = await _service.GetAllClientTasks(clientId);
             return Ok(tasks);
         }
+        [HttpPost("EndTask")]
+        public async Task<ActionResult> EndTask([FromQuery] Guid taskId)
+        {
+            await _service.EndTask(taskId);
+            return Ok();
+        }
     }
 }

@@ -83,5 +83,10 @@ namespace Aplication.Services
         {
             await _repository.Update(task);
         }
+
+        public async System.Threading.Tasks.Task EndTask(Guid taskId)
+        {
+            await _repository.EndTask(taskId);
+        }
     }
 }

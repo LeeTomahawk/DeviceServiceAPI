@@ -1,11 +1,6 @@
 ﻿using Repositories.Dtos;
 using AutoMapper;
 using Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Aplication.Mappings
 {
@@ -22,7 +17,17 @@ namespace Aplication.Mappings
             CreateMap<Identiti, IdentitiDto>();
             CreateMap<AddressDto, Address>();
             CreateMap<IdentitiDto, Identiti>();
-            CreateMap<ClientUpdateDto, Client>();
+            CreateMap<ClientUpdateDto, Client>()
+                .AfterMap((src, dest) =>
+                {
+                    dest.Identiti.FirstName = src.FirstName;
+                    dest.Identiti.LastName = src.LastName;
+                    dest.Identiti.PhoneNumber = src.PhoneNumber;
+                    dest.Identiti.Address.City = src.City;
+                    dest.Identiti.Address.Street = src.Street;
+                    dest.Identiti.Address.Number = src.Number;
+                    dest.Identiti.Address.PostCode = src.PostCode;
+                });
             CreateMap<ClientDto, Client>();
             CreateMap<Client, ClientDto>();
             CreateMap<TaskCreateDto, Domain.Entities.Task>();

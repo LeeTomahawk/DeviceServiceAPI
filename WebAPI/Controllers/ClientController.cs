@@ -18,9 +18,9 @@ namespace WebAPI.Controllers
 
         // GET: api/<ClientController>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ClientDto>>> Get()
+        public async Task<ActionResult<PageResult<ClientDto>>> Get([FromQuery] PageableModel query)
         {
-            var clients = await _service.GetClients();
+            var clients = await _service.GetClients(query);
             return Ok(clients);
         }
 

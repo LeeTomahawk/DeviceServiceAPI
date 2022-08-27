@@ -21,5 +21,6 @@ namespace Repositories.Interfaces
         Task<IEnumerable<Domain.Entities.TaskEmployee>> GetTaskEmployees();
         System.Threading.Tasks.Task UpdateTaskEmployee(Domain.Entities.Task task, Employee employee);
         System.Threading.Tasks.Task UpdateTaskEmployee(Guid taskId);
+        System.Threading.Tasks.Task EndTask(Guid taskId);
     }
 }

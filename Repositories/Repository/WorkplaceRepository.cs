@@ -31,6 +31,15 @@ namespace Repositories.Repository
             return workplace;
         }
 
+        public async System.Threading.Tasks.Task AddEmployee(Guid workplaceId, Guid employeeId)
+        {
+            var employee = await _dbcontext.Employees.FindAsync(employeeId);
+            if (employee == null)
+                throw new NotFoundException("Employee not found");
+            employee.WorkplaceId = workplaceId;
+            await _dbcontext.SaveChangesAsync();
+        }
+
         public async System.Threading.Tasks.Task AddEquipment(Workplace workplace, Equipment equipment)
         {
             foreach(var weq in workplace.Equipments)
@@ -44,9 +53,7 @@ namespace Repositories.Repository
                 EquipmentId = equipment.Id
             };
             if(equipment.Amount == 0)
-            {
                 throw new BadRequestException("Amount of this item is 0");
-            }
             equipment.Amount -= 1;
             await _dbcontext.WorkplaceEquipments.AddAsync(wq);
             await _dbcontext.SaveChangesAsync();
@@ -62,9 +69,7 @@ namespace Repositories.Repository
         {
             var eq = await _dbcontext.WorkplaceEquipments.FindAsync(id);
             if (eq == null)
-            {
                 throw new NotFoundException("WorkpalceEquipment does not found");
-            }
             var equipment = await _dbcontext.Equipments.FindAsync(eq.EquipmentId);
             _dbcontext.Remove(eq);
             equipment.Amount += 1;
@@ -75,9 +80,7 @@ namespace Repositories.Repository
         {
             var workplace = await _dbcontext.Workplaces.Include(w => w.Equipments).ThenInclude(i => i.Equipment).FirstOrDefaultAsync(x => x.Id == id);
             if(workplace == null)
-            {
                 throw new NotFoundException("Workplace does not exist");
-            }
             return workplace;
         }
 
@@ -91,9 +94,7 @@ namespace Repositories.Repository
         {
             var exworkplace = await _dbcontext.Workplaces.FindAsync(workplace.Id);
             if(exworkplace == null)
-            {
                 throw new NotFoundException("Workplace does not exist");
-            }
             _mapper.Map(workplace, exworkplace);
             await _dbcontext.SaveChangesAsync();
         }

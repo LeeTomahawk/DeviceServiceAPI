@@ -24,15 +24,15 @@ namespace Aplication.Services
         public async Task<ClientCreateDto> AddClient(ClientCreateDto clientdto)
         {
             var client = _mapper.Map<Client>(clientdto);
+            client.LastVisit = DateTime.Now;
             await _repository.Add(client);
             return clientdto;
         }
 
-        public async Task<IEnumerable<ClientDto>> GetClients()
+        public async Task<PageResult<ClientDto>> GetClients(PageableModel query)
         {
-            var clients = await _repository.GetClients();
-            var clientsdto = _mapper.Map<IEnumerable<ClientDto>>(clients);
-            return clientsdto;
+            var clients = await _repository.GetClients(query);
+            return clients;
         }
 
         public async Task<ClientDto> GetClient(Guid id)

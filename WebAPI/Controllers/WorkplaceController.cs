@@ -69,5 +69,12 @@ namespace WebAPI.Controllers
             await _service.DeleteWorkplaceEquipment(id);
             return Ok();
         }
+
+        [HttpPost("WokrplaceAddEmployee")]
+        public async Task<ActionResult> WokrplaceAddEmployee([FromQuery] Guid workplaceId, Guid employeeId)
+        {
+            await _service.AddEmployee(workplaceId, employeeId);
+            return Ok();
+        }
     }
 }
