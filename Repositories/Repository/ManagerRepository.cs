@@ -9,6 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Repositories.Exceptions;
+using Repositories.Dtos;
+using System.Linq.Expressions;
 
 namespace Repositories.Repository
 {
@@ -53,10 +55,40 @@ namespace Repositories.Repository
             return manager;
         }
 
-        public async Task<IEnumerable<Manager>> GetManagers()
+        public async Task<PageResult<ManagerDto>> GetManagers(PageableModel query)
         {
-            var managers = await _dbcontext.Managers.Include(x => x.Identiti.Address).ToListAsync();
-            return managers;
+            var baseQuery = _dbcontext
+                .Managers
+                .Include(x => x.Identiti.Address)
+                                .Where(r => query.SearchPharse == null || (r.Identiti.FirstName.ToLower().Contains(query.SearchPharse)
+                                                     || r.Identiti.LastName.ToLower().Contains(query.SearchPharse)
+                                                     || r.Identiti.PhoneNumber.ToLower().Contains(query.SearchPharse)));
+            if (!string.IsNullOrEmpty(query.SortBy))
+            {
+                var columnsSelectors = new Dictionary<string, Expression<Func<Manager, object>>>
+                {
+                    {nameof(Manager.Identiti.FirstName), r => r.Identiti.FirstName },
+                    {nameof(Manager.Identiti.LastName), r => r.Identiti.LastName },
+                    {nameof(Manager.Identiti.PhoneNumber), r => r.Identiti.PhoneNumber },
+                };
+
+                var selectedColumn = columnsSelectors[query.SortBy];
+
+                baseQuery = query.SortDirection == SortDirection.ASC ?
+                    baseQuery.OrderBy(selectedColumn)
+                    : baseQuery.OrderByDescending(selectedColumn);
+            }
+
+            var managers = await baseQuery
+                .Skip(query.PageSize * (query.PageNumber - 1))
+                .Take(query.PageSize)
+                .ToListAsync();
+
+            var managersdto = _mapper.Map<IEnumerable<ManagerDto>>(managers);
+
+            var result = new PageResult<ManagerDto>(managersdto, baseQuery.Count());
+
+            return result;
         }
 
         public async void Update(Manager manager)

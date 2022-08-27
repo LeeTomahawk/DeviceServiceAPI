@@ -12,6 +12,6 @@ namespace Aplication.Interfaces
         Task AddTaskToEmployee(Guid taskId, Guid employeeId);
         Task TaskAprove(Guid taskId);
         Task<ManagerDto> GetManager(Guid userId);
-        Task<IEnumerable<ManagerDto>> GetAllManager();
+        Task<PageResult<ManagerDto>> GetAllManager(PageableModel query);
     }
 }

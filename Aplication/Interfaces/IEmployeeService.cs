@@ -10,7 +10,7 @@ namespace Aplication.Interfaces
     public interface IEmployeeService
     {
         Task<EmployeeDto> GetEmployee(Guid id);
-        Task<IEnumerable<EmployeeDto>> GetAllEmployees();
+        Task<PageResult<EmployeeDto>> GetAllEmployees(PageableModel query);
         Task<EmployeeDto> GetAllEmployeesTasks(Guid userId);
     }
 }

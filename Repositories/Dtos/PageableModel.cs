@@ -19,4 +19,8 @@ namespace Repositories.Dtos
         public string? SortBy { get; set; }
         public SortDirection? SortDirection { get; set; }
     }
+    public class PageableTaskModel
+    {
+
+    }
 }

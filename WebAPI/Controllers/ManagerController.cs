@@ -34,9 +34,9 @@ namespace WebAPI.Controllers
             return Ok(manager);
         }
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ManagerDto>>> GetAllMenagers()
+        public async Task<ActionResult<PageResult<ManagerDto>>> GetAllMenagers([FromQuery] PageableModel query)
         {
-            var managers = await _managerService.GetAllManager();
+            var managers = await _managerService.GetAllManager(query);
             return Ok(managers);
         }
     }

@@ -18,15 +18,10 @@ namespace Aplication.Services
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<EmployeeDto>> GetAllEmployees()
+        public async Task<PageResult<EmployeeDto>> GetAllEmployees(PageableModel query)
         {
-            var employees = await _employeeRepository.GetEmployees();
-            var employeesdto = _mapper.Map<IEnumerable<EmployeeDto>>(employees);
-            foreach(var em in employeesdto)
-            {
-                em.TaskCount = em.Tasks.Count();
-            }
-            return employeesdto;
+            var employees = await _employeeRepository.GetEmployees(query);
+            return employees;
         }
 
         public async Task<EmployeeDto> GetAllEmployeesTasks(Guid userId)

@@ -32,11 +32,10 @@ namespace Aplication.Services
             await _taskRepository.UpdateTaskEmployee(task, employee);
         }
 
-        public async Task<IEnumerable<ManagerDto>> GetAllManager()
+        public async Task<PageResult<ManagerDto>> GetAllManager(PageableModel query)
         {
-            var managers = await _managerRepository.GetManagers();
-            var managersdto = _mapper.Map<IEnumerable<ManagerDto>>(managers);
-            return managersdto;
+            var managers = await _managerRepository.GetManagers(query);
+            return managers;
         }
 
         public async Task<ManagerDto> GetManager(Guid userId)

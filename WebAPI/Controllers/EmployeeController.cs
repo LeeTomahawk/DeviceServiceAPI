@@ -21,9 +21,9 @@ namespace WebAPI.Controllers
             return Ok(employee);
         }
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<EmployeeDto>>> GetAllEmployee()
+        public async Task<ActionResult<PageResult<EmployeeDto>>> GetAllEmployee([FromQuery] PageableModel query)
         {
-            var employees = await _employeeService.GetAllEmployees();
+            var employees = await _employeeService.GetAllEmployees(query);
             return Ok(employees);
         }
         [HttpGet("Tasks/{userid}")]

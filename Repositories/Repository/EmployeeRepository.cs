@@ -9,6 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Repositories.Exceptions;
+using Repositories.Dtos;
+using System.Linq.Expressions;
 
 namespace Repositories.Repository
 {
@@ -51,10 +53,45 @@ namespace Repositories.Repository
             return employee;
         }
 
-        public async Task<IEnumerable<Employee>> GetEmployees()
+        public async Task<PageResult<EmployeeDto>> GetEmployees(PageableModel query)
         {
-            var employees = await _dbcontext.Employees.Include(i => i.Tasks).Include(x => x.Identiti.Address).ToListAsync();
-            return employees;
+            var baseQuery = _dbcontext
+                .Employees
+                .Include(i => i.Tasks)
+                .Include(x => x.Identiti.Address)
+                .Where(r => query.SearchPharse == null || (r.Identiti.FirstName.ToLower().Contains(query.SearchPharse)
+                                                     || r.Identiti.LastName.ToLower().Contains(query.SearchPharse)
+                                                     || r.Identiti.PhoneNumber.ToLower().Contains(query.SearchPharse)));
+            if(!string.IsNullOrEmpty(query.SortBy))
+            {
+                var columnsSelectors = new Dictionary<string, Expression<Func<Employee, object>>>
+                {
+                    {nameof(Employee.Identiti.FirstName), r => r.Identiti.FirstName },
+                    {nameof(Employee.Identiti.LastName), r => r.Identiti.LastName },
+                    {nameof(Employee.Identiti.PhoneNumber), r => r.Identiti.PhoneNumber },
+                };
+
+                var selectedColumn = columnsSelectors[query.SortBy];
+
+                baseQuery = query.SortDirection == SortDirection.ASC ?
+                    baseQuery.OrderBy(selectedColumn)
+                    : baseQuery.OrderByDescending(selectedColumn);
+            }
+
+            var employees = await baseQuery
+                .Skip(query.PageSize * (query.PageNumber - 1))
+                .Take(query.PageSize)
+                .ToListAsync();
+
+            var employeesdto = _mapper.Map<IEnumerable<EmployeeDto>>(employees);
+            foreach (var em in employeesdto)
+            {
+                em.TaskCount = em.Tasks.Count();
+            }
+
+            var result = new PageResult<EmployeeDto>(employeesdto, baseQuery.Count());
+
+            return result;
         }
 
         public async void Update(Employee employee)

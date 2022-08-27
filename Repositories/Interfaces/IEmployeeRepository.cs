@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Repositories.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace Repositories.Interfaces
 {
     public interface IEmployeeRepository
     {
-        Task<IEnumerable<Employee>> GetEmployees();
+        Task<PageResult<EmployeeDto>> GetEmployees(PageableModel query);
         Task<Employee> GetEmployeeById(Guid id);
         Task<Employee> GetEmployeeByUserId(Guid userId);
         Task<Employee> GetAllEmployeeTasks(Guid id);
