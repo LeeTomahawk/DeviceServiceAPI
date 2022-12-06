@@ -18,9 +18,9 @@ namespace WebAPI.Controllers
 
         // GET: api/<TaskController>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TaskDto>>> Get()
+        public async Task<ActionResult<PageResult<TaskDto>>> Get([FromQuery] PageableModel query)
         {
-            var tasks = await _service.GetAllTasks();
+            var tasks = await _service.GetAllTasks(query);
             return Ok(tasks);
         }
 
@@ -56,15 +56,15 @@ namespace WebAPI.Controllers
             return Ok();
         }
         [HttpGet("GetToAproveTasks")]
-        public async Task<ActionResult<IEnumerable<TaskEmployeeDto>>> GetToAproveTasks()
+        public async Task<ActionResult<PageResult<TaskEmployeeDto>>> GetToAproveTasks([FromQuery] PageableModel query)
         {
-            var tasks = await _service.GetToAproveTasks();
+            var tasks = await _service.GetToAproveTasks(query);
             return Ok(tasks);
         }
         [HttpGet("GetAvailableTasks")]
-        public async Task<ActionResult<IEnumerable<TaskDto>>> GetAvailableTasks()
+        public async Task<ActionResult<PageResult<TaskDto>>> GetAvailableTasks([FromQuery] PageableModel query)
         {
-            var tasks = await _service.GetAvailableTasks();
+            var tasks = await _service.GetAvailableTasks(query);
             return Ok(tasks);
         }
         [HttpGet("GetTasksBetweenDates")]

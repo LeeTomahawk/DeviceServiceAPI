@@ -10,7 +10,7 @@ namespace Repositories.Interfaces
 {
     public interface IEquipmentRepository
     {
-        Task<IEnumerable<Equipment>> GetEquipments();
+        Task<PageResult<EquipmentDto>> GetEquipments(PageableModel query);
         Task<Equipment> GetEquipmentById(Guid id);
         Task<Equipment> Add(Equipment equipment);
         System.Threading.Tasks.Task Update(EquipmentUpdateDto equipment);

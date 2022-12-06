@@ -17,5 +17,7 @@ namespace Repositories.Interfaces
         Task<Employee> Add(Employee employee);
         void Update(Employee employee);
         void Delete(Employee employee);
+        Task<IEnumerable<Employee>> GetEmployeeListWithoutWorkplace();
+        Task<IEnumerable<Employee>> GetEmployeeWithWorkplace(Guid id);
     }
 }

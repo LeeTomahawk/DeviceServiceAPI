@@ -43,11 +43,10 @@ namespace Aplication.Services
             return taskdto;
         }
 
-        public async Task<IEnumerable<TaskDto>> GetAllTasks()
+        public async Task<PageResult<TaskDto>> GetAllTasks(PageableModel query)
         {
-            var tasks = await _repository.GetTasks();
-            var tasksdto = _mapper.Map<IEnumerable<TaskDto>>(tasks);
-            return tasksdto;
+            var tasks = await _repository.GetTasks(query);
+            return tasks;
         }
 
 
@@ -58,18 +57,16 @@ namespace Aplication.Services
             return taskdto;
         }
 
-        public async Task<IEnumerable<TaskEmployeeDto>> GetToAproveTasks()
+        public async Task<PageResult<TaskEmployeeDto>> GetToAproveTasks(PageableModel query)
         {
-            var tasks = await _repository.GetTaskEmployees();
-            var tasksdto = _mapper.Map<IEnumerable<TaskEmployeeDto>>(tasks);
-            return tasksdto;
+            var tasks = await _repository.GetTaskEmployees(query);
+            return tasks;
         }
 
-        public async Task<IEnumerable<TaskDto>> GetAvailableTasks()
+        public async Task<PageResult<TaskDto>> GetAvailableTasks(PageableModel query)
         {
-            var tasks = await _repository.GetTasksQuery("SELECT * FROM Tasks Where taskStatus=0 OR taskStatus=3");
-            var tasksdto = _mapper.Map<IEnumerable<TaskDto>>(tasks);
-            return tasksdto;
+            var tasks = await _repository.GetAvailableTasks(query);
+            return tasks;
         }
 
         public async Task<TaskDto> GetTaskById(Guid id)

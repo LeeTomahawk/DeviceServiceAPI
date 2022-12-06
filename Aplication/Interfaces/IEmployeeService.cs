@@ -12,5 +12,7 @@ namespace Aplication.Interfaces
         Task<EmployeeDto> GetEmployee(Guid id);
         Task<PageResult<EmployeeDto>> GetAllEmployees(PageableModel query);
         Task<EmployeeDto> GetAllEmployeesTasks(Guid userId);
+        Task<IEnumerable<EmployeeDto>> GetEmployeesWithoutWokrplace();
+        Task<IEnumerable<EmployeeDto>> GetEmployeesWithWorkplace(Guid id);
     }
 }

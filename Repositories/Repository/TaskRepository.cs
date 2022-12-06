@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using Repositories.Dtos;
 using Repositories.Exceptions;
 using Domain.Entities;
+using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Repositories.Repository
 {
@@ -46,10 +48,46 @@ namespace Repositories.Repository
             return task;
         }
 
-        public async Task<IEnumerable<Domain.Entities.Task>> GetTasks()
+        public async Task<PageResult<TaskDto>> GetTasks(PageableModel query)
         {
-            var tasks = await _dbcontext.Tasks.Include(x => x.Client.Identiti.Address).ToListAsync();
-            return tasks;
+            var baseQuery = _dbcontext.Tasks
+                .Include(w => w.Client.Identiti.Address)
+                .Where(r => query.SearchPharse == null || (r.Name.ToLower().Contains(query.SearchPharse)
+                                                    || r.Description.ToLower().Contains(query.SearchPharse)
+                                                    || r.Activities.ToLower().Contains(query.SearchPharse)
+                                                    || r.startDate.ToString().ToLower().Contains(query.SearchPharse)
+                                                    || r.Client.Identiti.FirstName.ToLower().Contains(query.SearchPharse)
+                                                    || r.Client.Identiti.LastName.ToLower().Contains(query.SearchPharse)
+                                                    || r.Client.Identiti.PhoneNumber.ToLower().Contains(query.SearchPharse)));
+            if (baseQuery == null)
+                throw new NotFoundException("Tasks not found");
+
+            if (!string.IsNullOrEmpty(query.SortBy))
+            {
+                var columnsSelectors = new Dictionary<string, Expression<Func<Domain.Entities.Task, object>>>
+                {
+                    {nameof(Domain.Entities.Task.Name), r => r.Name },
+                    {nameof(Domain.Entities.Task.TaskStatus), r => r.TaskStatus },
+                    {nameof(Domain.Entities.Task.startDate), r => r.startDate },
+                };
+
+                var selectedColumn = columnsSelectors[query.SortBy];
+
+                baseQuery = query.SortDirection == SortDirection.ASC ?
+                    baseQuery.OrderBy(selectedColumn)
+                    : baseQuery.OrderByDescending(selectedColumn);
+            }
+
+            var tasks = await baseQuery
+                .Skip(query.PageSize * (query.PageNumber - 1))
+                .Take(query.PageSize)
+                .ToListAsync();
+
+            var tasksdto = _mapper.Map<IEnumerable<TaskDto>>(tasks);
+
+            var result = new PageResult<TaskDto>(tasksdto, baseQuery.Count());
+
+            return result;
         }
 
         public async Task<IEnumerable<Domain.Entities.Task>> GetTasksQuery(string query)
@@ -99,12 +137,50 @@ namespace Repositories.Repository
             await _dbcontext.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<TaskEmployee>> GetTaskEmployees()
+        public async Task<PageResult<TaskEmployeeDto>> GetTaskEmployees(PageableModel query)
         {
-            var tasks = await _dbcontext.TaskEmployees.Include(w => w.Task.Client.Identiti.Address).Where(x => x.Task.TaskStatus == TaskStatus.REPAIRED).OrderByDescending(w => w.Task.startDate).ToListAsync();
-            if (tasks == null)
+            var baseQuery = _dbcontext.TaskEmployees
+                .Include(w => w.Task.Client.Identiti.Address)
+                .Where(x => x.Task.TaskStatus == TaskStatus.REPAIRED)
+                .OrderByDescending(w => w.Task.startDate)
+                .Where(r => query.SearchPharse == null || (r.Task.Name.ToLower().Contains(query.SearchPharse)
+                                                    || r.Task.Description.ToLower().Contains(query.SearchPharse)
+                                                    || r.Task.Activities.ToLower().Contains(query.SearchPharse)
+                                                    || r.Task.Client.Identiti.FirstName.ToLower().Contains(query.SearchPharse)
+                                                    || r.Task.Client.Identiti.LastName.ToLower().Contains(query.SearchPharse)
+                                                    || r.Task.Client.Identiti.PhoneNumber.ToLower().Contains(query.SearchPharse)));
+            if (baseQuery == null)
                 throw new NotFoundException("Tasks not found");
-            return tasks;
+
+            if (!string.IsNullOrEmpty(query.SortBy))
+            {
+                var columnsSelectors = new Dictionary<string, Expression<Func<TaskEmployee, object>>>
+                {
+                    {nameof(TaskEmployee.Task.Name), r => r.Task.Name },
+                    {nameof(TaskEmployee.Task.Description), r => r.Task.Description },
+                    {nameof(TaskEmployee.Task.Activities), r => r.Task.Activities },
+                    {nameof(TaskEmployee.Task.Client.Identiti.FirstName), r => r.Task.Client.Identiti.FirstName },
+                    {nameof(TaskEmployee.Task.Client.Identiti.LastName), r => r.Task.Client.Identiti.LastName },
+                    {nameof(TaskEmployee.Task.Client.Identiti.PhoneNumber), r => r.Task.Client.Identiti.PhoneNumber },
+                };
+
+                var selectedColumn = columnsSelectors[query.SortBy];
+
+                baseQuery = query.SortDirection == SortDirection.ASC ?
+                    baseQuery.OrderBy(selectedColumn)
+                    : baseQuery.OrderByDescending(selectedColumn);
+            }
+
+            var tasks = await baseQuery
+                .Skip(query.PageSize * (query.PageNumber - 1))
+                .Take(query.PageSize)
+                .ToListAsync();
+
+            var tasksdto = _mapper.Map<IEnumerable<TaskEmployeeDto>>(tasks);
+
+            var result = new PageResult<TaskEmployeeDto>(tasksdto, baseQuery.Count());
+
+            return result;
         }
 
         public async System.Threading.Tasks.Task EndTask(Guid taskId)
@@ -113,7 +189,53 @@ namespace Repositories.Repository
             if (task == null)
                 throw new NotFoundException("Tasks not found");
             task.TaskStatus = TaskStatus.COLLECTED;
+            task.endDate = DateTime.Now;
             await _dbcontext.SaveChangesAsync();
+        }
+
+        public async Task<PageResult<TaskDto>> GetAvailableTasks(PageableModel query)
+        {
+            var baseQuery = _dbcontext.Tasks
+                .Include(w => w.Client.Identiti.Address)
+                .Where(x => x.TaskStatus == TaskStatus.RECEIVED || x.TaskStatus == TaskStatus.NOT_REPAIRED)
+                .Where(r => query.SearchPharse == null || (r.Name.ToLower().Contains(query.SearchPharse)
+                                                    || r.Description.ToLower().Contains(query.SearchPharse)
+                                                    || r.Activities.ToLower().Contains(query.SearchPharse)
+                                                    || r.Client.Identiti.FirstName.ToLower().Contains(query.SearchPharse)
+                                                    || r.Client.Identiti.LastName.ToLower().Contains(query.SearchPharse)
+                                                    || r.Client.Identiti.PhoneNumber.ToLower().Contains(query.SearchPharse)));
+            if (baseQuery == null)
+                throw new NotFoundException("Tasks not found");
+
+            if (!string.IsNullOrEmpty(query.SortBy))
+            {
+                var columnsSelectors = new Dictionary<string, Expression<Func<Domain.Entities.Task, object>>>
+                {
+                    {nameof(Domain.Entities.Task.Name), r => r.Name },
+                    {nameof(Domain.Entities.Task.Description), r => r.Description },
+                    {nameof(Domain.Entities.Task.Activities), r => r.Activities },
+                    {nameof(Domain.Entities.Task.Client.Identiti.FirstName), r => r.Client.Identiti.FirstName },
+                    {nameof(Domain.Entities.Task.Client.Identiti.LastName), r => r.Client.Identiti.LastName },
+                    {nameof(Domain.Entities.Task.Client.Identiti.PhoneNumber), r => r.Client.Identiti.PhoneNumber },
+                };
+
+                var selectedColumn = columnsSelectors[query.SortBy];
+
+                baseQuery = query.SortDirection == SortDirection.ASC ?
+                    baseQuery.OrderBy(selectedColumn)
+                    : baseQuery.OrderByDescending(selectedColumn);
+            }
+
+            var tasks = await baseQuery
+                .Skip(query.PageSize * (query.PageNumber - 1))
+                .Take(query.PageSize)
+                .ToListAsync();
+
+            var tasksdto = _mapper.Map<IEnumerable<TaskDto>>(tasks);
+
+            var result = new PageResult<TaskDto>(tasksdto, baseQuery.Count());
+
+            return result;
         }
     }
 }

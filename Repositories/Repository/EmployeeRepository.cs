@@ -109,5 +109,21 @@ namespace Repositories.Repository
                 throw new NotFoundException("Employee does not exist");
             return employee;
         }
+
+        public async Task<IEnumerable<Employee>> GetEmployeeListWithoutWorkplace()
+        {
+            var employees = await _dbcontext.Employees.Include(x => x.Identiti.Address).Where(r => r.WorkplaceId == null).ToListAsync();
+            if (employees == null)
+                throw new NotFoundException("Employee does not exist");
+            return employees;
+        }
+
+        public async Task<IEnumerable<Employee>> GetEmployeeWithWorkplace(Guid id)
+        {
+            var employees = await _dbcontext.Employees.Include(x => x.Identiti.Address).Where(r => r.WorkplaceId == id).ToListAsync();
+            if (employees == null)
+                throw new NotFoundException("Employee does not exist");
+            return employees;
+        }
     }
 }

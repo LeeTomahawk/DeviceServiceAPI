@@ -43,11 +43,10 @@ namespace Aplication.Services
             return equipmentdto;
         }
 
-        public async Task<IEnumerable<EquipmentDto>> GetEquipments()
+        public async Task<PageResult<EquipmentDto>> GetEquipments(PageableModel query)
         {
-            var equipments = await _repository.GetEquipments();
-            var equipmentsDto = _mapper.Map<IEnumerable<EquipmentDto>>(equipments);
-            return equipmentsDto;
+            var equipments = await _repository.GetEquipments(query);
+            return equipments;
         }
 
         

@@ -15,9 +15,9 @@ namespace WebAPI.Controllers
             _service = service;
         }
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<EquipmentDto>>> GetAll()
+        public async Task<ActionResult<PageResult<EquipmentDto>>> GetAll([FromQuery] PageableModel query)
         {
-            var eqs = await _service.GetEquipments();
+            var eqs = await _service.GetEquipments(query);
             return Ok(eqs);
         }
         [HttpGet("{id}")]

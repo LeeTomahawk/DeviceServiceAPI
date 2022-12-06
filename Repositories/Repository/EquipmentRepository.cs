@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Repositories.Dtos;
 using Repositories.Exceptions;
-
+using System.Linq.Expressions;
 namespace Repositories.Repository
 {
     public class EquipmentRepository : IEquipmentRepository
@@ -49,10 +49,38 @@ namespace Repositories.Repository
             return equipment;
         }
 
-        public async Task<IEnumerable<Equipment>> GetEquipments()
+        public async Task<PageResult<EquipmentDto>> GetEquipments(PageableModel query)
         {
-            var equipments = await _dbcontext.Equipments.ToListAsync();
-            return equipments;
+            var baseQuery = _dbcontext
+                .Equipments
+                .Where(r => query.SearchPharse == null || r.Name.ToLower().Contains(query.SearchPharse)
+                                                       || r.Description.ToLower().Contains(query.SearchPharse));
+
+            if(!string.IsNullOrEmpty(query.SortBy))
+            {
+                var columnSelectors = new Dictionary<string, Expression<Func<Equipment, object>>>
+                {
+                    {nameof(Equipment.Name), r => r.Name},
+                    {nameof(Equipment.Description), r => r.Description},
+                };
+
+                var selectedColumn = columnSelectors[query.SortBy];
+
+                baseQuery = query.SortDirection == SortDirection.ASC ?
+                    baseQuery.OrderBy(selectedColumn)
+                    : baseQuery.OrderByDescending(selectedColumn);
+            }
+
+            var equipments = await baseQuery
+                .Skip(query.PageSize * (query.PageNumber - 1))
+                .Take(query.PageSize)
+                .ToListAsync();
+
+            var equipmentsDto = _mapper.Map<IEnumerable<EquipmentDto>>(equipments);
+
+            var result = new PageResult<EquipmentDto>(equipmentsDto, baseQuery.Count());
+
+            return result;
         }
 
         public async System.Threading.Tasks.Task Update(EquipmentUpdateDto equipment)

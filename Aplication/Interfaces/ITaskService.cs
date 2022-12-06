@@ -9,10 +9,10 @@ namespace Aplication.Interfaces
 {
     public interface ITaskService
     {
-        Task<IEnumerable<TaskDto>> GetAllTasks();
+        Task<PageResult<TaskDto>> GetAllTasks(PageableModel query);
         Task<IEnumerable<TaskDto>> GetAllClientTasks(Guid id);
-        Task<IEnumerable<TaskDto>> GetAvailableTasks();
-        Task<IEnumerable<TaskEmployeeDto>> GetToAproveTasks();
+        Task<PageResult<TaskDto>> GetAvailableTasks(PageableModel query);
+        Task<PageResult<TaskEmployeeDto>> GetToAproveTasks(PageableModel query);
         Task<IEnumerable<TaskDto>> GetAllTasksBetweenDates(DateTime startDate, DateTime endDate);
         Task<TaskDto> GetTaskById(Guid id);
         Task<TaskCreateDto> AddTask(TaskCreateDto task);

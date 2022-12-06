@@ -76,6 +76,20 @@ namespace Aplication.Mappings
                     dest.Identiti.Address.Number = src.Number;
                     dest.Identiti.Address.PostCode = src.PostCode;
                 });
+            CreateMap<AddEmployeeDto, Employee>()
+                .AfterMap((src, dest) =>
+                {
+                    dest.Identiti = new Identiti();
+                    dest.Identiti.Address = new Address();
+
+                    dest.Identiti.FirstName = src.FirstName;
+                    dest.Identiti.LastName = src.LastName;
+                    dest.Identiti.PhoneNumber = src.PhoneNumber;
+                    dest.Identiti.Address.City = src.City;
+                    dest.Identiti.Address.Street = src.Street;
+                    dest.Identiti.Address.Number = src.Number;
+                    dest.Identiti.Address.PostCode = src.PostCode;
+                });
         }
     }
 }

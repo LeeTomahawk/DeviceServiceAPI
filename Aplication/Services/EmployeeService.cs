@@ -40,5 +40,19 @@ namespace Aplication.Services
             employeedto.TaskCount = employeedto.Tasks.Count();
             return employeedto;
         }
+
+        public async Task<IEnumerable<EmployeeDto>> GetEmployeesWithoutWokrplace()
+        {
+            var employees = await _employeeRepository.GetEmployeeListWithoutWorkplace();
+            var employeesdto = _mapper.Map<IEnumerable<EmployeeDto>>(employees);
+            return employeesdto;
+        }
+
+        public async Task<IEnumerable<EmployeeDto>> GetEmployeesWithWorkplace(Guid id)
+        {
+            var employees = await _employeeRepository.GetEmployeeWithWorkplace(id);
+            var employeesdto = _mapper.Map<IEnumerable<EmployeeDto>>(employees);
+            return employeesdto;
+        }
     }
 }

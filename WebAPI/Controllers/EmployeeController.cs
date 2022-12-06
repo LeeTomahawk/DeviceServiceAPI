@@ -32,5 +32,16 @@ namespace WebAPI.Controllers
             var tasks = await _employeeService.GetAllEmployeesTasks(userid);
             return Ok(tasks);
         }
+        [HttpGet("GetEmployeesWithoutWorkplace")]
+        public async Task<ActionResult<IEnumerable<EmployeeDto>>> GetEmployeesWithoutWorkplace()
+        {
+            var employees = await _employeeService.GetEmployeesWithoutWokrplace();
+            return Ok(employees);
+        }[HttpGet("GetEmployeesWithWorkplace/{id}")]
+        public async Task<ActionResult<IEnumerable<EmployeeDto>>> GetEmployeesWithWorkplace([FromRoute]Guid id)
+        {
+            var employees = await _employeeService.GetEmployeesWithWorkplace(id);
+            return Ok(employees);
+        }
     }
 }
