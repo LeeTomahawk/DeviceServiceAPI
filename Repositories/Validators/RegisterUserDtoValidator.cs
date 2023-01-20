@@ -16,12 +16,16 @@ namespace Repositories.Validators
         {
             RuleFor(x => x.Email)
                 .NotEmpty()
-                .EmailAddress();
+                .EmailAddress()
+                .WithMessage("Adres email nie może być pusty!");
 
             RuleFor(x => x.Password)
-                .MinimumLength(6);
+                .MinimumLength(6)
+                .WithMessage("Hasło powinno zawierać minimum 6 znaków!");
 
-            RuleFor(x => x.ConfirmPassword).Equal(e => e.Password);
+            RuleFor(x => x.ConfirmPassword)
+                .Equal(e => e.Password)
+                .WithMessage("Hasła się nie zgadzają!");
 
             RuleFor(x => x.Email)
                 .Custom((value, context) =>
@@ -30,6 +34,7 @@ namespace Repositories.Validators
                     if (emailvalidate)
                     {
                         context.AddFailure("Email", "That email is taken");
+                        
                     }
                 });
 

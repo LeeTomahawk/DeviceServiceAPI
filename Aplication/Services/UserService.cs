@@ -63,13 +63,13 @@ namespace Aplication.Services
             var user = await _userRepository.GetByEmail(logindto.Email);
             if(user == null)
             {
-                throw new BadRequestException("Invalid user email or password!");
+                throw new BadRequestException("Użytkownik nie istnnieje!");
             }
 
             var result = _passwordHasher.VerifyHashedPassword(user, user.Password,logindto.Password); 
             if(result == PasswordVerificationResult.Failed)
             {
-                throw new BadRequestException("Invalid user email or password!");
+                throw new BadRequestException("Błędne hasło!");
             }
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("Authentication:JwtKey").Get<string>()));

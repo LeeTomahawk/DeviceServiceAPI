@@ -21,7 +21,7 @@ namespace Aplication.Services
             _mapper = mapper;
         }
 
-        public async Task<ClientCreateDto> AddClient(ClientCreateDto clientdto)
+        public async System.Threading.Tasks.Task<ClientCreateDto> AddClient(ClientCreateDto clientdto)
         {
             var client = _mapper.Map<Client>(clientdto);
             client.LastVisit = DateTime.Now;
